@@ -1251,8 +1251,7 @@
             background: rgba(58, 81, 105, 0.08);
             color: var(--accent-color);
         }
-
-        /* 移动端适配优化 */
+/* 移动端适配优化 */
 @media (max-width: 768px) {
     body {
         padding: 1rem;
@@ -1464,6 +1463,23 @@
         flex-wrap: wrap;
         justify-content: center;
     }
+    
+    /* 确保触摸区域足够大 */
+    .question-tag, .refresh-wisdom, .category-card, 
+    .conversation-card, .chat-control-btn, .close-chat-btn,
+    .send-btn, .settings-btn-save, .settings-btn-cancel {
+        min-height: 44px;
+    }
+    
+    .tool-btn, .theme-switch, .search-btn, .continue-btn {
+        min-width: 44px;
+        min-height: 44px;
+    }
+    
+    .search-input, .chat-input, .settings-input {
+        min-height: 44px;
+        font-size: 16px; /* 防止iOS上自动缩放 */
+    }
 }
 
 /* 极小屏幕设备优化 (小于375px) */
@@ -1511,72 +1527,29 @@
     }
 }
 
-/* 增强触摸体验 */
-@media (pointer: coarse) {
-    .question-tag, .refresh-wisdom, .category-card, 
-    .conversation-card, .chat-control-btn, .close-chat-btn,
-    .send-btn, .settings-btn-save, .settings-btn-cancel {
-        min-height: 44px; /* 确保触摸区域足够大 */
-    }
-    
-    .tool-btn, .theme-switch, .search-btn, .continue-btn {
-        min-width: 44px;
-        min-height: 44px;
-    }
-    
-    /* 增加表单元素的可点击区域 */
-    .search-input, .chat-input, .settings-input {
-        min-height: 44px;
-    }
-    
-    /* 增加点击区域间距，避免误触 */
-    .chat-controls {
-        margin-right: 5px;
-    }
-}
-
 /* 修复移动设备上的滚动问题 */
-.chat-modal, .settings-modal, .zhuangzi-modal {
-    position: fixed;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-/* 优化移动设备上的模态框显示 */
-@media (max-height: 600px) {
-    .chat-content {
-        height: 100%;
-        max-height: 100%;
-        border-radius: 0;
-    }
-    
-    .chat-body {
-        max-height: calc(100vh - 120px);
-    }
-    
-    .zhuangzi-modal-body {
-        max-height: 60vh;
-    }
-}
-
-/* 修复Safari上的特定问题 */
-@supports (-webkit-touch-callout: none) {
-    .chat-input, .search-input, .settings-input {
-        font-size: 16px; /* 防止iOS上自动缩放 */
-    }
-    
+@media (max-width: 768px) {
     .chat-modal, .settings-modal, .zhuangzi-modal {
-        backdrop-filter: blur(5px);
+        position: fixed;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
-}
-
-/* 优化移动设备上的动画性能 */
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
+    
+    /* 优化移动设备上的模态框显示 */
+    @media (max-height: 600px) {
+        .chat-content {
+            height: 100%;
+            max-height: 100%;
+            border-radius: 0;
+        }
+        
+        .chat-body {
+            max-height: calc(100vh - 120px);
+        }
+        
+        .zhuangzi-modal-body {
+            max-height: 60vh;
+        }
     }
 }
     </style>
