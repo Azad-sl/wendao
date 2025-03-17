@@ -1251,6 +1251,334 @@
             background: rgba(58, 81, 105, 0.08);
             color: var(--accent-color);
         }
+
+        /* 移动端适配优化 */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+    
+    h1 {
+        font-size: 2.5rem;
+        letter-spacing: 0.3rem;
+        padding: 0 1rem;
+    }
+    
+    .subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .toolbar {
+        top: 10px;
+        right: 10px;
+    }
+    
+    .tool-btn, .theme-switch {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .landscape-container {
+        height: 180px;
+        margin-bottom: 2rem;
+    }
+    
+    .landscape-quote {
+        font-size: 1.1rem;
+        right: 15px;
+        bottom: 15px;
+        line-height: 1.5;
+    }
+    
+    .search-container {
+        margin: 1.5rem auto;
+    }
+    
+    .search-input {
+        padding: 0.9rem 1rem;
+        font-size: 1rem;
+    }
+    
+    .search-btn {
+        width: 36px;
+        height: 36px;
+    }
+    
+    /* 建议问题优化 */
+    .suggested-questions {
+        gap: 0.8rem;
+        margin: 1.5rem auto;
+    }
+    
+    .question-tag {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+        width: 100%;
+        text-align: center;
+    }
+    
+    /* 道家智慧板块优化 */
+    .daily-wisdom {
+        padding: 1.8rem 1.2rem;
+        margin: 2rem auto;
+    }
+    
+    .wisdom-quote {
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+    
+    .wisdom-source {
+        font-size: 0.9rem;
+    }
+    
+    .refresh-wisdom {
+        margin-top: 1.2rem;
+        padding: 0.5rem 1.2rem;
+    }
+    
+    /* 类别和对话记录卡片优化 */
+    .explore-categories, .recent-conversations {
+        margin: 2.5rem auto;
+    }
+    
+    .section-title {
+        font-size: 1.6rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .categories-container {
+        gap: 1rem;
+    }
+    
+    .category-card {
+        width: calc(50% - 1rem);
+        height: 90px;
+        font-size: 1.1rem;
+    }
+    
+    .conversation-card {
+        width: 100%;
+        padding: 1.2rem;
+    }
+    
+    .conversation-preview {
+        font-size: 0.9rem;
+    }
+    
+    /* 聊天界面优化 */
+    .chat-content {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        max-width: none;
+    }
+    
+    .chat-header {
+        padding: 0.8rem 1rem;
+    }
+    
+    .chat-title h3 {
+        font-size: 1.2rem;
+    }
+    
+    .zhuangzi-avatar {
+        width: 38px;
+        height: 38px;
+    }
+    
+    .chat-control-btn, .close-chat-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+    
+    .chat-message {
+        max-width: 95%;
+    }
+    
+    .message-avatar {
+        width: 38px;
+        height: 38px;
+    }
+    
+    .message-bubble {
+        padding: 1rem 1.2rem;
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+    
+    .chat-footer {
+        padding: 0.8rem;
+    }
+    
+    .chat-input {
+        padding: 0.8rem;
+        font-size: 1rem;
+    }
+    
+    .send-btn {
+        padding: 0.8rem 1.2rem;
+        font-size: 0.95rem;
+    }
+    
+    /* 设置和庄子介绍模态框优化 */
+    .settings-content, .zhuangzi-modal-content {
+        width: 95%;
+        max-width: none;
+        border-radius: 8px;
+    }
+    
+    .settings-header h3, .zhuangzi-modal-header h3 {
+        font-size: 1.4rem;
+    }
+    
+    .settings-body, .zhuangzi-modal-body {
+        padding: 1.5rem;
+    }
+    
+    .zhuangzi-modal-body {
+        max-height: 70vh;
+    }
+    
+    .settings-label {
+        font-size: 1rem;
+    }
+    
+    .settings-input {
+        padding: 0.8rem;
+    }
+    
+    .settings-btn-save, .settings-btn-cancel {
+        padding: 0.7rem 1.2rem;
+    }
+    
+    /* 页脚优化 */
+    footer {
+        padding: 1.5rem 0;
+        margin-top: 2rem;
+    }
+    
+    .footer-links {
+        gap: 1.2rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+/* 极小屏幕设备优化 (小于375px) */
+@media (max-width: 375px) {
+    h1 {
+        font-size: 2rem;
+        letter-spacing: 0.2rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    .landscape-container {
+        height: 150px;
+    }
+    
+    .landscape-quote {
+        font-size: 1rem;
+        right: 10px;
+        bottom: 10px;
+    }
+    
+    .category-card {
+        height: 80px;
+        font-size: 1rem;
+    }
+    
+    .wisdom-quote {
+        font-size: 1rem;
+    }
+    
+    .chat-controls {
+        gap: 6px;
+    }
+    
+    .chat-control-btn, .close-chat-btn {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .typing-indicator span {
+        width: 5px;
+        height: 5px;
+    }
+}
+
+/* 增强触摸体验 */
+@media (pointer: coarse) {
+    .question-tag, .refresh-wisdom, .category-card, 
+    .conversation-card, .chat-control-btn, .close-chat-btn,
+    .send-btn, .settings-btn-save, .settings-btn-cancel {
+        min-height: 44px; /* 确保触摸区域足够大 */
+    }
+    
+    .tool-btn, .theme-switch, .search-btn, .continue-btn {
+        min-width: 44px;
+        min-height: 44px;
+    }
+    
+    /* 增加表单元素的可点击区域 */
+    .search-input, .chat-input, .settings-input {
+        min-height: 44px;
+    }
+    
+    /* 增加点击区域间距，避免误触 */
+    .chat-controls {
+        margin-right: 5px;
+    }
+}
+
+/* 修复移动设备上的滚动问题 */
+.chat-modal, .settings-modal, .zhuangzi-modal {
+    position: fixed;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* 优化移动设备上的模态框显示 */
+@media (max-height: 600px) {
+    .chat-content {
+        height: 100%;
+        max-height: 100%;
+        border-radius: 0;
+    }
+    
+    .chat-body {
+        max-height: calc(100vh - 120px);
+    }
+    
+    .zhuangzi-modal-body {
+        max-height: 60vh;
+    }
+}
+
+/* 修复Safari上的特定问题 */
+@supports (-webkit-touch-callout: none) {
+    .chat-input, .search-input, .settings-input {
+        font-size: 16px; /* 防止iOS上自动缩放 */
+    }
+    
+    .chat-modal, .settings-modal, .zhuangzi-modal {
+        backdrop-filter: blur(5px);
+    }
+}
+
+/* 优化移动设备上的动画性能 */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
     </style>
 </head>
 <body>
