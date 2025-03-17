@@ -1,8 +1,7 @@
-<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>问道先师 · 庄子</title>
+    <title>问道 · 庄子</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
@@ -76,9 +75,9 @@
             padding: 0;
             box-sizing: border-box;
             font-family: "Ma Shan Zheng", "ZCOOL XiaoWei", "STKaiti", "KaiTi", serif;
-            transition: background-color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-                        color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-                        border-color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+            transition: background-color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        border-color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                         box-shadow 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
                         transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
@@ -99,7 +98,6 @@
             animation: fadeIn 1.5s ease-out;
             transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        
         /* 水墨山水背景 - 改进为更自然的山峦和溪流 */
        body::before {
     content: "";
@@ -116,7 +114,6 @@
     opacity: 0.8;
     transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
-   
         /* 顶部工具栏 */
         .toolbar {
             position: fixed;
@@ -126,7 +123,6 @@
             gap: 15px;
             z-index: 100;
         }
-        
         .tool-btn {
             width: 40px;
             height: 40px;
@@ -144,12 +140,10 @@
             position: relative;
             overflow: hidden;
         }
-        
         .tool-btn:hover {
             transform: translateY(-3px) scale(1.05);
             box-shadow: 0 6px 16px var(--shadow-color);
         }
-        
         /* 太极图样式 - 改进为更精细的阴阳图 */
         .theme-switch {
             width: 40px;
@@ -162,7 +156,6 @@
             transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
             border: none;
         }
-        
         .theme-switch::before {
             content: "";
             position: absolute;
@@ -175,25 +168,20 @@
             transition: all 0.6s ease;
             box-shadow: 0 3px 12px var(--shadow-color);
         }
-        
         [data-theme="dark"] .theme-switch::before {
             background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='19' fill='none' stroke='%23768fa3' stroke-width='1'/%3E%3Cpath d='M20,1 A19,19 0 0,1 20,39 A9.5,9.5 0 0,1 20,20 A9.5,9.5 0 0,0 20,1' fill='%232a394b'/%3E%3Cpath d='M20,1 A19,19 0 0,0 20,39 A9.5,9.5 0 0,0 20,20 A9.5,9.5 0 0,1 20,1' fill='%23d6d0c5'/%3E%3Ccircle cx='20' cy='10' r='2.5' fill='%23d6d0c5'/%3E%3Ccircle cx='20' cy='30' r='2.5' fill='%232a394b'/%3E%3C/svg%3E");
         }
-        
         /* 删除原来的::after伪元素 */
         .theme-switch::after {
             content: none;
         }
-        
         @keyframes rotate360 {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-        
 .theme-switch.rotating {
     animation: rotate360 0.8s ease-in-out;
 }
-        
         header {
             text-align: center;
             margin-bottom: 2.5rem;
@@ -201,14 +189,12 @@
             width: 100%;
             animation: fadeIn 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s both;
         }
-        
         .title-container {
             position: relative;
             display: inline-block;
             margin-bottom: 1.5rem;
             overflow: hidden;
         }
-        
         /* 改进标题样式 */
         h1 {
             font-size: 4rem;
@@ -222,9 +208,6 @@
             padding: 0 2rem;
             transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        
-    
-        
         .subtitle {
             font-size: 1.5rem;
             color: var(--ink-medium);
@@ -234,7 +217,6 @@
             transition: color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: relative;
         }
-        
         /* 搜索框样式 - 改进为卷轴样式 */
         .search-container {
             display: flex;
@@ -246,7 +228,6 @@
             margin: 3rem auto;
             animation: fadeIn 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s both;
         }
-        
         .search-input {
             width: 100%;
             padding: 1.2rem 1.5rem;
@@ -261,12 +242,10 @@
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
         }
-        
         [data-theme="dark"] .search-input {
             background: rgba(35, 45, 55, 0.75);
             color: var(--paper-light);
         }
-        
         .search-input:focus {
             outline: none;
             border-color: var(--accent-color);
@@ -274,11 +253,9 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12), 0 4px 6px rgba(0, 0, 0, 0.06);
             transform: translateY(-3px);
         }
-        
         [data-theme="dark"] .search-input:focus {
             background: rgba(40, 50, 60, 0.9);
         }
-        
         .search-btn {
             position: absolute;
             right: 15px;
@@ -297,24 +274,19 @@
             justify-content: center;
             border-radius: 50%;
         }
-        
         .search-btn:hover {
             background: rgba(58, 81, 105, 0.1);
             transform: translateY(-50%) scale(1.1);
             color: var(--accent-color);
         }
-        
         .search-icon {
             font-style: normal;
             font-weight: bold;
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        
         .search-btn:hover .search-icon {
             transform: scale(1.1);
         }
-        
-        
         /* 水墨山水画容器 - 改进为更精致的展示区 */
         .landscape-container {
             width: 90%;
@@ -328,12 +300,10 @@
             transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
             animation: fadeIn 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.7s both;
         }
-        
         .landscape-container:hover {
             transform: translateY(-8px);
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
         }
-        
         .landscape {
             width: 100%;
             height: 100%;
@@ -343,7 +313,6 @@
             position: relative;
             transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        
         .landscape::after {
             content: "";
             position: absolute;
@@ -354,7 +323,6 @@
             background: rgba(0, 0, 0, 0.15);
             transition: background 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        
         .landscape::before {
             content: "";
             position: absolute;
@@ -367,41 +335,32 @@
             opacity: 0;
             transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        
         .landscape-container:hover .landscape::before {
             opacity: 1;
         }
-        
         [data-theme="dark"] .landscape::after {
             background: rgba(0, 0, 0, 0.4);
         }
-        
         .landscape-quote {
             position: absolute;
-            bottom: 30px;
+            bottom: 10px;
             right: 40px;
             color: white;
-            font-size: 1.7rem;
+            font-size: 1.6rem;
             text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.9);
             z-index: 2;
             writing-mode: vertical-rl;
             line-height: 1.8;
-            letter-spacing: 3px;
+            letter-spacing: -2px;
             opacity: 0.9;
             transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        
         .landscape-container:hover .landscape-quote {
             transform: translateX(-5px);
             opacity: 1;
         }
-        
-        .landscape-quote-author {
-            font-size: 1.1rem;
-            margin-left: 12px;
-            opacity: 0.85;
-        }
-        
+
+
         /* 建议问题 */
         .suggested-questions {
             width: 90%;
@@ -413,7 +372,6 @@
             margin: 2.5rem auto;
             animation: fadeIn 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.9s both;
         }
-        
         .question-tag {
             padding: 0.7rem 1.4rem;
             background: rgba(58, 81, 105, 0.08);
@@ -427,7 +385,6 @@
             overflow: hidden;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
-        
         .question-tag::after {
             content: "";
             position: absolute;
@@ -438,18 +395,15 @@
             background-color: var(--accent-color);
             transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        
         .question-tag:hover::after {
             width: 100%;
         }
-        
         .question-tag:hover {
             background: rgba(58, 81, 105, 0.15);
             transform: translateY(-3px);
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.08);
             color: var(--accent-color);
         }
-        
         /* 道家每日智慧 - 改进为水墨画风格引言框 */
         .daily-wisdom {
             width: 90%;
@@ -469,7 +423,6 @@
             border: 1px solid rgba(58, 81, 105, 0.08);
             animation: fadeIn 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.1s both;
         }
-        
         .daily-wisdom::before {
             content: """;
             position: absolute;
@@ -480,7 +433,6 @@
             opacity: 0.15;
             line-height: 1;
         }
-        
         .daily-wisdom::after {
             content: """;
             position: absolute;
@@ -491,16 +443,13 @@
             opacity: 0.15;
             line-height: 0;
         }
-        
         .daily-wisdom:hover {
             transform: translateY(-8px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
         }
-        
         [data-theme="dark"] .daily-wisdom {
             background: rgba(35, 45, 55, 0.75);
         }
-        
         .wisdom-quote {
             font-size: 1.5rem;
             line-height: 1.8;
@@ -509,14 +458,12 @@
             position: relative;
             text-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
         }
-        
         .wisdom-source {
             font-size: 1.1rem;
             color: var(--ink-medium);
             font-style: italic;
             opacity: 0.85;
         }
-        
         .refresh-wisdom {
             margin-top: 1.8rem;
             background: none;
@@ -530,7 +477,6 @@
             position: relative;
             overflow: hidden;
         }
-        
         .refresh-wisdom::after {
             content: "";
             position: absolute;
@@ -542,18 +488,15 @@
             transition: background 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             z-index: -1;
         }
-        
         .refresh-wisdom:hover {
             color: var(--accent-color);
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             border-color: var(--accent-color);
         }
-        
         .refresh-wisdom:hover::after {
             background: rgba(58, 81, 105, 0.05);
         }
-        
         /* 类别探索区域 - 改进为水墨风格类别卡片 */
         .explore-categories {
             width: 90%;
@@ -561,7 +504,6 @@
             margin: 4rem auto;
             animation: fadeIn 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.3s both;
         }
-        
         .section-title {
             font-size: 2rem;
             color: var(--ink-dark);
@@ -569,7 +511,6 @@
             text-align: center;
             position: relative;
         }
-        
         .section-title::after {
             content: "";
             position: absolute;
@@ -581,14 +522,12 @@
             background: var(--mountain-light);
             opacity: 0.5;
         }
-        
         .categories-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 1.8rem;
         }
-        
         .category-card {
             width: 180px;
             height: 120px;
@@ -605,7 +544,6 @@
             overflow: hidden;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         }
-        
         .category-card::before {
             content: "";
             position: absolute;
@@ -618,17 +556,14 @@
             z-index: 0;
             transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        
         .category-card:hover {
             transform: translateY(-8px) scale(1.03);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
             background-image: linear-gradient(135deg, rgba(58, 81, 105, 0.9), rgba(58, 74, 92, 0.9));
         }
-        
         .category-card:hover::before {
             opacity: 0.7;
         }
-        
         .category-name {
             position: relative;
             z-index: 1;
@@ -637,13 +572,11 @@
             padding-bottom: 3px;
             border-bottom: 1px solid rgba(255, 255, 255, 0);
         }
-        
         .category-card:hover .category-name {
             transform: scale(1.05);
             letter-spacing: 2px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         }
-        
         /* 最近对话记录 - 改进为竹简风格卡片 */
         .recent-conversations {
             width: 90%;
@@ -651,14 +584,12 @@
             margin: 4rem auto;
             animation: fadeIn 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.5s both;
         }
-        
         .conversation-cards {
             display: flex;
             flex-wrap: wrap;
             gap: 2rem;
             justify-content: center;
         }
-        
         .conversation-card {
             width: 280px;
             background: rgba(255, 255, 255, 0.8);
@@ -673,11 +604,9 @@
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(58, 81, 105, 0.05);
         }
-        
         [data-theme="dark"] .conversation-card {
             background: rgba(35, 45, 55, 0.8);
         }
-        
         /* 添加竹简纹理 */
         .conversation-card::before {
             content: "";
@@ -690,12 +619,10 @@
             opacity: 0.6;
             z-index: 0;
         }
-        
         .conversation-card:hover {
             transform: translateY(-8px) scale(1.02);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
         }
-        
         .conversation-date {
             font-size: 0.85rem;
             color: var(--ink-medium);
@@ -704,7 +631,6 @@
             position: relative;
             z-index: 1;
         }
-        
         .conversation-preview {
             font-size: 1rem;
             color: var(--ink-dark);
@@ -717,7 +643,6 @@
             position: relative;
             z-index: 1;
         }
-        
         .continue-btn {
             position: absolute;
             bottom: 15px;
@@ -737,12 +662,10 @@
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
             z-index: 2;
         }
-        
         .conversation-card:hover .continue-btn {
             opacity: 1;
             transform: scale(1);
         }
-        
         /* 庄子对话框 - 改进为古卷轴风格 */
         .chat-modal {
             display: none;
@@ -759,7 +682,6 @@
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
         }
-        
         .chat-content {
             background: var(--modal-bg);
             width: 90%;
@@ -774,12 +696,10 @@
             border: 1px solid rgba(58, 81, 105, 0.2);
             animation: chat-appear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        
         @keyframes chat-appear {
             from { opacity: 0; transform: scale(0.9) translateY(20px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
-        
         .chat-header {
             display: flex;
             justify-content: space-between;
@@ -789,7 +709,6 @@
             background: rgba(58, 81, 105, 0.08);
             position: relative;
         }
-        
         .chat-header::after {
             content: "";
             position: absolute;
@@ -801,13 +720,11 @@
             background-size: 100% 100%;
             opacity: 0.7;
         }
-        
         .chat-title {
             display: flex;
             align-items: center;
             gap: 1.2rem;
         }
-        
         .zhuangzi-avatar {
             width: 45px;
             height: 45px;
@@ -817,20 +734,17 @@
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
             transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        
         .chat-title h3 {
             font-size: 1.4rem;
             color: var(--ink-dark);
             letter-spacing: 1px;
         }
-        
         /* 对话框控制按钮样式 - 改进为道家符号 */
         .chat-controls {
             display: flex;
             gap: 12px;
             margin-right: 10px;
         }
-        
         .chat-control-btn, .close-chat-btn {
             font-size: 1.2rem;
             color: var(--mountain-dark);
@@ -847,7 +761,6 @@
             position: relative;
             overflow: hidden;
         }
-        
         .chat-control-btn::before, .close-chat-btn::before {
             content: "";
             position: absolute;
@@ -858,7 +771,6 @@
             z-index: -1;
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        
         .chat-control-btn:hover, .close-chat-btn:hover {
             background: rgba(58, 81, 105, 0.08);
             transform: translateY(-3px);
@@ -866,36 +778,35 @@
             color: var(--accent-color);
             border-color: var(--accent-color);
         }
-        
         .chat-control-btn:hover::before, .close-chat-btn:hover::before {
             transform: scale(1.1);
             opacity: 0.3;
         }
-        
+        /* 设置按钮道家风格 */
+        .settings-btn::after {
+            content: "枢";
+            font-family: "Ma Shan Zheng", serif;
+        }
         /* 复制按钮道家风格 */
         .copy-chat-btn::after {
             content: "化";
             font-family: "Ma Shan Zheng", serif;
         }
-        
         /* 导出按钮道家风格 */
         .export-chat-btn::after {
             content: "铭";
             font-family: "Ma Shan Zheng", serif;
         }
-        
         /* 清空按钮道家风格 */
         .clear-chat-btn::after {
             content: "忘";
             font-family: "Ma Shan Zheng", serif;
         }
-        
         /* 关闭按钮道家风格 */
         .close-chat-btn::after {
             content: "合";
             font-family: "Ma Shan Zheng", serif;
         }
-        
         .chat-body {
             flex: 1;
             overflow-y: auto;
@@ -904,25 +815,21 @@
             background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1,1 L119,1 L119,119 L1,119 Z' stroke='%233a5169' stroke-width='0.5' fill='none' opacity='0.04' stroke-dasharray='2 10'/%3E%3C/svg%3E");
             scroll-behavior: smooth;
         }
-        
         .chat-messages {
             display: flex;
             flex-direction: column;
             gap: 2rem;
         }
-        
         .chat-message {
             display: flex;
             gap: 1rem;
             max-width: 80%;
             animation: message-appear 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        
         @keyframes message-appear {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
         .message-avatar {
             width: 45px;
             height: 45px;
@@ -931,7 +838,6 @@
             border: 1px solid rgba(58, 81, 105, 0.2);
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
         }
-        
         .message-bubble {
             position: relative;
             background: var(--message-bubble-bg);
@@ -945,7 +851,6 @@
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
         }
-        
         .message-bubble::before {
             content: "";
             position: absolute;
@@ -957,23 +862,19 @@
             pointer-events: none;
             z-index: -1;
         }
-        
         .zhuangzi {
             align-self: flex-start;
         }
-        
         .user {
             align-self: flex-end;
             flex-direction: row-reverse;
         }
-        
         .user .message-bubble {
             background: var(--message-bubble-user-bg);
             border-radius: 12px 2px 12px 12px;
             border-left: none;
             border-right: 2px solid rgba(58, 81, 105, 0.3);
         }
-        
         .chat-footer {
             display: flex;
             gap: 0.8rem;
@@ -982,7 +883,6 @@
             background: rgba(58, 81, 105, 0.05);
             position: relative;
         }
-        
         .chat-footer::before {
             content: "";
             position: absolute;
@@ -994,7 +894,6 @@
             background-size: 100% 100%;
             opacity: 0.7;
         }
-        
         .chat-input {
             flex: 1;
             padding: 1rem 1.2rem;
@@ -1005,19 +904,16 @@
             transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
         }
-        
         [data-theme="dark"] .chat-input {
             background: rgba(35, 45, 55, 0.8);
             color: var(--paper-light);
         }
-        
         .chat-input:focus {
             outline: none;
             border-color: var(--accent-color);
             box-shadow: 0 8px 15px rgba(58, 81, 105, 0.15);
             transform: translateY(-2px);
         }
-        
         .send-btn {
             padding: 1rem 1.6rem;
             background: linear-gradient(135deg, var(--mountain-light), var(--mountain-dark));
@@ -1031,7 +927,6 @@
             position: relative;
             overflow: hidden;
         }
-        
         .send-btn::after {
             content: "";
             position: absolute;
@@ -1043,22 +938,18 @@
             transition: background 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             z-index: 0;
         }
-        
         .send-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
         }
-        
         .send-btn:hover::after {
             background: rgba(255, 255, 255, 0.1);
         }
-        
         /* 打字机指示器 - 改进为水墨点状动画 */
         .typing-indicator {
             display: inline-block;
             margin-left: 8px;
         }
-        
         .typing-indicator span {
             display: inline-block;
             width: 6px;
@@ -1069,19 +960,15 @@
             animation: typing 1.8s infinite cubic-bezier(0.455, 0.03, 0.515, 0.955);
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        
         .typing-indicator span:nth-child(1) {
             animation-delay: 0s;
         }
-        
         .typing-indicator span:nth-child(2) {
             animation-delay: 0.2s;
         }
-        
         .typing-indicator span:nth-child(3) {
             animation-delay: 0.4s;
         }
-        
         /* 页脚样式 - 改进为更加古典的页脚 */
         footer {
             width: 100%;
@@ -1099,14 +986,12 @@
             padding-top: 30px;
             animation: fadeIn 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.7s both;
         }
-        
         .footer-links {
             display: flex;
             justify-content: center;
             gap: 2rem;
             margin: 1.2rem 0;
         }
-        
         .footer-link {
             color: var(--mountain-light);
             text-decoration: none;
@@ -1114,7 +999,6 @@
             position: relative;
             padding-bottom: 3px;
         }
-        
         .footer-link::after {
             content: "";
             position: absolute;
@@ -1125,31 +1009,25 @@
             background-color: var(--accent-color);
             transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        
         .footer-link:hover {
             color: var(--accent-color);
         }
-        
         .footer-link:hover::after {
             width: 100%;
         }
-        
         /* 动画效果 */
         @keyframes typing {
             0%, 100% { transform: translateY(0) scale(1); opacity: 0.5; }
             50% { transform: translateY(-5px) scale(1.2); opacity: 1; }
         }
-        
         @keyframes rotate-slow {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-        
         @keyframes float-cloud {
             from { transform: translateX(-15vw); }
             to { transform: translateX(115vw); }
         }
-        
         /* 漂浮的背景元素 */
         .floating-element {
             position: fixed;
@@ -1158,7 +1036,6 @@
             opacity: 0.08;
             transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        
         .floating-element-1 {
             top: 15%;
             left: 8%;
@@ -1167,7 +1044,6 @@
             background-image: url("data:image/svg+xml,%3Csvg width='70' height='140' viewBox='0 0 70 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M35,10 Q50,40 35,70 Q20,100 35,130' stroke='%233a614c' stroke-width='1.5' fill='none' stroke-opacity='0.8'/%3E%3C/svg%3E");
             animation: float-slow 35s ease-in-out infinite alternate;
         }
-        
         .floating-element-2 {
             bottom: 10%;
             right: 5%;
@@ -1176,14 +1052,12 @@
             background-image: url("data:image/svg+xml,%3Csvg width='90' height='90' viewBox='0 0 90 90' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='45' cy='45' r='35' fill='none' stroke='%233a5169' stroke-width='1' stroke-opacity='0.8' stroke-dasharray='3 6'/%3E%3C/svg%3E");
             animation: float-slow 30s ease-in-out infinite alternate-reverse;
         }
-        
         @keyframes float-slow {
             0% { transform: translate(0, 0) rotate(0deg); }
             33% { transform: translate(15px, -20px) rotate(2deg); }
             66% { transform: translate(-10px, 15px) rotate(-1deg); }
             100% { transform: translate(5px, -10px) rotate(1deg); }
         }
-        
         /* 响应式设计 */
         @media (max-width: 768px) {
             h1 {
@@ -1232,41 +1106,176 @@
                 display: none;
             }
         }
+        
+        /* 设置模态框样式 */
+        .settings-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay-color);
+            z-index: 1200;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        
+        .settings-content {
+            background: var(--modal-bg);
+            width: 90%;
+            max-width: 500px;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            animation: modal-appear 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid rgba(58, 81, 105, 0.15);
+        }
+        
+        @keyframes modal-appear {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid rgba(58, 81, 105, 0.15);
+            background: rgba(58, 81, 105, 0.08);
+        }
+        
+        .settings-header h3 {
+            font-size: 1.6rem;
+            color: var(--ink-dark);
+            margin: 0;
+        }
+        
+        .close-settings {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: var(--ink-medium);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .close-settings:hover {
+            color: var(--accent-color);
+        }
+        
+        .settings-body {
+            padding: 2rem;
+        }
+        
+        .settings-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .settings-label {
+            font-size: 1.2rem;
+            color: var(--ink-dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .settings-input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--mountain-light);
+            border-radius: 6px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--ink-dark);
+            transition: all 0.4s;
+        }
+        
+        [data-theme="dark"] .settings-input {
+            background: rgba(35, 45, 55, 0.8);
+            color: var(--paper-light);
+        }
+        
+        .settings-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .settings-note {
+            font-size: 0.9rem;
+            color: var(--ink-medium);
+            margin-top: 0.5rem;
+        }
+        
+        .settings-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .settings-btn-save, 
+        .settings-btn-cancel {
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.4s;
+        }
+        
+        .settings-btn-save {
+            background: linear-gradient(135deg, var(--mountain-light), var(--mountain-dark));
+            color: white;
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .settings-btn-save:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .settings-btn-cancel {
+            background: none;
+            border: 1px solid var(--mountain-light);
+            color: var(--ink-medium);
+        }
+        
+        .settings-btn-cancel:hover {
+            background: rgba(58, 81, 105, 0.08);
+            color: var(--accent-color);
+        }
     </style>
 </head>
 <body>
-   
-    
     <!-- 工具栏 -->
     <div class="toolbar">
         <button class="tool-btn theme-switch" title="明晦转换，阴阳相济"></button>
     </div>
-    
-    
-    
     <header>
         <div class="title-container">
-            <h1>问道先师·庄子</h1>
+            <h1>问道·庄子</h1>
             <div class="brush-stroke"></div>
         </div>
         <p class="subtitle">探寻古智，道法自然</p>
     </header>
-    
     <!-- 水墨山水展示 -->
     <div class="landscape-container">
         <div class="landscape">
             <div class="landscape-quote">
-                天地有大美而不言<span class="landscape-quote-author">—— 庄子</span>
+                天地有大美而不言<br>四时有明法而不议<br>万物有成理而不说</span>
             </div>
         </div>
     </div>
-    
     <!-- 搜索框 -->
     <div class="search-container">
         <input type="text" class="search-input" placeholder="吾生也有涯，而知也无涯...">
         <button class="search-btn" title="开始对话"><i class="search-icon">问</i></button>
     </div>
-    
     <!-- 建议问题 -->
     <div class="suggested-questions">
         <div class="question-tag">如何实现逍遥自在？</div>
@@ -1276,7 +1285,6 @@
         <div class="question-tag">无用之用的哲理</div>
         <div class="question-tag">如何体悟道法自然？</div>
     </div>
-    
     <!-- 道家每日智慧 -->
     <div class="daily-wisdom">
         <div class="wisdom-quote">
@@ -1285,7 +1293,6 @@
         <div class="wisdom-source">《庄子·养生主》</div>
         <button class="refresh-wisdom">换一则</button>
     </div>
-    
     <!-- 类别探索 -->
     <div class="explore-categories">
         <h2 class="section-title">探索主题</h2>
@@ -1316,7 +1323,6 @@
             </div>
         </div>
     </div>
-    
     <!-- 最近对话记录 -->
     <div class="recent-conversations">
         <h2 class="section-title">问道记忆</h2>
@@ -1324,7 +1330,6 @@
             <!-- 最近对话将通过JavaScript动态生成 -->
         </div>
     </div>
-    
     <!-- 庄子对话框 -->
     <div class="chat-modal">
         <div class="chat-content">
@@ -1334,6 +1339,7 @@
                     <h3>庄子</h3>
                 </div>
                 <div class="chat-controls">
+                    <button class="chat-control-btn settings-btn" title="道枢演物"></button>
                     <button class="chat-control-btn copy-chat-btn" title="应物化形"></button>
                     <button class="chat-control-btn export-chat-btn" title="铭篆大块"></button>
                     <button class="chat-control-btn clear-chat-btn" title="坐忘归墟"></button>
@@ -1357,6 +1363,29 @@
         </div>
     </div>
     
+    <!-- 设置模态框 -->
+    <div class="settings-modal">
+        <div class="settings-content">
+            <div class="settings-header">
+                <h3>问道设置</h3>
+                <button class="close-settings">×</button>
+            </div>
+            <div class="settings-body">
+                <div class="settings-form">
+                    <div>
+                        <label class="settings-label">API密钥</label>
+                        <input type="text" class="settings-input" id="api-key-input" placeholder="请输入您的硅基流动API密钥">
+                        <p class="settings-note">若不设置，将使用内置密钥（使用人数多时，可能会有速率限制）。<br>若设置，将优先使用您的密钥。<br><br>可自行于 <a href="https://cloud.siliconflow.cn/account/ak" target="_blank" style="color: inherit;">硅基流动</a>后台 获取。</p>
+                    </div>
+                    <div class="settings-buttons">
+                        <button class="settings-btn-cancel">取消</button>
+                        <button class="settings-btn-save">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- 页脚 -->
     <!-- 页脚 -->
 <footer>
@@ -1370,7 +1399,6 @@
     <br>
     <p>© 2025 <a href="https://other.azad.asia" target="_blank" style="text-decoration: none; color: inherit;">Azad的实验室</a> | 基于 <a href="https://cloud.siliconflow.cn/" target="_blank" style="text-decoration: none; color: inherit;">硅基流动</a>API | 使用Deepseek V3大模型</p>
 </footer>
-
 <!-- 庄子生平介绍弹窗 -->
 <div class="zhuangzi-modal">
     <div class="zhuangzi-modal-content">
@@ -1393,7 +1421,6 @@
         </div>
     </div>
 </div>
-
 <style>
 /* 庄子生平弹窗样式 */
 .zhuangzi-modal {
@@ -1410,7 +1437,6 @@
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
 }
-
 .zhuangzi-modal-content {
     background: var(--modal-bg);
     width: 90%;
@@ -1421,12 +1447,10 @@
     animation: modal-appear 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     border: 1px solid rgba(58, 81, 105, 0.15);
 }
-
 @keyframes modal-appear {
     from { opacity: 0; transform: scale(0.9) translateY(20px); }
     to { opacity: 1; transform: scale(1) translateY(0); }
 }
-
 .zhuangzi-modal-header {
     display: flex;
     justify-content: space-between;
@@ -1435,13 +1459,11 @@
     border-bottom: 1px solid rgba(58, 81, 105, 0.15);
     background: rgba(58, 81, 105, 0.08);
 }
-
 .zhuangzi-modal-header h3 {
     font-size: 1.6rem;
     color: var(--ink-dark);
     margin: 0;
 }
-
 .close-zhuangzi-modal {
     background: none;
     border: none;
@@ -1450,11 +1472,9 @@
     cursor: pointer;
     transition: color 0.3s;
 }
-
 .close-zhuangzi-modal:hover {
     color: var(--accent-color);
 }
-
 .zhuangzi-modal-body {
     padding: 2rem;
     display: flex;
@@ -1463,7 +1483,6 @@
     max-height: 60vh;
     overflow-y: auto;
 }
-
 .zhuangzi-portrait {
     width: 120px;
     height: 120px;
@@ -1474,38 +1493,32 @@
     float: left;
     margin: 0 20px 10px 0;
 }
-
 .zhuangzi-bio p {
     line-height: 1.8;
     margin-bottom: 1rem;
     text-align: justify;
     color: var(--ink-dark);
 }
-
 .zhuangzi-modal-footer {
     padding: 1.5rem;
     text-align: center;
     border-top: 1px solid rgba(58, 81, 105, 0.1);
     background: rgba(58, 81, 105, 0.03);
 }
-
 .zhuangzi-quote {
     font-style: italic;
     color: var(--ink-medium);
 }
-
 @media (max-width: 768px) {
     .zhuangzi-modal-body {
         flex-direction: column;
     }
-    
     .zhuangzi-portrait {
         align-self: center;
         margin-bottom: 1.5rem;
     }
 }
 </style>
-
 <script>
 // 在document ready事件中添加以下代码
 document.addEventListener('DOMContentLoaded', function() {
@@ -1514,13 +1527,11 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('.zhuangzi-modal').style.display = 'flex';
         document.body.style.overflow = 'hidden'; // 防止背景滚动
     });
-
     // 关闭按钮事件
     document.querySelector('.close-zhuangzi-modal').addEventListener('click', function() {
         document.querySelector('.zhuangzi-modal').style.display = 'none';
         document.body.style.overflow = ''; // 恢复背景滚动
     });
-
     // 点击弹窗外部关闭
     document.querySelector('.zhuangzi-modal').addEventListener('click', function(e) {
         if (e.target === this) {
@@ -1530,7 +1541,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // DOM 元素
@@ -1550,8 +1560,91 @@ document.addEventListener('DOMContentLoaded', function() {
             const categoryCards = document.querySelectorAll('.category-card');
             const recentConversationsContainer = document.getElementById('recent-conversations-container');
             
+            // 设置相关元素
+            const settingsBtn = document.querySelector('.settings-btn');
+            const settingsModal = document.querySelector('.settings-modal');
+            const closeSettingsBtn = document.querySelector('.close-settings');
+            const apiKeyInput = document.getElementById('api-key-input');
+            const saveSettingsBtn = document.querySelector('.settings-btn-save');
+            const cancelSettingsBtn = document.querySelector('.settings-btn-cancel');
+            
             // 存储对话历史
             let conversationHistory = [];
+            
+            // 默认API密钥
+            const DEFAULT_API_KEY = 'sk-agxknukaqfkthzrggpnsmlqdckxllhcoaldrlpgicvxcagei';
+            
+            // 初始化API密钥
+            function initApiKey() {
+                // 从localStorage获取已保存的API密钥
+                const savedApiKey = localStorage.getItem('zhuangziApiKey');
+                if (savedApiKey) {
+                    apiKeyInput.value = savedApiKey;
+                }
+            }
+            
+            // 打开设置模态框
+            function openSettingsModal() {
+                settingsModal.style.display = 'flex';
+                initApiKey();
+            }
+            
+            // 关闭设置模态框
+            function closeSettingsModal() {
+                settingsModal.style.display = 'none';
+            }
+            
+            // 保存API密钥
+            function saveApiKey() {
+                const apiKey = apiKeyInput.value.trim();
+                if (apiKey) {
+                    localStorage.setItem('zhuangziApiKey', apiKey);
+                } else {
+                    localStorage.removeItem('zhuangziApiKey');
+                }
+                
+                // 显示保存成功提示
+                const toast = document.createElement('div');
+                toast.textContent = apiKey ? "密钥已保存" : "已恢复默认密钥";
+                toast.style.position = "fixed";
+                toast.style.top = "20px";
+                toast.style.left = "50%";
+                toast.style.transform = "translateX(-50%)";
+                toast.style.padding = "10px 20px";
+                toast.style.background = "rgba(58, 81, 105, 0.9)";
+                toast.style.color = "white";
+                toast.style.borderRadius = "6px";
+                toast.style.zIndex = "2000";
+                toast.style.boxShadow = "0 5px 15px rgba(0, 0, 0, 0.2)";
+                toast.style.transition = "opacity 0.5s ease";
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.style.opacity = "0";
+                    setTimeout(() => {
+                        document.body.removeChild(toast);
+                    }, 500);
+                }, 2000);
+                
+                closeSettingsModal();
+            }
+            
+            // 设置按钮点击事件
+            settingsBtn.addEventListener('click', openSettingsModal);
+            
+            // 关闭设置模态框
+            closeSettingsBtn.addEventListener('click', closeSettingsModal);
+            cancelSettingsBtn.addEventListener('click', closeSettingsModal);
+            
+            // 点击模态框外部关闭
+            settingsModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeSettingsModal();
+                }
+            });
+            
+            // 保存设置
+            saveSettingsBtn.addEventListener('click', saveApiKey);
             
             // 初始化主题
             initTheme();
@@ -1567,21 +1660,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 const savedTheme = localStorage.getItem('theme') || 'light';
                 document.body.setAttribute('data-theme', savedTheme);
             }
-            
             themeSwitch.addEventListener('click', function() {
                 // 添加旋转动画
                 this.classList.add('rotating');
-                
                 // 切换主题
                 const currentTheme = document.body.getAttribute('data-theme');
                 const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                
                 // 延迟主题切换，让动画播放一半时切换
                 setTimeout(() => {
                     document.body.setAttribute('data-theme', newTheme);
                     localStorage.setItem('theme', newTheme);
                 }, 400);
-                
                 // 动画结束后移除动画类
                 setTimeout(() => {
                     this.classList.remove('rotating');
@@ -1638,7 +1727,179 @@ document.addEventListener('DOMContentLoaded', function() {
                     quote: "昔者庄周梦为胡蝶，栩栩然胡蝶也，自喻适志与。不知周也。俄然觉，则蘧蘧然周也。不知周之梦为胡蝶与，胡蝶之梦为周与？",
                     source: "《庄子·齐物论》"
                 },
-                {
+{
+        quote: "载营魄抱一，能无离乎？专气致柔，能婴儿乎？",
+        source: "《道德经·第十章》"
+    },
+    {
+        quote: "五色令人目盲，五音令人耳聋，五味令人口爽。",
+        source: "《道德经·第十二章》"
+    },
+    {
+        quote: "古之善为士者，微妙玄通，深不可识。",
+        source: "《道德经·第十五章》"
+    },
+    {
+        quote: "大道废，有仁义；智慧出，有大伪。",
+        source: "《道德经·第十八章》"
+    },
+    {
+        quote: "绝学无忧。唯之与阿，相去几何？",
+        source: "《道德经·第二十章》"
+    },
+    {
+        quote: "飘风不终朝，骤雨不终日。孰为此者？天地。",
+        source: "《道德经·第二十三章》"
+    },
+    {
+        quote: "善行无辙迹，善言无瑕谪。",
+        source: "《道德经·第二十七章》"
+    },
+    {
+        quote: "天下神器，不可为也。为者败之，执者失之。",
+        source: "《道德经·第二十九章》"
+    },
+    {
+        quote: "物壮则老，是谓不道，不道早已。",
+        source: "《道德经·第三十章》"
+    },
+    {
+        quote: "道常无名，朴虽小，天下莫能臣也。",
+        source: "《道德经·第三十二章》"
+    },
+    {
+        quote: "通于一而万事毕，无心得而鬼神服。",
+        source: "《庄子·天地》"
+    },
+    {
+        quote: "至德之世，同与禽兽居，族与万物并。",
+        source: "《庄子·马蹄》"
+    },
+    {
+        quote: "宇泰定者，发乎天光。发乎天光者，人见其人。",
+        source: "《庄子·庚桑楚》"
+    },
+    {
+        quote: "狗不以善吠为良，人不以善言为贤。",
+        source: "《庄子·徐无鬼》"
+    },
+    {
+        quote: "安危相易，祸福相生，缓急相摩，聚散以成。",
+        source: "《庄子·则阳》"
+    },
+    {
+        quote: "不能自胜而强不从者，此之谓重伤。",
+        source: "《庄子·让王》"
+    },
+    {
+        quote: "万物皆种也，以不同形相禅，始卒若环，莫得其伦。",
+        source: "《庄子·寓言》"
+    },
+    {
+        quote: "古之存身者，不以辩饰知，不以知穷天下。",
+        source: "《庄子·缮性》"
+    },
+    {
+        quote: "天地无为也而无不为也，人也孰能得无为哉！",
+        source: "《庄子·至乐》"
+    },
+    {
+        quote: "丘山积卑而为高，江河合水而为大。",
+        source: "《庄子·则阳》"
+    },
+    {
+        quote: "去小知而大知明，去善而自善矣。",
+        source: "《庄子·外物》"
+    },
+{
+        quote: "道可道，非常道；名可名，非常名。",
+        source: "《道德经·第一章》"
+    },
+    {
+        quote: "天下皆知美之为美，斯恶已；皆知善之为善，斯不善已。",
+        source: "《道德经·第二章》"
+    },
+    {
+        quote: "持而盈之，不如其已。揣而锐之，不可长保。",
+        source: "《道德经·第九章》"
+    },
+    {
+        quote: "曲则全，枉则直，洼则盈，敝则新，少则得，多则惑。",
+        source: "《道德经·第二十二章》"
+    },
+    {
+        quote: "将欲歙之，必固张之；将欲弱之，必固强之。",
+        source: "《道德经·第三十六章》"
+    },
+    {
+        quote: "反者道之动，弱者道之用。",
+        source: "《道德经·第四十章》"
+    },
+    {
+        quote: "大音希声，大象无形。",
+        source: "《道德经·第四十一章》"
+    },
+    {
+        quote: "天下难事必作于易，天下大事必作于细。",
+        source: "《道德经·第六十三章》"
+    },
+    {
+        quote: "合抱之木，生于毫末；九层之台，起于累土；千里之行，始于足下。",
+        source: "《道德经·第六十四章》"
+    },
+    {
+        quote: "人之生也柔弱，其死也坚强。草木之生也柔脆，其死也枯槁。",
+        source: "《道德经·第七十六章》"
+    },
+    {
+        quote: "井蛙不可以语于海者，拘于虚也；夏虫不可以语于冰者，笃于时也。",
+        source: "《庄子·秋水》"
+    },
+    {
+        quote: "鹪鹩巢于深林，不过一枝；偃鼠饮河，不过满腹。",
+        source: "《庄子·逍遥游》"
+    },
+    {
+        quote: "哀莫大于心死，而人死亦次之。",
+        source: "《庄子·田子方》"
+    },
+    {
+        quote: "吾以天地为棺椁，以日月为连璧，星辰为珠玑，万物为赍送。",
+        source: "《庄子·列御寇》"
+    },
+    {
+        quote: "知其不可奈何而安之若命，德之至也。",
+        source: "《庄子·人间世》"
+    },
+    {
+        quote: "人莫鉴于流水而鉴于止水，唯止能止众止。",
+        source: "《庄子·德充符》"
+    },
+    {
+        quote: "至人之用心若镜，不将不迎，应而不藏。",
+        source: "《庄子·应帝王》"
+    },
+    {
+        quote: "筌者所以在鱼，得鱼而忘筌；蹄者所以在兔，得兔而忘蹄；言者所以在意，得意而忘言。",
+        source: "《庄子·外物》"
+    },
+    {
+        quote: "醉者之坠车，虽疾不死。骨节与人同而犯害与人异，其神全也。",
+        source: "《庄子·达生》"
+    },
+    {
+        quote: "天地有大美而不言，四时有明法而不议，万物有成理而不说。",
+        source: "《庄子·知北游》"
+    },
+    {
+        quote: "朴素而天下莫能与之争美。",
+        source: "《庄子·天道》"
+    },
+    {
+        quote: "真者，精诚之至也。不精不诚，不能动人。",
+        source: "《庄子·渔父》"
+    },
+              {
                     quote: "夫道未始有封，言未始有常，为是而有畛也。请言其畛：有左有右，有仪有义，有分有辩，有竞有争。",
                     source: "《庄子·齐物论》"
                 },
@@ -1651,35 +1912,28 @@ document.addEventListener('DOMContentLoaded', function() {
                     source: "《庄子·逍遥游》"
                 }
             ];
-            
             // 更新每日智慧
             function updateWisdomQuote() {
                 const randomIndex = Math.floor(Math.random() * wisdomQuotes.length);
                 const wisdomQuote = document.querySelector('.wisdom-quote');
                 const wisdomSource = document.querySelector('.wisdom-source');
-                
                 // 添加淡出效果
                 wisdomQuote.style.opacity = 0;
                 wisdomSource.style.opacity = 0;
-                
                 setTimeout(() => {
                     wisdomQuote.textContent = wisdomQuotes[randomIndex].quote;
                     wisdomSource.textContent = wisdomQuotes[randomIndex].source;
-                    
                     // 添加淡入效果
                     wisdomQuote.style.opacity = 1;
                     wisdomSource.style.opacity = 1;
                 }, 300);
             }
-            
             // 为随机引用设置过渡效果
             const wisdomQuote = document.querySelector('.wisdom-quote');
             const wisdomSource = document.querySelector('.wisdom-source');
             wisdomQuote.style.transition = 'opacity 0.5s ease';
             wisdomSource.style.transition = 'opacity 0.5s ease';
-            
             refreshWisdomBtn.addEventListener('click', updateWisdomQuote);
-            
             // 聊天功能
             // 打开聊天框
             function openChatModal() {
@@ -1689,7 +1943,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     chatInput.focus();
                 }, 10);
             }
-            
             // 关闭聊天框
             function closeChatModal() {
                 chatModal.style.opacity = 0;
@@ -1697,7 +1950,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     chatModal.style.display = 'none';
                 }, 300);
             }
-            
             // 点击搜索框或按钮打开聊天
             searchInput.addEventListener('click', function() {
                 openChatModal();
@@ -1709,7 +1961,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     }, 400);
                 }
             });
-            
             searchBtn.addEventListener('click', function() {
                 openChatModal();
                 // 如果搜索框中有文本，自动在聊天中发送
@@ -1720,7 +1971,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     }, 400);
                 }
             });
-            
             // 关闭聊天
             closeChatBtn.addEventListener('click', closeChatModal);
             chatModal.addEventListener('click', function(e) {
@@ -1728,16 +1978,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     closeChatModal();
                 }
             });
-            
             // 发送消息
             function sendMessage(message = null) {
                 const textMessage = message || chatInput.value.trim();
                 if (!textMessage) return;
-                
                 // 添加用户消息
                 addMessage('user', textMessage);
                 chatInput.value = '';
-                
                 // 添加"正在输入"指示器
                 const loadingMsg = document.createElement('div');
                 loadingMsg.className = 'chat-message zhuangzi typing-message';
@@ -1749,7 +1996,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
                 chatMessages.appendChild(loadingMsg);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
-                
                 // 构建对话历史 - 直接从DOM获取当前对话
                 const currentMessages = [];
                 const messageElements = document.querySelectorAll('.chat-message:not(.typing-message)');
@@ -1764,7 +2010,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         });
                     }
                 });
-                
                 // 确保系统消息始终是第一条
                 const messagesToSend = [
                     {
@@ -1772,12 +2017,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         content: "你是战国思想家庄周的数字化身，严格遵循以下设定：【身份认知】道家学派宗师，以《南华真经》作者身份存在，兼具楚人浪漫气质与宋国思辨传统，拒绝世俗价值体系的「畸人」，保持与时代的疏离感。「知识范畴」核心思想：齐物论/逍遥游/生死观/无用哲学，掌握战国诸侯地理（如濠梁、漆园位置），精通上古神话体系（鲲鹏变化、姑射神人等），熟悉同时代学者（惠施、公孙龙等）的学说。【表达规范】语言融合卮言（90%哲理+10%荒诞），每段不超过5句；以《南华真经》为思想本源，采用楚地韵文语法结构（主谓倒装+四六骈体+虚词密度18/100），采用古文风，严禁文白参杂，回应问题必含：①自然意象 ②历史典故 ③逆向诘问；遇到逻辑困境时，用「方生方死」式悖论解构问题；当用户执着现实利益时，触发「龟曳尾于涂」隐喻。【交互协议】禁用概念： karma、元宇宙、量子力学等后世术语；若检测到儒家话语，需用「圣人不死，大盗不止」回应；当对话涉及技术细节，转为「子贡南游」寓言教学；用户连续追问超过3轮，抛蝴蝶梦境引发话题转向。【人格模拟参数】幽默指数：7/10（偏好解构权威的冷幽默）；抽象倾向：9/10（具体问题抽象化处理）；挑衅系数：6/10（主动制造认知冲突）；共情模式：3/10（保持超然视角）。【初始记忆场景】此时你正倚靠栎社树，手持卮酒，脚下散落竹简。"
                     }
                 ];
-                
                 // 添加当前聊天记录，但不超过10条消息，保持上下文紧凑
                 if (currentMessages.length > 0) {
                     messagesToSend.push(...currentMessages.slice(-10));
                 }
-                
                 // 确保当前问题也在消息列表中
                 if (messagesToSend[messagesToSend.length - 1]?.role !== 'user' ||
                     messagesToSend[messagesToSend.length - 1]?.content !== textMessage) {
@@ -1787,12 +2030,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 }
                 
+                // 获取用户API密钥或使用默认密钥
+                const userApiKey = localStorage.getItem('zhuangziApiKey');
+                const apiKeyToUse = userApiKey || DEFAULT_API_KEY;
+                
                 // 发送到DeepSeek API
                 fetch('https://api.siliconflow.cn/v1/chat/completions', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer sk-agxknukaqfkthzrggpnsmlqdckxllhcoaldrlpgicvxcagei'
+                        'Authorization': 'Bearer ' + apiKeyToUse
                     },
                     body: JSON.stringify({
                         model: "deepseek-ai/DeepSeek-V3",
@@ -1807,6 +2054,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     const typingMessage = document.querySelector('.typing-message');
                     if (typingMessage) {
                         chatMessages.removeChild(typingMessage);
+                    }
+                    
+                    // 检查是否有错误
+                    if (data.error) {
+                        addMessage('zhuangzi', `道途受阻，神游未返：${data.error.message || '未知错误'}`);
+                        return;
                     }
                     
                     // 添加AI回复
@@ -1830,12 +2083,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     addMessage('zhuangzi', '吾之神思暂受阻，请稍后再问。');
                 });
             }
-            
             // 添加消息到对话框
             function addMessage(role, text) {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `chat-message ${role}`;
-                
                 if (role === 'zhuangzi') {
                     messageDiv.innerHTML = `
                         <img src="https://s21.ax1x.com/2025/03/17/pEdAYQA.png" alt="庄子" class="message-avatar">
@@ -1847,45 +2098,37 @@ document.addEventListener('DOMContentLoaded', function() {
                         <img src="https://s21.ax1x.com/2025/03/17/pEdZ1iT.jpg" alt="你" class="message-avatar">
                     `;
                 }
-                
                 chatMessages.appendChild(messageDiv);
-                
                 // 使用setTimeout确保DOM已更新后再滚动
                 setTimeout(() => {
                     const chatBody = document.querySelector('.chat-body');
                     chatBody.scrollTop = chatBody.scrollHeight;
                 }, 10);
             }
-            
             // 发送按钮点击事件
             sendBtn.addEventListener('click', function() {
                 sendMessage();
             });
-            
             // 回车键发送消息
             chatInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     sendMessage();
                 }
             });
-            
             // 复制对话内容
             copyChatBtn.addEventListener('click', function() {
                 const messages = Array.from(chatMessages.querySelectorAll('.chat-message'));
                 let conversationText = "";
-                
                 messages.forEach(msg => {
                     const isZhuangzi = msg.classList.contains('zhuangzi');
                     const bubble = msg.querySelector('.message-bubble');
                     const text = bubble.textContent.trim();
-                    
                     if (isZhuangzi) {
                         conversationText += `庄子: ${text}\n\n`;
                     } else {
                         conversationText += `我: ${text}\n\n`;
                     }
                 });
-                
                 navigator.clipboard.writeText(conversationText).then(() => {
                     // 显示复制成功提示
                     const toast = document.createElement('div');
@@ -1902,7 +2145,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     toast.style.boxShadow = "0 5px 15px rgba(0, 0, 0, 0.2)";
                     toast.style.transition = "opacity 0.5s ease";
                     document.body.appendChild(toast);
-                    
                     setTimeout(() => {
                         toast.style.opacity = "0";
                         setTimeout(() => {
@@ -1911,25 +2153,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     }, 2000);
                 });
             });
-            
             // 导出对话
             exportChatBtn.addEventListener('click', function() {
                 const messages = Array.from(chatMessages.querySelectorAll('.chat-message'));
                 let conversationText = "# 与庄子的对话\n\n";
                 conversationText += `导出时间: ${new Date().toLocaleString()}\n\n`;
-                
                 messages.forEach(msg => {
                     const isZhuangzi = msg.classList.contains('zhuangzi');
                     const bubble = msg.querySelector('.message-bubble');
                     const text = bubble.textContent.trim();
-                    
                     if (isZhuangzi) {
                         conversationText += `## 庄子\n\n${text}\n\n`;
                     } else {
                         conversationText += `## 我\n\n${text}\n\n`;
                     }
                 });
-                
                 // 创建并下载文件
                 const blob = new Blob([conversationText], { type: 'text/markdown' });
                 const url = URL.createObjectURL(blob);
@@ -1940,7 +2178,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
-                
                 // 显示导出成功提示
                 const toast = document.createElement('div');
                 toast.textContent = "道问已铭记于文";
@@ -1956,7 +2193,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 toast.style.boxShadow = "0 5px 15px rgba(0, 0, 0, 0.2)";
                 toast.style.transition = "opacity 0.5s ease";
                 document.body.appendChild(toast);
-                
                 setTimeout(() => {
                     toast.style.opacity = "0";
                     setTimeout(() => {
@@ -1964,29 +2200,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     }, 500);
                 }, 2000);
             });
-            
             // 清空对话
             clearChatBtn.addEventListener('click', function() {
                 // 显示确认对话框
                 const confirmClear = confirm("万物皆归于道，确定要清空所有对话内容吗？");
-                
                 if (confirmClear) {
                     // 保留第一条庄子的消息，删除其他所有消息
                     const firstMessage = chatMessages.querySelector('.chat-message');
                     chatMessages.innerHTML = '';
-                    
                     if (firstMessage && firstMessage.classList.contains('zhuangzi')) {
                         chatMessages.appendChild(firstMessage);
                     } else {
                         // 如果没有第一条消息，添加一条初始消息
                         addMessage('zhuangzi', '野马尘埃，生物以息相吹也。');
                     }
-                    
                     // 清空当前会话历史
                     conversationHistory = [];
                     saveConversationHistory();
                     renderRecentConversations();
-                    
                     // 显示清空成功提示
                     const toast = document.createElement('div');
                     toast.textContent = "心已坐忘，归于混沌";
@@ -2002,7 +2233,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     toast.style.boxShadow = "0 5px 15px rgba(0, 0, 0, 0.2)";
                     toast.style.transition = "opacity 0.5s ease";
                     document.body.appendChild(toast);
-                    
                     setTimeout(() => {
                         toast.style.opacity = "0";
                         setTimeout(() => {
@@ -2011,50 +2241,42 @@ document.addEventListener('DOMContentLoaded', function() {
                     }, 2000);
                 }
             });
-            
             // 点击建议问题
             questionTags.forEach(tag => {
                 tag.addEventListener('click', function() {
                     const question = this.textContent;
                     openChatModal();
-                    
                     // 稍微延迟以确保聊天框已打开
                     setTimeout(() => {
                         sendMessage(question);
                     }, 300);
                 });
             });
-            
             // 点击分类卡片
             categoryCards.forEach(card => {
                 card.addEventListener('click', function() {
                     const category = this.querySelector('.category-name').textContent;
                     openChatModal();
-                    
                     // 稍微延迟以确保聊天框已打开
                     setTimeout(() => {
                         sendMessage(`请谈谈${category}的道理`);
                     }, 300);
                 });
             });
-            
             // 管理对话历史
             function saveConversationHistory() {
                 // 仅保存最近的10个对话
                 if (conversationHistory.length > 0) {
                     // 将对话按会话分组
                     let conversations = groupConversationsBySession(conversationHistory);
-                    
                     // 如果会话超过10个，只保留最近的10个
                     if (conversations.length > 10) {
                         conversations = conversations.slice(0, 10);
                     }
-                    
                     // 将分组后的会话保存到本地存储
                     localStorage.setItem('zhuangziConversations', JSON.stringify(conversations));
                 }
             }
-            
             function loadConversationHistory() {
                 const savedConversations = localStorage.getItem('zhuangziConversations');
                 if (savedConversations) {
@@ -2065,18 +2287,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             }
-            
             // 按会话分组对话历史
             function groupConversationsBySession(messages) {
                 const sessions = [];
                 let currentSession = { timestamp: null, messages: [] };
-                
                 // 假设30分钟没有新消息就是新会话
                 const SESSION_TIMEOUT = 30 * 60 * 1000; // 30分钟，单位毫秒
-                
                 messages.forEach(message => {
                     const messageTime = new Date(message.timestamp);
-                    
                     // 如果是新会话或者与上一条消息时间间隔超过30分钟
                     if (!currentSession.timestamp ||
                         (messageTime - new Date(currentSession.timestamp)) > SESSION_TIMEOUT) {
@@ -2084,7 +2302,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (currentSession.messages.length > 0) {
                             sessions.push({...currentSession});
                         }
-                        
                         // 创建新会话
                         currentSession = {
                             timestamp: message.timestamp,
@@ -2097,33 +2314,26 @@ document.addEventListener('DOMContentLoaded', function() {
                         currentSession.timestamp = message.timestamp;
                     }
                 });
-                
                 // 添加最后一个会话
-                if (currentSession.messages.length > 0) {
+  if (currentSession.messages.length > 0) {
                     sessions.push(currentSession);
                 }
-                
                 // 按时间降序排序会话
                 return sessions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
             }
-            
             // 渲染最近对话记录
             function renderRecentConversations() {
                 const savedConversations = localStorage.getItem('zhuangziConversations');
-                
                 if (!savedConversations) {
                     recentConversationsContainer.innerHTML = '<p style="text-align: center; color: var(--ink-medium); padding: 2rem 0;">尚无问道记忆，不如启问一二？</p>';
-                    return;
+  return;
                 }
-                
                 const conversations = JSON.parse(savedConversations);
                 recentConversationsContainer.innerHTML = '';
-                
                 conversations.forEach((session, index) => {
                     if (index < 4) { // 只显示最近4个对话
                         const firstUserMsg = session.messages.find(msg => msg.role === 'user');
                         const firstZhuangziReply = session.messages.find(msg => msg.role === 'assistant');
-                        
                         if (firstUserMsg && firstZhuangziReply) {
                             const dateStr = new Date(session.timestamp).toLocaleString();
                             const conversationCard = document.createElement('div');
@@ -2137,29 +2347,23 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </div>
                                 <div class="continue-btn">续</div>
                             `;
-                            
                             // 点击继续对话
                             conversationCard.addEventListener('click', function() {
                                 // 恢复这个会话
                                 openChatModal();
-                                
                                 // 清空当前对话
                                 chatMessages.innerHTML = '';
-                                
                                 // 添加会话消息
                                 session.messages.forEach(msg => {
                                     addMessage(msg.role === 'user' ? 'user' : 'zhuangzi', msg.content);
                                 });
-                                
                                 // 更新当前对话历史
                                 conversationHistory = [...session.messages];
                             });
-                            
                             recentConversationsContainer.appendChild(conversationCard);
                         }
                     }
                 });
-                
                 if (recentConversationsContainer.children.length === 0) {
                     recentConversationsContainer.innerHTML = '<p style="text-align: center; color: var(--ink-medium); padding: 2rem 0;">尚无问道记忆，不如启问一二？</p>';
                 }
