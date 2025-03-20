@@ -1525,6 +1525,184 @@
             font-style: italic;
             color: var(--ink-medium);
         }
+/* 增强移动端适配 */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+    
+    h1 {
+        font-size: 2.8rem;
+        letter-spacing: 0.3rem;
+    }
+    
+    .toolbar {
+        top: 10px;
+        right: 10px;
+    }
+    
+    .search-container {
+        width: 95%;
+        margin: 2rem auto;
+    }
+    
+    .chat-message {
+        max-width: 90%;
+    }
+    
+    .chat-modal {
+        align-items: flex-start;
+    }
+    
+    .chat-content {
+        width: 100%;
+        height: 95vh;
+        max-width: none;
+        border-radius: 8px;
+    }
+    
+    .settings-content, .laozi-modal-content {
+        width: 95%;
+    }
+}
+
+/* 小屏手机适配 */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2.2rem;
+        letter-spacing: 0.2rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    .landscape-container {
+        height: 150px;
+    }
+    
+    .message-avatar {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .chat-title h3 {
+        font-size: 1.2rem;
+    }
+    
+    .chat-controls {
+        gap: 6px;
+    }
+    
+    .chat-control-btn, .close-chat-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+    }
+    
+    .message-bubble {
+        padding: 0.9rem 1.1rem;
+        font-size: 1rem;
+    }
+    
+    .chat-header, .chat-footer {
+        padding: 0.8rem;
+    }
+    
+    .chat-body {
+        padding: 1rem;
+    }
+    
+    .send-btn {
+        padding: 0.8rem 1rem;
+    }
+    
+    .laozi-portrait {
+        width: 80px;
+        height: 80px;
+        float: none;
+        margin: 0 auto 15px;
+        display: block;
+    }
+    
+    .footer-links {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+}
+
+/* 解决iOS底部安全区域问题 */
+@supports (-webkit-touch-callout: none) {
+    .chat-footer {
+        padding-bottom: calc(0.8rem + env(safe-area-inset-bottom));
+    }
+}
+
+/* 优化移动端交互体验 */
+@media (max-width: 768px) {
+    .question-tag, .category-card, .refresh-wisdom, .send-btn {
+        min-height: 44px;
+    }
+    
+    .search-btn, .tool-btn, .chat-control-btn, .close-chat-btn {
+        min-width: 44px;
+        min-height: 44px;
+    }
+    
+    .chapter-analyze-btn {
+        bottom: 15px;
+        left: 15px;
+        width: 38px;
+        height: 38px;
+    }
+    
+    .analyze-panel {
+        width: 90%;
+        left: 5%;
+        height: 50vh;
+        bottom: 20px;
+    }
+    
+    /* 调整聊天输入框和按钮在移动端的布局 */
+    .chat-input {
+        padding: 0.8rem;
+        font-size: 1rem;
+    }
+    
+    /* 优化类别卡片在移动端的显示 */
+    .categories-container {
+        gap: 1rem;
+    }
+    
+    .category-card {
+        width: 120px;
+        height: 90px;
+    }
+    
+    .category-name {
+        font-size: 1.1rem;
+    }
+}
+
+/* 针对超小屏幕的额外优化 */
+@media (max-width: 360px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    .chat-controls {
+        gap: 4px;
+    }
+    
+    .category-card {
+        width: 100px;
+        height: 80px;
+    }
+    
+    .wisdom-quote {
+        font-size: 1rem;
+    }
+}
     </style>
 </head>
 <body>
