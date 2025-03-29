@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>问道</title>
 	<link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="shortcut icon" href="/favicon.ico">
@@ -848,36 +848,171 @@ margin-top: 5px; /* 添加小的上边距 */
             }
         }
         /* 响应式设计 */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: calc(1.8rem + 1vw);
-                letter-spacing: 10px;
-            }
-            #home-screen {
-                gap: 20px;
-                padding: 10px;
-            }
-            .sage-card {
-                width: 160px;
-                padding: 15px 10px;
-            }
-            .sage-avatar {
-                width: 100px;
-                height: 100px;
-            }
-            .sage-name {
-                font-size: 1.4em;
-            }
-            .message {
-                max-width: 90%;
-            }
-            #chat-screen {
-                padding: 5px;
-            }
-            .timer-buttons {
-                flex-direction: column;
-            }
-        }
+@media (max-width: 768px) {
+    h1 {
+        font-size: calc(1.8rem + 1vw);
+        letter-spacing: 5px;
+    }
+    #home-screen {
+        gap: 15px;
+        padding: 5px;
+    }
+    .sage-card {
+        width: 140px;
+        padding: 12px 8px;
+    }
+    .sage-avatar {
+        width: 90px;
+        height: 90px;
+    }
+    .sage-name {
+        font-size: 1.2em;
+    }
+    .sage-title {
+        font-size: 0.7em;
+    }
+    .message {
+        max-width: 95%;
+        padding: 10px 15px;
+    }
+    #chat-screen {
+        padding: 5px;
+    }
+    .timer-buttons {
+        flex-direction: column;
+    }
+    
+    /* 移动端添加以下优化 */
+    .container {
+        padding: 10px 20px;
+    }
+    
+    .buttons {
+        gap: 20px;
+    }
+    
+    /* 修改底部导航栏和按钮布局 */
+    #chat-header {
+        padding: 5px 0;
+    }
+    
+    #chat-title {
+        font-size: 1.2em;
+    }
+    
+    #chat-sage-avatar {
+        width: 30px;
+        height: 30px;
+    }
+    
+    #settings-btn, #back-btn, #export-btn, #meditation-toggle, #music-toggle, #classics-btn, #fortune-btn {
+        margin-left: 5px;
+        font-size: 1em;
+    }
+    
+    /* 改进聊天区域 */
+    #chat-messages {
+        max-height: calc(100vh - 180px);
+    }
+    
+    /* 改进输入区域 */
+    #chat-input {
+        padding: 8px;
+    }
+    
+    #user-input {
+        height: 36px;
+        padding: 8px;
+    }
+    
+    #send-btn {
+        padding: 0 15px;
+    }
+    
+    /* 模态框调整 */
+    .modal-content, .classics-content, .fortune-content {
+        width: 95%;
+        padding: 15px;
+    }
+    
+    .chapter-list {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: 8px;
+    }
+    
+    /* 修改音乐播放器 */
+    #music-title {
+        max-width: 120px;
+    }
+    
+    /* 修改引言区域 */
+    .tao-quotes {
+        height: 40px;
+        padding: 5px 0;
+        font-size: 0.9em;
+    }
+    
+    /* 修改主题切换按钮位置 */
+    .theme-toggle {
+        top: 10px;
+        right: 10px;
+        width: 25px;
+        height: 25px;
+    }
+    
+    /* 修改冥想计时器 */
+    #meditation-timer {
+        padding: 10px;
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    #timer-display {
+        font-size: 1.5em;
+        margin: 10px 0;
+    }
+    
+    /* 增加触摸面积 */
+    .sage-card, .chapter-item, .timer-btn, .music-control, .close-btn {
+        min-height: 44px;
+    }
+}
+
+/* 添加小屏幕手机额外适配 */
+@media (max-width: 375px) {
+    #home-screen {
+        gap: 10px;
+    }
+    
+    .sage-card {
+        width: 120px;
+    }
+    
+    .sage-avatar {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .buttons {
+        gap: 10px;
+    }
+    
+    /* 标题文字更紧凑 */
+    h1 {
+        font-size: calc(1.5rem + 1vw);
+        letter-spacing: 3px;
+    }
+    
+    #chat-title {
+        font-size: 1em;
+    }
+    
+    footer {
+        font-size: 0.8em;
+    }
+}
+
+	    
         /* 页面加载动画 */
         .page-loader {
             position: fixed;
@@ -2754,17 +2889,35 @@ opacity: 0.4;
             document.addEventListener('click', createInkSplash);
             // 导出聊天记录
             exportBtn.addEventListener('click', exportChat);
-            // 自动聚焦输入框
-            userInput.addEventListener('focus', function() {
-                if (this.scrollHeight > this.clientHeight) {
-                    this.style.height = 'auto';
-                    this.style.height = (this.scrollHeight) + 'px';
-                }
-            });
-            userInput.addEventListener('input', function() {
-                this.style.height = 'auto';
-                this.style.height = (this.scrollHeight) + 'px';
-            });
+           // 自动聚焦输入框
+userInput.addEventListener('focus', function() {
+    if (this.scrollHeight > this.clientHeight) {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    }
+});
+userInput.addEventListener('input', function() {
+    this.style.height = 'auto';
+    const maxHeight = window.innerWidth < 768 ? 100 : 150; // 移动端限制更小高度
+    this.style.height = Math.min(this.scrollHeight, maxHeight) + 'px';
+});
+
+// 移动端点击文本区域时自动聚焦
+userInput.addEventListener('touchstart', function() {
+    setTimeout(() => this.focus(), 100);
+});
+
+// 为移动端添加双击返回首页
+let lastTapTime = 0;
+backBtn.addEventListener('touchend', function(e) {
+    const currentTime = new Date().getTime();
+    const tapLength = currentTime - lastTapTime;
+    if (tapLength < 300 && tapLength > 0) {
+        e.preventDefault();
+        returnToHome();
+    }
+    lastTapTime = currentTime;
+});
         }
         // 选择人物
         function selectSage(sageId) {
