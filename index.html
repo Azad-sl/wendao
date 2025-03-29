@@ -3,107 +3,2954 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="shortcut icon" href="/favicon.ico">
-    <title>问道 - 网站正在建设中</title>
+    <title>问道</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/marked/marked.min.css">
     <style>
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'STFangsong', 'STKaiti', 'SimSun', serif;
+font-weight: bold;
         }
-        
+        :root {
+            --text-color: #333;
+            --bg-color: #fff;
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --card-border: rgba(0, 0, 0, 0.08);
+            --card-shadow: rgba(0, 0, 0, 0.1);
+            --accent-color: rgba(100, 100, 100, 0.6);
+            --chat-bg: rgba(255, 255, 255, 0.5);
+            --user-msg-bg: rgba(240, 240, 240, 0.9);
+            --ai-msg-bg: rgba(255, 255, 255, 0.9);
+            --ai-msg-border: #000;
+            --button-bg: #333;
+            --button-color: white;
+            --input-bg: rgba(255, 255, 255, 0.8);
+            --input-border: #ddd;
+            --modal-bg: white;
+            --transition-speed: 1.5s;
+        }
+        body.dark-mode {
+            --text-color: #eee;
+            --bg-color: #222;
+            --card-bg: rgba(30, 30, 30, 0.8);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --card-shadow: rgba(0, 0, 0, 0.3);
+            --accent-color: rgba(150, 150, 150, 0.6);
+            --chat-bg: rgba(30, 30, 30, 0.7);
+            --user-msg-bg: rgba(50, 50, 50, 0.9);
+            --ai-msg-bg: rgba(40, 40, 40, 0.9);
+            --ai-msg-border: #777;
+            --button-bg: #444;
+            --button-color: #eee;
+            --input-bg: rgba(40, 40, 40, 0.8);
+            --input-border: #555;
+            --modal-bg: #222;
+        }
         body {
-            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            transition: all var(--transition-speed) ease;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://s21.ax1x.com/2025/03/23/pE0zZnK.png');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            transition: filter var(--transition-speed) ease, background-image var(--transition-speed) ease;
+        }
+        body.dark-mode::before {
+            filter: brightness(0.4) contrast(1.2) sepia(0.2);
+        }
+        #page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, var(--bg-color) 0%, transparent 100%);
+            z-index: 1000;
+            opacity: 1;
+            pointer-events: none;
+            transition: opacity 1.5s ease;
+        }
+        #app {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        header {
             text-align: center;
-            padding: 20px;
-            background-color: #f0f0f0;
-            color: #333;
-            line-height: 1.6;
+            padding: 30px 0 20px;
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), transparent);
+            transition: background var(--transition-speed) ease;
         }
-        
-        .container {
-            width: 90%;
-            max-width: 600px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        body.dark-mode header {
+            background: linear-gradient(to bottom, rgba(20, 20, 20, 0.9), transparent);
         }
-        
         h1 {
-            font-size: 2em;
-            margin-bottom: 15px;
+            font-size: calc(2rem + 1.5vw);
+            letter-spacing: 6px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+            font-weight: normal;
+            color: var(--text-color);
+            writing-mode: horizontal-tb;
+            position: relative;
+            display: inline-block;
+            transition: color var(--transition-speed) ease;
+font-family:"楷体", "KaiTi", "BiauKai", serif;
         }
-        
-        p {
-            font-size: 1.1em;
+        h1::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--text-color), transparent);
+            opacity: 0.5;
+            transition: background var(--transition-speed) ease;
+        }
+        #taiji-container {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+            width: 80px;
+            height: 80px;
+            opacity: 0.15;
+        }
+        #taiji {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(90deg, #000 50%, #fff 50%);
+            animation: rotate 30s linear infinite;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        #taiji:before,
+        #taiji:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        #taiji:before {
+            top: 0;
+            background: radial-gradient(circle at center, #fff 0, #fff 30%, #000 30%, #000 100%);
+        }
+        #taiji:after {
+            bottom: 0;
+            background: radial-gradient(circle at center, #000 0, #000 30%, #fff 30%, #fff 100%);
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        #home-screen {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            padding: 20px;
+            max-width: 1200px;
+            transform: translateY(0);
+            opacity: 1;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+        #home-screen.hide {
+            transform: translateY(30px);
+            opacity: 0;
+        }
+        .sage-card {
+            text-align: center;
+            width: 220px;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            background: var(--card-bg);
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px var(--card-shadow);
+            position: relative;
+            border: 1px solid var(--card-border);
+            overflow: hidden;
+            transform: translateY(50px);
+            opacity: 0;
+            animation: card-appear 0.8s forwards;
+ height: auto;           /* 高度自动调整 */
+    min-height: 100px;      /* 设置最小高度 */
+        }
+        @keyframes card-appear {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .sage-card:nth-child(1) { animation-delay: 0.2s; }
+        .sage-card:nth-child(2) { animation-delay: 0.4s; }
+        .sage-card:nth-child(3) { animation-delay: 0.6s; }
+        .sage-card:nth-child(4) { animation-delay: 0.8s; }
+        .sage-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            margin: 8px;
+            pointer-events: none;
+            background-image:
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 100 100'%3E%3Cpath fill='none' stroke='%23000' stroke-width='1' stroke-opacity='0.12' d='M20,10 Q30,5 40,10 Q50,15 60,10 Q70,5 80,10 L80,20 Q70,25 60,20 Q50,15 40,20 Q30,25 20,20 Z'/%3E%3C/svg%3E"),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 100 100'%3E%3Cpath fill='none' stroke='%23000' stroke-width='1' stroke-opacity='0.12' d='M20,80 Q30,85 40,80 Q50,75 60,80 Q70,85 80,80 L80,90 Q70,95 60,90 Q50,85 40,90 Q30,95 20,90 Z'/%3E%3C/svg%3E");
+            background-position: top center, bottom center;
+            background-repeat: no-repeat;
+            opacity: 0.8;
+            transition: opacity 0.4s ease;
+        }
+        .sage-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            background: var(--card-bg);
+        }
+        .sage-card:hover::before {
+            opacity: 1;
+        }
+        .sage-avatar {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            margin: 0 auto 18px;
+            background-size: cover;
+            background-position: center;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            background-clip: padding-box;
+            border: 2px solid transparent;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
+                        inset 0 0 0 4px rgba(210, 210, 180, 0.4);
+            transition: transform 0.6s ease;
+        }
+        .sage-card:hover .sage-avatar {
+            transform: scale(1.05);
+        }
+        .sage-avatar::before {
+            content: "";
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            background:
+                linear-gradient(to bottom right, rgba(0,0,0,0.15), transparent, rgba(0,0,0,0.15)),
+                linear-gradient(to bottom left, rgba(0,0,0,0.15), transparent, rgba(0,0,0,0.15));
+            border-radius: 50%;
+            z-index: -1;
+        }
+        .sage-name {
+            font-size: 1.8em;
+            margin-bottom: 8px;
+            font-weight: normal;
+            letter-spacing: 3px;
+            color: var(--text-color);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            transition: color var(--transition-speed) ease;
+        }
+        .sage-title {
+            font-size: 0.8em;
+            color: var(--text-color);
+            opacity: 0.7;
+            letter-spacing: 1px;
+            position: relative;
+            display: inline-block;
+            padding: 0 8px;
+            transition: color var(--transition-speed) ease;
+        }
+        .sage-title::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: -15px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            transform: translateY(-50%);
+        }
+        .sage-title::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: -15px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            transform: translateY(-50%);
+        }
+        #chat-screen {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            max-width: 900px;
+            margin: 0 auto 10px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        #chat-screen.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+        }
+        body.dark-mode #chat-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        #chat-title {
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        #chat-sage-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        #settings-btn, #back-btn, #export-btn, #meditation-toggle, #music-toggle, #classics-btn, #fortune-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            color: var(--text-color);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            margin-left: 8px;
+text-shadow:
+                2px 2px 4px rgba(0, 0, 0, 0.5),  /* 第一层阴影，模糊和扩展更多 */
+                -2px -2px 4px rgba(255, 255, 255, 0.8), /* 第二层白色阴影，模糊和扩展更多 */
+                2px -2px 4px rgba(0, 0, 0, 0.5),  /* 第三层阴影，模糊和扩展更多 */
+                -2px 2px 4px rgba(255, 255, 255, 0.8);  
+        }
+        #settings-btn:hover, #back-btn:hover, #export-btn:hover, #meditation-toggle:hover,
+        #music-toggle:hover, #classics-btn:hover, #fortune-btn:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        #back-btn {
+            margin-right: 10px;
+        }
+        #chat-messages {
+            flex: 1;
+max-height: calc(90vh - 160px);
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 10px;
+            background: var(--chat-bg);
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            background-attachment: fixed;
+            background-position: center;
+            scrollbar-width: thin;
+            scrollbar-color: var(--card-border) transparent;
+            transition: background var(--transition-speed) ease, border var(--transition-speed) ease;
+        }
+        #chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+        #chat-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        #chat-messages::-webkit-scrollbar-thumb {
+            background-color: var(--card-border);
+            border-radius: 3px;
+        }
+        .message {
+            max-width: 80%;
+            padding: 12px 18px;
+            border-radius: 8px;
+            position: relative;
+            font-size: 1em;
+            line-height: 1.6;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            animation: message-appear 0.5s ease forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        @keyframes message-appear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .user-message {
+            align-self: flex-end;
+            background-color: var(--user-msg-bg);
+            border-bottom-right-radius: 2px;
+            border-right: 3px solid rgba(0, 0, 0, 0.2);
+            color: var(--text-color);
+        }
+        .ai-message {
+            align-self: flex-start;
+            background-color: var(--ai-msg-bg);
+            border-bottom-left-radius: 2px;
+            border-left: 3px solid var(--ai-msg-border);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            color: var(--text-color);
+        }
+        .ai-message::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 10px;
+            height: 10px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 0 10px 0 0;
+        }
+        .ai-message a {
+            color: var(--accent-color);
+            text-decoration: none;
+            border-bottom: 1px dotted;
+            transition: border-bottom 0.3s;
+        }
+        .ai-message a:hover {
+            border-bottom: 1px solid;
+        }
+        .ai-message blockquote {
+            border-left: 3px solid var(--accent-color);
+            padding-left: 10px;
+            margin: 10px 0;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+        .ai-message code {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        body.dark-mode .ai-message code {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        #chat-input {
+            display: flex;
+            gap: 10px;
+            background: var(--input-bg);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--input-border);
+            transition: background var(--transition-speed) ease, border var(--transition-speed) ease;
+        }
+        #user-input {
+            flex: 1;
+            padding: 10px;
+height: 40px; /* 设置初始高度更小 */
+    max-height: 150px; /* 限制最大高度 */
+            border: 1px solid var(--input-border);
+            border-radius: 5px;
+            font-size: 1em;
+            background: var(--input-bg);
+            color: var(--text-color);
+            resize: none;
+            transition: border 0.3s ease, background var(--transition-speed) ease, color var(--transition-speed) ease;
+    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;  /* IE/Edge */
+}
+#user-input::-webkit-scrollbar {
+    display: none;  /* Chrome/Safari/Opera */
+}
+        }
+        #user-input:focus {
+            outline: none;
+            border-color: var(--text-color);
+        }
+        #send-btn {
+            padding: 0 20px;
+            background: var(--button-bg);
+            color: var(--button-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        #send-btn:hover {
+            background: #000;
+            transform: translateY(-2px);
+        }
+        body.dark-mode #send-btn:hover {
+            background: #222;
+        }
+        #send-btn::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        #send-btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 1;
+            }
+            20% {
+                transform: scale(25, 25);
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(40, 40);
+            }
+        }
+        #settings-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background: var(--modal-bg);
+            padding: 25px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            animation: modal-appear 0.5s forwards;
+        }
+        @keyframes modal-appear {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .modal-content::before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid var(--card-border);
+            pointer-events: none;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .modal-title {
+            font-size: 1.5em;
+            font-weight: normal;
+            letter-spacing: 2px;
+            color: var(--text-color);
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            color: var(--text-color);
+        }
+        .close-btn:hover {
+            transform: rotate(90deg);
+        }
+        .form-group {
             margin-bottom: 20px;
         }
-        
-        h2 {
-            font-size: 1.5em;
-            margin: 15px 0 10px;
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: normal;
+            letter-spacing: 1px;
+            color: var(--text-color);
         }
-        
-        h3 {
-            font-size: 1.2em;
-            margin: 10px 0;
-        }
-        
-        a {
-            display: inline-block;
-            text-decoration: none;
-            color: inherit;
-            padding: 8px 12px;
-            margin: 5px;
-            background-color: #f8f8f8;
+        .settings-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--input-border);
             border-radius: 4px;
-            border: 1px solid #ddd;
+            font-size: 1em;
+            transition: border 0.3s ease;
+            background-color: var(--input-bg);
+            color: var(--text-color);
         }
-        
-        a:hover, a:active {
-            background-color: #ebebeb;
+        .settings-input:focus {
+            outline: none;
+            border-color: var(--text-color);
         }
-        
-        @media (max-width: 480px) {
-            body {
+        .save-btn {
+            background: var(--button-bg);
+            color: var(--button-color);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            display: block;
+            margin: 0 auto;
+            letter-spacing: 1px;
+        }
+        .save-btn:hover {
+            background: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        body.dark-mode .save-btn:hover {
+            background: #222;
+        }
+        /* 删除原有的loading样式，我们不再需要它 */
+        footer {
+            text-align: center;
+            padding: 10px;
+            font-size: 0.9em;
+            position: relative;
+            color: var(--text-color);
+            opacity: 0.7;
+            transition: color var(--transition-speed) ease;
+margin-top: 5px; /* 添加小的上边距 */
+        }
+        /* 道家名句轮播区域 */
+        .tao-quotes {
+            padding: 10px 0;
+            text-align: center;
+            font-style: italic;
+            color: var(--text-color);
+            opacity: 0.8;
+            position: relative;
+            margin: 0 auto;
+            max-width: 90%;
+            overflow: hidden;
+            height: 50px;
+            transition: color var(--transition-speed) ease;
+        }
+        .quote-container {
+            transition: opacity 1s ease-in-out;
+            position: absolute;
+            width: 100%;
+            left: 0;
+            right: 0;
+            opacity: 0;
+        }
+        .quote-text {
+            font-family: 'STKaiti', 'KaiTi', serif;
+            letter-spacing: 1px;
+            font-size: 1em;
+            line-height: 1.5;
+        }
+        .quote-author {
+            font-size: 0.8em;
+            margin-top: 5px;
+            color: var(--text-color);
+            opacity: 0.6;
+            transition: color var(--transition-speed) ease;
+        }
+        .quote-container.active {
+            opacity: 1;
+            z-index: 1;
+        }
+        /* 主题切换开关 */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            z-index: 100;
+            transition: transform 0.3s ease-in-out;
+        }
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+        .theme-toggle-taiji {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(90deg, #000 50%, #fff 50%);
+            position: relative;
+            transition: transform 1.5s ease;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+        .theme-toggle-taiji::before,
+        .theme-toggle-taiji::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .theme-toggle-taiji::before {
+            top: 0;
+            left: 7.5px;
+            background: radial-gradient(circle at center, #fff 0, #fff 30%, #000 30%, #000 100%);
+        }
+        .theme-toggle-taiji::after {
+            bottom: 0;
+            right: 7.5px;
+            background: radial-gradient(circle at center, #000 0, #000 30%, #fff 30%, #fff 100%);
+        }
+        /* 冥想计时器 */
+        #meditation-timer {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease, background var(--transition-speed) ease;
+            border: 1px solid var(--card-border);
+        }
+        #meditation-timer.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        #timer-display {
+            font-size: 2em;
+            margin: 15px 0;
+            font-family: monospace;
+            color: var(--text-color);
+            transition: color var(--transition-speed) ease;
+        }
+        .timer-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .timer-btn {
+            padding: 8px 12px;
+            border: none;
+            background: var(--button-bg);
+            color: var(--button-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .timer-btn:hover {
+            background: #000;
+            transform: translateY(-2px);
+        }
+        body.dark-mode .timer-btn:hover {
+            background: #222;
+        }
+        /* 水墨动画 */
+        .ink-splash {
+            position: fixed;
+            pointer-events: none;
+            width: 0;
+            height: 0;
+            background: radial-gradient(rgba(0,0,0,0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            animation: ink-spread 3s ease-out forwards;
+        }
+        body.dark-mode .ink-splash {
+            background: radial-gradient(rgba(255,255,255,0.1) 0%, transparent 70%);
+        }
+        @keyframes ink-spread {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            100% {
+                width: 500px;
+                height: 500px;
+                opacity: 0;
+            }
+        }
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: calc(1.8rem + 1vw);
+                letter-spacing: 10px;
+            }
+            #home-screen {
+                gap: 20px;
                 padding: 10px;
             }
-            
-            .container {
-                width: 100%;
-                padding: 15px;
+            .sage-card {
+                width: 160px;
+                padding: 15px 10px;
             }
-            
-            h1 {
-                font-size: 1.8em;
+            .sage-avatar {
+                width: 100px;
+                height: 100px;
             }
-            
-            p {
-                font-size: 1em;
+            .sage-name {
+                font-size: 1.4em;
             }
-            
-            h2 {
-                font-size: 1.3em;
+            .message {
+                max-width: 90%;
             }
-            
-            h3 {
-                font-size: 1.1em;
+            #chat-screen {
+                padding: 5px;
             }
+            .timer-buttons {
+                flex-direction: column;
+            }
+        }
+        /* 页面加载动画 */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .loader-taiji {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(90deg, #000 50%, #fff 50%);
+            position: relative;
+            animation: rotate 2s linear infinite;
+        }
+        .loader-taiji:before,
+        .loader-taiji:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .loader-taiji:before {
+            top: 0;
+            background: radial-gradient(circle at center, #fff 0, #fff 30%, #000 30%, #000 100%);
+        }
+        .loader-taiji:after {
+            bottom: 0;
+            background: radial-gradient(circle at center, #000 0, #000 30%, #fff 30%, #fff 100%);
+        }
+        /* API密钥模糊显示 */
+        #api-key-display {
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+        .api-key-hidden {
+            color: transparent;
+            text-shadow: 0 0 8px var(--text-color);
+        }
+        .show-api-key {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 5px;
+        }
+        /* 提示信息 */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 1000;
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        /* 新增：呼吸引导动画 */
+        #breath-guide {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 20;
+            display: none;
+            backdrop-filter: blur(2px);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .breath-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            animation: breathe 8s infinite ease-in-out;
+        }
+        @keyframes breathe {
+            0%, 100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.4; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+        }
+        #breath-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            bottom: -30px;
+            font-size: 1.2em;
+            color: var(--text-color);
+            transition: opacity 1s ease;
+        }
+        /* 新增：音乐播放器 */
+        #music-player {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 10px 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--card-border);
+        }
+        #music-player.show {
+            display: flex;
+        }
+        .music-control {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.3em;
+            color: var(--text-color);
+            transition: transform 0.3s ease;
+        }
+        .music-control:hover {
+            transform: scale(1.2);
+        }
+        #music-title {
+            font-size: 0.9em;
+            color: var(--text-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 150px;
+        }
+        /* 新增：经典查询界面 */
+        #classics-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .classics-content {
+            background: var(--modal-bg);
+            padding: 25px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            animation: modal-appear 0.5s forwards;
+        }
+        .classics-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .classics-title {
+            font-size: 1.5em;
+            font-weight: normal;
+            letter-spacing: 2px;
+            color: var(--text-color);
+        }
+        .classics-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 10px;
+        }
+        .classics-tab {
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+            border-bottom: none;
+            color: var(--text-color);
+        }
+        .classics-tab.active {
+            background: var(--card-bg);
+            border-color: var(--card-border);
+        }
+        .classics-tab:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        .classics-content-area {
+            display: none;
+            max-height: 60vh;
+            overflow-y: auto;
+            padding: 10px;
+            line-height: 1.8;
+            letter-spacing: 1px;
+            color: var(--text-color);
+        }
+        .classics-content-area.active {
+            display: block;
+        }
+        .chapter-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+        .chapter-item {
+            padding: 8px;
+            background: var(--card-bg);
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .chapter-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+        .chapter-content {
+            margin-top: 20px;
+            display: none;
+        }
+        .chapter-content.show {
+            display: block;
+        }
+        .back-to-chapters {
+            margin-bottom: 15px;
+            display: inline-block;
+            padding: 5px 10px;
+            background: var(--card-bg);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .back-to-chapters:hover {
+            transform: translateX(-5px);
+        }
+        /* 新增：道家智慧抽签 */
+        #fortune-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .fortune-content {
+            background: var(--modal-bg);
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            animation: modal-appear 0.5s forwards;
+        }
+        .fortune-content::before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid var(--card-border);
+            pointer-events: none;
+        }
+        #fortune-sticks {
+            width: 150px;
+            height: 220px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="220" viewBox="0 0 150 220"><rect x="10" y="10" width="130" height="200" rx="5" fill="saddlebrown" stroke="black" stroke-width="2"/><g fill="burlywood"><rect x="20" y="20" width="5" height="180" rx="2"/><rect x="35" y="20" width="5" height="180" rx="2"/><rect x="50" y="20" width="5" height="180" rx="2"/><rect x="65" y="20" width="5" height="180" rx="2"/><rect x="80" y="20" width="5" height="180" rx="2"/><rect x="95" y="20" width="5" height="180" rx="2"/><rect x="110" y="20" width="5" height="180" rx="2"/><rect x="125" y="20" width="5" height="180" rx="2"/></g></svg>');
+            margin: 0 auto 20px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        #fortune-sticks:hover {
+            transform: scale(1.05);
+        }
+        .fortune-instructions {
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+        .fortune-result {
+            display: none;
+            padding: 20px;
+            border: 1px solid var(--card-border);
+            border-radius: 5px;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .fortune-text {
+            font-family: 'STKaiti', 'KaiTi', serif;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+        .fortune-meaning {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-top: 10px;
+            color: var(--text-color);
+        }
+        #draw-again {
+            margin-top: 20px;
+            padding: 8px 15px;
+            background: var(--button-bg);
+            color: var(--button-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: none;
+        }
+        #draw-again:hover {
+            background: #000;
+            transform: translateY(-2px);
+        }
+        body.dark-mode #draw-again:hover {
+            background: #222;
+        }
+        /* 思索中的文字动画效果 */
+        @keyframes thinking-dots {
+            0%, 20% { content: ""; }
+            40% { content: "."; }
+            60% { content: ".."; }
+            80%, 100% { content: "..."; }
+        }
+        .thinking-message::after {
+            content: "";
+            animation: thinking-dots 1.5s infinite;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>问道</h1>
-        <p>网站正在建设中……即将上线！</p>
-        <h2>已完成的部分</h2>
-        <h3>
-            <a href="https://wendao.aihub.ren/laozi" target="_blank">问道 · 老子</a>
-            <a href="https://wendao.aihub.ren/zhuangzi" target="_blank">问道 · 庄子</a>
-        </h3>
+    <!-- 页面加载动画 -->
+    <div class="page-loader">
+        <div class="loader-taiji"></div>
     </div>
+    <div id="page-transition"></div>
+    <div id="theme-toggle" class="theme-toggle">
+        <div class="theme-toggle-taiji"></div>
+    </div>
+    <div id="toast" class="toast"></div>
+    <div id="app">
+        <header>
+            <div id="taiji-container">
+                <div id="taiji"></div>
+            </div>
+            <h1>问 道</h1>
+        </header>
+<div class="container">
+    <div class="buttons">
+        <div class="tao-button-container">
+            <div class="ink-border"></div>
+            <a href="https://wendao.aihub.ren/laozi" target="_blank" class="tao-button">
+                <div class="ink-blot"></div>
+                <div class="ink-blot"></div>
+                <div class="ink-blot"></div>
+                太上
+            </a>
+        </div>
+        <div class="tao-button-container">
+            <div class="ink-border"></div>
+            <a href="https://wendao.aihub.ren/zhuangzi" target="_blank" class="tao-button">
+                <div class="ink-blot"></div>
+                <div class="ink-blot"></div>
+                <div class="ink-blot"></div>
+                逍遥
+            </a>
+        </div>
+    </div>
+</div>
+<style>
+:root {
+    --ink-black: #1a1a1a;
+    --paper-white: #fFF;
+    --light-ink: #4a4a4a;
+    --shadow-ink: rgba(26, 26, 26, 0.1);
+}
+.container {
+    text-align: center;
+    max-width: 800px;
+    padding: 15px 40px;
+    position: relative;
+    z-index: 2;
+    margin: 0 auto; /* 居中容器 */
+    display: flex;
+    justify-content: center;
+}
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+.tao-button-container {
+    position: relative;
+    width: 88px;
+    height: 32px;
+}
+.tao-button {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    color: var(--light-ink);
+    text-decoration: none;
+    overflow: hidden;
+    background: var(--paper-white);
+    z-index: 2;
+opacity: 0.4;
+}
+/* 内部水墨晕染效果 */
+.ink-blot {
+    position: absolute;
+    width: 300%;
+    height: 300%;
+    top: -100%;
+    left: -100%;
+    background: radial-gradient(
+        circle at center,
+        transparent 0%,
+        var(--ink-black) 15%,
+        transparent 30%
+    );
+    opacity: 0.1;
+    animation: inkSpread 8s infinite ease-in-out;
+    z-index: 1;
+}
+.ink-blot:nth-child(1) {
+    animation-delay: 0s;
+}
+.ink-blot:nth-child(2) {
+    animation-delay: -2s;
+    transform: rotate(45deg);
+}
+.ink-blot:nth-child(3) {
+    animation-delay: -4s;
+    transform: rotate(90deg);
+}
+/* 边框动态墨色效果 */
+.ink-border {
+    position: absolute;
+    width: calc(100% + 10px);
+    height: calc(100% + 10px);
+    top: -5px;
+    left: -5px;
+    border-radius: 12px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--light-ink),
+        transparent
+    );
+    background-size: 200% 100%;
+    animation: inkFlow 6s linear infinite;
+    opacity: 0.2;
+    z-index: 1;
+    pointer-events: none;
+}
+.ink-border::before {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: var(--paper-white);
+    border-radius: 8px;
+    z-index: 1;
+}
+@keyframes inkSpread {
+    0%, 100% {
+        transform: scale(0.5) rotate(0deg);
+        opacity: 0.1;
+    }
+    50% {
+        transform: scale(1.2) rotate(180deg);
+        opacity: 0.2;
+    }
+}
+@keyframes inkFlow {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+@media (max-width: 768px) {
+    .buttons {
+        gap: 30px;
+    }
+    .tao-button {
+        font-size: 1.3rem;
+    }
+}
+</style>
+        <main>
+            <div id="home-screen">
+                <!-- 道家人物卡片 -->
+                <div class="sage-card" data-sage="laozi">
+                    <div class="sage-avatar" style="background-image: url('https://s21.ax1x.com/2025/03/29/pEro98f.png');"></div>
+                    <div class="sage-name">老子</div>
+                    <div class="sage-title">道家始祖<br>约前571-前471 <br>著《道德经》</div>
+                </div>
+<div class="sage-card" data-sage="wenzi">
+                    <div class="sage-avatar" style="background-image: url('https://s21.ax1x.com/2025/03/27/pED7xTs.png');"></div>
+                    <div class="sage-name">文子</div>
+                    <div class="sage-title">世传老子弟子<br>约前5世纪<br>传《文子》</div>
+                </div>
+<div class="sage-card" data-sage="liezi">
+                    <div class="sage-avatar" style="background-image: url('https://s21.ax1x.com/2025/03/27/pEDIdLd.png');"></div>
+                    <div class="sage-name">列子</div>
+                    <div class="sage-title">道家代表人物<br>前450-前375<br>作《列子》</div>
+                </div>
+                <div class="sage-card" data-sage="zhuangzi">
+                    <div class="sage-avatar" style="background-image: url('https://s21.ax1x.com/2025/03/27/pED5Hrd.png');"></div>
+                    <div class="sage-name">庄子</div>
+                    <div class="sage-title">道家集大成者<br>前369-前286<br>著《庄子》</div>
+                </div>
+            </div>
+            <div id="chat-screen">
+                <div id="chat-header">
+                    <div id="chat-title">
+                        <button id="back-btn"><svg t="1743220202621" class="icon" viewBox="0 0 1609 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1680" width="32" height="32"><path d="M248.685714 374.953383s7.699248 77.762406 92.390978 93.160903 134.736842-34.646617 134.736842-34.646617S525.088722 461.954887 585.142857 451.17594c60.054135-10.009023 75.452632-51.584962 75.452632-51.584963s36.956391 6.929323 104.709774-5.389473 122.418045-55.434586 124.72782-87.001504c1.53985-30.796992-6.929323-55.434586-69.293233-83.921805-62.36391-27.717293-147.055639-2.309774-147.055639-2.309774-16.938346-19.24812-72.372932-30.796992-138.586467-38.496241S361.864662 234.827068 361.864662 234.827068c-43.115789-20.78797-265.62406-6.929323-261.004512 58.514285 5.389474 66.213534 184.01203 40.03609 184.01203 40.036091-1.53985 22.32782 20.018045 56.974436 69.293234 77.762406 50.045113 20.018045 109.329323-26.947368 109.329323-26.947369 2.309774 11.548872 70.833083 31.566917 109.329323 23.097745 39.266165-8.469173 50.815038-54.664662 50.815038-54.664662 2.309774 7.699248 67.753383 10.009023 103.939849 10.009022 36.186466-0.769925 88.541353-24.637594 91.621053-56.974436 2.309774-32.336842-24.637594-39.266165-64.673684-47.735338-40.03609-8.469173-100.86015 15.398496-100.860151 15.398496-21.557895-27.717293-47.735338-34.646617-130.117293-43.885714-82.381955-10.009023-140.126316 40.03609-145.515789 73.142857-5.389474 32.336842 67.753383 51.584962 120.878195 46.195489 53.124812-4.619549 85.461654-35.416541 70.063158-60.054135s-67.753383-24.637594-107.789474-16.168422c-40.03609 7.699248-38.496241 37.726316-2.309774 43.885715 36.186466 6.159398 60.82406-13.858647 60.82406-13.858647-5.389474 38.496241-91.621053 25.407519-100.86015 1.53985-9.239098-23.097744 22.32782-43.885714 50.815037-49.275188 28.487218-5.389474 113.178947-1.53985 115.488722 36.956391 3.079699 38.496241-24.637594 68.523308-100.090225 72.372932-74.682707 3.849624-117.798496-24.637594-122.418046-53.894737-5.389474-29.257143 38.496241-86.231579 134.736843-97.010526 96.240602-10.778947 159.374436 42.345865 159.374436 42.345865 85.461654-28.487218 169.383459-2.309774 173.233082 21.557894 3.079699 23.097744 6.929323 60.054135-49.275188 83.15188-56.974436 23.097744-145.515789 6.159398-145.515789 6.159399-3.849624 18.478195-19.24812 46.195489-64.673684 56.974436-46.195489 10.009023-103.169925-19.24812-103.169925-19.248121C446.556391 435.777444 372.643609 445.016541 331.067669 431.157895c-40.806015-13.858647-57.744361-78.532331-57.744361-78.532331-145.515789 10.778947-177.082707-22.32782-180.932331-36.186466-4.619549-13.858647-16.938346-47.735338 75.452632-86.231579 91.621053-37.726316 192.481203-8.469173 192.481203-8.469173 18.478195-42.345865 68.523308-68.523308 110.869173-76.992481 42.345865-8.469173 164.76391-3.849624 229.437594-0.769925 65.443609 2.309774 142.43609-0.769925 138.586466-45.425564-3.849624-45.425564-75.452632-49.275188-75.452631-49.275188 13.858647 10.009023 33.876692 69.293233-17.708271 67.753383-51.584962-1.53985-157.064662 1.53985-256.384963 2.309775-100.090226 0.769925-129.347368 71.603008-129.347368 71.603007-69.293233-18.478195-314.129323 1.53985-314.129323 107.789474-0.769925 103.93985 202.490226 76.222556 202.490225 76.222556zM846.917293 140.126316c-66.213534 56.204511-371.873684-42.345865-461.954887 63.133834 0 0 85.461654-41.57594 154.754887-33.106767 70.063158 7.699248 112.409023 20.018045 138.586466 42.345865 0 0 80.07218-30.796992 159.374436-0.769925 78.532331 30.027068 95.470677 107.789474 35.416542 147.055639-60.054135 39.266165-111.639098 56.974436-200.950376 50.815038 0 0-22.32782 30.796992-43.11579 35.416541l137.816542-5.389473s36.186466-52.354887 117.028571-43.885715c0 0 9.239098-66.983459 75.452632-87.771428 0 0 70.833083-89.311278-69.293233-124.72782 0 0 87.001504-13.088722 87.001503-99.3203-0.769925-86.231579-130.887218-94.700752-165.533834-70.063158-0.769925 0 101.630075 69.293233 35.416541 126.267669z m70.833083 308.739849c40.03609 45.425564 106.249624 53.894737 161.68421 26.177444 54.664662-27.717293 23.867669-104.709774-16.938345-107.019549-30.027068-1.53985-59.284211 22.32782-51.584963 32.336842 7.699248 10.009023 31.566917-20.018045 50.815038-6.159398 18.478195 13.088722 9.239098 76.222556-52.354887 69.293233-61.593985-6.929323-85.461654-52.354887-49.275188-108.559399 34.646617-55.434586 150.905263-20.018045 150.905263-20.018045s77.762406-52.354887 130.117293-27.717293c53.124812 24.637594 26.177444 74.682707 9.239098 79.302256-16.938346 4.619549-50.815038 6.929323-48.505263-10.778948 2.309774-17.708271-13.088722-34.646617-26.947369-14.628571-13.088722 20.018045 6.159398 65.443609 63.133835 54.664661 56.974436-10.778947 90.851128-100.090226 16.168421-130.887218-74.682707-30.027068-150.135338 28.487218-150.135339 28.487218s-93.930827-22.32782-145.515789 2.309775c-50.045113 26.177444-80.07218 87.001504-40.806015 133.196992z m133.196992-93.160902c38.496241-2.309774 67.753383 22.32782 67.753384 55.434587 0 33.106767-3.849624 71.603008-64.673684 85.461654-60.82406 13.088722-120.878195-5.389474-153.984963-57.744361 0 0-79.302256 7.699248-70.833082 54.664662 8.469173 46.965414 90.851128 27.717293 99.3203 18.478195 0 0 42.345865 39.266165 98.550376 33.106767 56.204511-5.389474 98.550376-53.894737 98.550376-53.894737s69.293233 63.133835 179.392481 36.186466c64.673684-16.168421 58.514286-66.213534 33.876692-83.921804-16.938346-12.318797-47.735338 0.769925-51.584962 13.088722-10.009023 30.027068 26.947368-3.849624 22.327819 33.876691-4.619549 36.956391-117.798496 15.398496-89.311278-45.425564 0 0-76.222556-17.708271-61.593985-66.213533 14.628571-48.505263 53.894737-45.425564 56.204511-24.637594 1.53985 20.018045 16.168421 41.57594 39.266166 10.778947 23.867669-30.796992-67.753383-90.851128-133.966917-13.088722 0 0-42.345865-20.018045-87.001504-13.088722-35.416541 6.159398-72.372932 37.726316-67.753384 66.983459 10.778947 66.213534 96.240602 42.345865 89.311278 8.469173-1.53985-9.239098-18.478195-3.849624-34.646616-3.079699-43.115789 0.769925-8.469173-52.354887 30.796992-55.434587z m247.145865-39.266165c3.849624-0.769925 113.948872-24.637594 112.409023 69.293233 0 0-19.24812-66.983459-100.860151-58.514286 0 0 19.24812 49.275188-6.159398 68.523308 0 0 82.381955-8.469173 114.718797 54.664662 0 0 46.965414-38.496241 34.646616-91.621053-12.318797-52.354887-98.550376-83.15188-170.153383-68.523308 8.469173 2.309774 17.708271 16.168421 15.398496 26.177444z m-401.130827 243.29624s107.789474 94.700752 244.83609-3.849624c0 0 250.995489 70.833083 268.70376-93.160902 4.619549-45.425564-83.921805-63.903759-129.347369-51.584962-71.603008 20.018045-62.36391 93.160902 13.858647 83.151879 0 0-30.027068-19.24812-19.24812-40.806015 10.009023-21.557895 51.584962-36.186466 79.302255-10.778947 27.717293 24.637594 10.009023 84.691729-79.302255 99.320301-90.081203 14.628571-148.595489-36.956391-148.595489-36.956391s-107.019549 111.639098-205.569925 18.478195c-90.081203 50.045113-187.861654-68.523308-25.407519-93.930827l-6.159398-26.947368s-142.43609 15.398496-130.117294 99.3203c13.088722 83.15188 137.046617 57.744361 137.046617 57.744361z m-515.849624-26.177443c1.53985 26.177444 393.431579 13.858647 393.431579 13.858646-39.266165-37.726316-25.407519-63.903759-25.407519-63.903759-154.754887 6.929323-370.333835 23.867669-368.02406 50.045113z m455.795489 107.789473c-1.53985-33.106767-20.78797-63.133835-104.709775-79.302255-83.921805-16.938346-402.670677 23.097744-369.56391-27.717293 33.106767-51.584962 391.891729-59.284211 391.89173-59.284211l5.389473-19.24812c-331.067669-6.929323-496.601504 40.806015-499.681203 96.240601-2.309774 55.434586 301.040602 40.03609 408.830076 38.496241 107.789474-1.53985 169.383459 95.470677-3.849624 110.099248-174.003008 15.398496-535.867669-24.637594-621.329324 43.115789-85.461654 66.983459-13.858647 121.64812-13.858646 121.648121s-23.867669-76.222556 51.584962-104.709775c74.682707-28.487218 261.004511-16.168421 505.070677-22.327819 242.526316-5.389474 250.995489-63.903759 250.225564-97.010527z m562.045112 238.676692c-197.100752-6.929323-894.652632 1.53985-956.246616 1.53985S107.019549 908.511278 92.390977 829.209023c-45.425564 96.240602 268.703759 77.762406 330.297745 77.762406s759.915789-8.469173 956.246616-1.53985c197.100752 6.929323 227.12782 116.258647 227.12782 116.258647 13.858647-43.115789-10.778947-134.736842-207.109775-141.666166z" p-id="1681" fill="#8a8a8a"></path></svg></button>
+                        <div id="chat-sage-avatar"></div>
+                        <span id="chat-sage-name"></span>
+                    </div>
+                    <div>
+                        <button id="fortune-btn" title="叩籤启钥"><svg t="1743221301815" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="753" width="26" height="26"><path d="M86.844952 406.089143L171.495619 180.906667l209.578667 118.101333 140.580571 615.18019-116.638476 23.064381L86.844952 406.089143z" fill="#e6e6e6" opacity=".8" p-id="754"></path><path d="M359.66781 314.953143l132.63238 580.169143-75.142095 14.872381L113.810286 403.651048 184.32 216.112762l175.34781 98.840381z m21.406476-15.945143L171.495619 180.906667 86.79619 406.089143 405.016381 937.20381l116.638476-23.064381L381.074286 299.008z" fill="#e6e6e6" opacity=".8" p-id="755"></path><path d="M642.925714 299.008l209.578667-118.101333 84.650667 225.182476-318.220191 531.163428-116.589714-23.064381 140.580571-615.18019z" fill="#e6e6e6" opacity=".8" p-id="756"></path><path d="M910.189714 403.651048l-303.299047 506.343619-75.190857-14.872381 132.63238-580.169143 175.34781-98.840381 70.509714 187.538286zM618.934857 937.20381L937.20381 406.089143 852.504381 180.906667l-209.578667 118.101333-140.580571 615.18019 116.589714 23.064381z" fill="#e6e6e6" opacity=".8" p-id="757"></path><path d="M353.426286 273.066667l156.525714-182.613334 156.525714 182.662096-78.262857 626.151619h-156.525714L353.426286 273.115429z" fill="#e6e6e6" p-id="758"></path><path d="M640.975238 280.771048L509.952 127.951238 378.88 280.771048l74.264381 594.115047h113.517714l74.264381-594.115047z m-52.760381 618.496h-156.525714L353.426286 273.115429l156.525714-182.662096 156.525714 182.662096-78.262857 626.151619z" fill="#e6e6e6" p-id="759"></path><path d="M498.736762 268.53181v76.946285h-33.840762v9.947429h87.673905v-9.947429h-43.300572v-38.131809h36.08381V297.447619h-36.08381v-28.964571h-10.532571zM498.736762 414.817524v76.946286h-33.840762v9.947428h87.673905v-9.947428h-43.300572v-38.13181h36.08381V443.733333h-36.08381v-28.964571h-10.532571zM529.65181 617.179429a121.465905 121.465905 0 0 1-8.972191 22.040381H467.139048v9.459809h83.090285v-9.459809h-18.627047c3.120762-5.753905 5.851429-12.190476 8.094476-19.212191l-10.044952-2.82819z m-43.398096 0.78019l-9.264762 3.023238c3.023238 5.461333 5.461333 11.117714 7.41181 16.969143l9.167238-2.243048a111.811048 111.811048 0 0 0-7.314286-17.749333z m22.528-1.950476l-9.362285 3.023238c2.535619 5.753905 4.583619 11.702857 6.241523 17.944381l9.069715-2.243048a137.118476 137.118476 0 0 0-5.948953-18.724571z m-25.843809-8.094476v7.021714h51.395047v-6.826667c4.388571 1.950476 9.069714 3.803429 14.140953 5.558857l4.973714-8.777142a148.041143 148.041143 0 0 1-41.74019-20.089905h-6.241524a151.161905 151.161905 0 0 1-41.740191 19.894857l4.973715 8.874667c5.071238-1.755429 9.752381-3.705905 14.238476-5.656381z m47.201524-1.755429h-43.300572c8.387048-3.998476 15.60381-8.387048 21.74781-13.165714 6.339048 4.87619 13.55581 9.264762 21.552762 13.165714z m-49.152-28.672h6.046476c1.462857 3.510857 2.730667 7.216762 3.900952 11.020191l9.167238-3.413334a102.058667 102.058667 0 0 0-3.023238-7.606857h11.410286v-8.97219h-23.698286c0.585143-1.755429 1.26781-3.608381 1.852953-5.558858l-9.849905-2.145523c-2.438095 8.387048-6.631619 16.384-12.678095 23.893333l8.874666 5.558857c2.925714-3.900952 5.656381-8.094476 7.996953-12.775619z m40.862476 0h7.216762c1.950476 3.900952 3.803429 7.899429 5.363809 11.995429l9.264762-3.608381a95.914667 95.914667 0 0 0-4.193524-8.387048h12.970667v-8.97219h-26.819048l1.755429-5.558858-9.654857-2.145523c-1.950476 7.021714-5.168762 13.653333-9.654857 19.797333l8.582095 5.558857c1.852952-2.730667 3.608381-5.558857 5.168762-8.679619z" fill="#e6e6e6" p-id="760"></path></svg></button>
+                        <button id="classics-btn" title="披览云笈"><svg t="1743221088968" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1618" width="26" height="26"><path d="M226.56 677.184c-92.544 0-124.544 34.56-124.544 86.592 0 51.904 32 86.592 124.608 86.592 92.544 0 124.544-34.56 124.544-86.592-0.064-51.968-32.064-86.592-124.544-86.592z m676.224-450.176h-71.168c-10.624 0-17.792 7.04-17.792 17.28V330.88h-35.648V209.6c0-10.432-7.04-17.28-17.792-17.28H689.28c-10.624 0-17.792 7.04-17.792 17.28v86.592h-35.648V209.6c0-10.432-7.04-17.28-17.792-17.28h-71.04c-10.56 0-17.728 7.04-17.728 17.28v86.592h-35.584v-51.84c0-10.432-7.104-17.344-17.856-17.344H404.608c-10.624 0-17.792 7.04-17.792 17.28V330.88h-35.584V261.568c0-51.84-32-86.592-124.608-86.592s-124.608 34.624-124.608 86.592v415.616c28.48-24.192 67.584-34.56 124.608-34.56 56.96 0 96.064 10.368 124.544 34.56v-34.56h35.648v86.592c0 10.368 7.04 17.28 17.792 17.28h71.168c10.624 0 17.856-7.04 17.856-17.28V607.872h35.392v86.656c0 10.368 7.04 17.28 17.792 17.28h71.168c10.624 0 17.792-7.04 17.792-17.28V607.872h35.648v86.656c0 10.368 7.04 17.28 17.792 17.28h71.168c10.624 0 17.792-7.04 17.792-17.28v-51.904h35.648v86.592c0 10.368 7.04 17.28 17.792 17.28h71.168c10.624 0 17.792-7.04 17.792-17.28V244.288c0-10.368-7.168-17.28-17.792-17.28zM386.688 607.872h-35.584V365.504h35.584v242.368z m142.336-34.56h-35.648V330.88h35.648v242.432z m142.4 0h-35.648V330.88h35.648v242.432z m142.4 34.56h-35.648V365.504h35.648v242.368z" p-id="1619" fill="#e6e6e6"></path></svg></button>
+                        <button id="meditation-toggle" title="心斋坐忘"><svg t="1743225920395" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1632" width="26" height="26"><path d="M820.4288 760.99584a45.17888 45.17888 0 0 0 62.2592-65.536l-171.74528-168.28416c-16.384-169.65632-177.70496-175.45216-198.94272-175.47264s-182.53824 5.81632-198.94272 175.47264L141.312 695.52128a45.17888 45.17888 0 0 0 62.2592 65.536l181.73952-167.69024v172.35968h-132.096a84.62336 84.62336 0 1 0 0 169.2672h517.57056a84.62336 84.62336 0 1 0 0-169.2672h-132.096v-172.4416z" fill="#cdcdcd" p-id="1633"></path><path d="M512 217.86624m-106.04544 0a106.04544 106.04544 0 1 0 212.09088 0 106.04544 106.04544 0 1 0-212.09088 0Z" fill="#cdcdcd" p-id="1634"></path></svg></button>
+                        <button id="music-toggle" title="山水清音"><svg t="1743222460965" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7731" width="30" height="30"><path d="M486.560096 955.380156c-18.287505 0.508583-41.150212-4.319375-68.076468-14.734586-27.179013-10.159384-48.26219-26.158776-63.758116-47.750537-29.211299-40.893362-40.387849-80.267115-33.783431-118.370944 6.603395-38.355563 20.063965-74.679863 39.880289-108.971877 19.813255-34.544771 40.387849-67.308989 61.978587-98.298794s32.513508-59.948347 32.513508-86.869486l5.840008-264.173659c-2.031263-9.910721-6.097882-17.779945-12.698206-23.62814-5.846148-36.319184-8.381901-73.407893-7.368828-111.762433 7.368828-2.539846 14.988366-6.859221 22.352077-12.954033 7.368828-6.094812 15.243169-9.905604 23.12058-10.923794 7.362688 1.01819 14.983249 4.828982 22.603811 11.178597 7.621585 6.604418 15.493879 10.66899 23.37129 12.69923 0 14.989389-0.254803 32.259728-1.270946 51.824319-1.01512 19.555381-3.048429 39.620369-6.097882 59.939138-7.365758 5.338588-11.685133 13.213953-12.698206 23.62814l5.332448 264.173658c0 26.921139 10.670014 55.880705 32.260751 86.869486 21.590737 30.988782 42.419112 63.754023 62.231344 98.298794 19.813255 34.293037 33.023114 70.616314 39.882335 108.971877 6.600325 38.102806-4.575202 77.477582-34.038234 118.370944-15.241123 21.591761-36.580127 37.591153-64.010872 47.750538-27.179013 10.41521-49.788963 15.242146-67.565839 14.733562z m-61.726853-211.335242v8.88946h120.400161l-0.76134-8.88946H424.833243z m33.528628-574.572105c2.287089-0.509606 3.555989-2.284019 3.555989-5.338588 0-3.805676-1.778506-5.841032-5.078669-5.841032-3.047406 0-4.572132 2.035356-4.572132 5.841032 0 2.543939 1.267876 4.574179 3.809769 6.099928l10.416234 43.941792-9.653871 732.063021h2.031263l9.905604-732.063021-10.414187-44.703132z m-3.047406-67.062371l24.384363 111.765503-3.555989 732.063021h3.047406l2.793626-732.063021-23.623024-111.765503c1.77646-1.017166 2.792603-3.046383 2.792603-5.841032 0-4.064572-1.521656-6.094812-4.316306-6.094812-3.047406 0-4.572132 2.030239-4.572132 6.094812 0.002047 2.794649 1.01819 4.823865 3.049453 5.841032z m64.011896 0c2.538823-0.50756 3.555989-2.536776 3.555989-5.841032 0-3.555989-1.523703-5.335519-5.082762-5.335519-3.048429 0-4.571109 1.779529-4.571109 5.335519 0 2.794649 1.01512 4.823865 3.048429 5.841032l-23.877827 111.765503 3.04843 732.063021h3.049452l-3.813862-732.063021 24.64326-111.765503z m-3.048429 67.823711c3.048429-0.50756 4.572132-2.541893 4.572132-6.099928 0-3.805676-1.52268-5.841032-4.572132-5.841032-3.559059 0-5.081739 2.035356-5.081739 5.841032 0 3.053546 0.76441 4.828982 2.793626 5.338588l-9.653871 44.703132 9.653871 732.063021h2.287089l-9.65694-732.063021 9.657964-43.941792zM412.895353 718.643384c-2.541893 0-3.810792 0.762363-4.064572 2.536776-0.25378 1.781576 0.25378 2.794649 1.779529 3.304256 4.569062 1.524726 7.871271 0.25071 10.410094-3.559059 4.064572-7.110955 1.779529-12.69616-6.602371-17.271362-8.889461-2.793626-15.238053-1.013073-18.796089 6.099928-4.318352 8.889461-6.860245 19.301602-7.365758 30.735002-0.50756 11.68104-2.287089 24.639167-5.081738 38.353516-1.523703 7.623631-4.826935 10.416234-10.162454 8.634658-5.079692-1.77339-6.092765-4.064572-2.536776-7.111979 0.50449-4.312212-1.270946-6.094812-5.336542-5.077645-4.317329 1.521656-5.588275 4.824889-3.555989 10.416234 5.336542 17.779945 13.9712 18.793018 25.907043 2.792603 5.081739-7.367805 7.368828-19.303648 7.368828-36.072567 0-16.510022 2.536776-29.463032 7.620561-39.114856 1.013073-3.301186 3.808746-4.320399 8.889461-2.798743 3.048429 1.019213 4.320399 2.798742 4.065596 5.593392-0.25378 2.539846-1.016143 3.557012-2.538823 2.539846z m144.275941 0c-2.539846 1.017166-3.555989 0-3.555989-2.538823 0-2.793626 1.270946-4.574179 4.317329-5.593392 4.064572-1.011027 7.114025 0 9.652847 2.798743 4.576225 9.651824 6.602372 22.604834 6.352685 39.114856-0.254803 16.768919 2.538823 28.704762 8.635681 36.072567 11.429307 17.016559 20.066011 16.000416 25.908066-2.792603 1.013073-5.591345-0.254803-8.893554-3.555989-10.416234-4.574179-1.017166-6.349615 0.765433-5.336542 5.077646 3.049452 3.048429 2.033309 5.338588-3.046382 7.111978-4.825912 1.781576-8.126075-1.010003-9.652848-8.634658-2.794649-13.71435-4.826935-26.672476-5.591345-38.353516-0.759293-11.4334-3.302209-21.846564-7.617491-30.735002-4.064572-7.113001-10.159384-8.893554-18.796088-6.099928-8.891508 5.081739-11.177574 10.670014-6.602372 17.271362 2.536776 4.320399 6.092765 5.592368 11.173481 3.559059 1.523703-0.509606 2.032286-1.52268 1.523703-3.304256-0.505513-1.775436-1.77646-2.537799-3.808746-2.537799zM382.413108 656.919601c5.843078 28.704762 28.198226 36.573987 66.805522 23.874756l4.573155-160.025646c-14.988366 36.07052-31.242562 64.769143-49.0266 85.599563-18.034748 20.827351-25.39846 37.592177-22.352077 50.551327z m104.146988 297.698192c16.761756 0 33.019021-2.284019 48.259121-6.858198 1.523703-3.301186 0.252757-6.859221-4.064573-9.905604-4.062526-3.304256-8.379854-3.304256-12.189623-0.509606 1.521656-3.810792 0-7.109931-4.065596-9.141195-4.320399-2.284019-7.367805-2.038426-9.402137 1.017167 0.509606-3.055592-1.267876-5.592368-5.585205-7.876388-4.065596-2.034333-8.637728-1.01819-12.95301 3.555989-4.575202-4.574179-8.891508-5.590322-12.957103-3.555989-4.317329 2.284019-5.841032 4.820796-4.826935 7.876388-3.046383-3.055592-6.604418-3.302209-10.414188-1.017167-4.065596 2.030239-5.336542 5.330402-3.810792 9.141195-4.063549-2.793626-7.874341-2.793626-11.94096 0.509606-4.059456 3.046383-5.330402 6.604418-3.807722 9.905604 14.990413 4.574179 30.736025 6.858198 47.758723 6.858198z" fill="#2c2c2c" p-id="7732"></path></svg></button>
+<button id="export-btn" title="玄府蛰藏"><svg t="1743222980351" class="icon" viewBox="0 0 1045 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1542" width="26" height="26"><path d="M877.840048 785.294901a5.661039 5.661039 0 0 0-0.666364-3.038376c-1.992979-15.375284-9.671451-29.796872-21.635439-42.610626-20.969075-22.583021-54.855833-40.996681-97.087427-54.189469-42.329409-13.094973-93.003654-20.590042-147.572155-20.590042-21.537624 0-42.42111 1.137099-62.350902 3.417409l-6.639188-20.687857c-0.287331-1.234913-0.764179-2.463713-1.149325-3.70474-2.555415-6.822591-6.920406-12.709827-12.703714-17.545552-8.644394-7.311666-20.125421-12.434722-33.984573-15.858245-13.853039-3.319594-29.986388-5.025242-48.112716-5.025242-51.817457 0.097815-119.199713 13.376191-189.705935 39.572251-62.540418 23.3472-116.632072 52.765039-155.25674 82.855355-19.361242 14.990137-34.919928 30.182018-45.832406 44.884824-10.820776 14.806734-17.178746 29.234436-17.178746 43.179176 0 4.939654 0.855881 9.781493 2.561528 14.336 0.379033 0.941469 0.666364 1.797349 1.143212 2.65323l5.789421 18.890507c0.379033 1.42443 0.758066 2.842746 1.326615 4.267177 2.561528 6.743116 6.926519 12.71594 12.618125 17.557779 8.638281 7.305552 20.211009 12.428609 33.972347 15.754316 13.859152 3.319594 29.992501 5.025242 48.11883 5.025242 51.817457-0.097815 119.199713-13.376191 189.705934-39.572251 4.652322-1.711761 9.298531-3.50911 13.859152-5.318686l1.2288 27.05194c0 0.660251 0.097815 1.326615 0.385146 1.992979 6.076752 15.460872 17.649481 30.182018 33.312096 43.558209 23.536716 20.113194 56.561481 37.48757 95.754698 49.916179 39.291033 12.434722 84.750519 19.929791 133.333971 19.929791 64.343881 0 124.32277-11.957875 171.200573-31.973254 23.438901-10.06271 43.460394-22.026699 59.129122-35.788035 15.656501-13.761337 26.948012-29.136621 32.260585-46.119738l0.287331-1.516131 3.606926-79.144502c0.287331-2.469827 0.464621-4.939654 0.385146-7.40948v-1.613946l-0.103928-3.136192z m-329.312287-84.463188a504.076991 504.076991 0 0 1 62.2592-3.796441c59.508155 0 113.220776 10.160525 151.655929 26.293874 19.26954 7.971916 34.540896 17.557779 44.787009 27.614376 10.25834 10.160525 15.283582 20.596155 15.283582 31.135714 0 10.533445-5.025242 20.969075-15.283582 31.123486-2.744931 2.751045-5.875009 5.410388-9.38412 8.063618l0.385146-27.137528v-2.940561c0-0.470734-0.097815-0.855881-0.097815-1.326615a34.033481 34.033481 0 0 0-4.273289-13.376191c-4.93354-8.827797-13.382304-16.328979-24.300896-23.059869-16.512382-10.06271-38.912-18.028513-65.480979-23.726233-26.581206-5.697719-57.136143-8.821684-89.781874-8.821683-27.699964 0-56.371964 2.842746-80.758448 7.207737l0.568549-0.758066c6.633075-8.937839 11.578842-17.765636 14.421588-26.495618z m237.1584 128.492132c-14.617218 8.638281-33.299869 16.328979-54.758018 22.399618-34.161863 9.677564-75.531463 15.283582-120.141182 15.283582-45.551188 0-87.874484-5.887236-122.421492-16.041648-17.838997-5.12917-33.593313-11.389325-46.688287-18.41366a5.52043 5.52043 0 0 0 0.281218-1.803462l0.189516-12.05569c3.888143 4.083773 8.540466 7.7824 13.950854 11.297624 16.225051 10.533445 38.912 19.07391 65.957827 25.052848 27.137528 5.985051 58.652275 9.396346 92.239475 9.396346 49.732776-0.091701 94.721528-7.403367 127.929695-19.64246 16.512382-6.070639 30.175904-13.480119 39.951284-22.020585 1.2288-1.045397 2.378125-2.182496 3.50911-3.221779l-0.097815 8.442651c0 0.482961 0.097815 0.953696 0.097815 1.326615z m-2.365898-26.379463c-3.331821 6.168454-10.160525 12.618125-19.929791 18.603176-14.721146 9.017313-36.057027 16.695785-61.684538 22.210102-25.541922 5.410388-55.424382 8.632167-87.226459 8.632167-43.656024 0-83.699009-5.881122-114.06443-15.662615-15.094066-4.835725-27.999522-10.533445-37.48757-16.7936-9.017313-5.887236-14.996251-12.147391-17.936812-18.034627 1.992979-1.2288 3.888143-2.372012 5.881122-3.600812 0.666364 3.221779 1.901278 6.254042 3.70474 9.109015 4.646209 7.018221 12.239093 12.807642 22.014472 17.936812 14.715033 7.690699 34.644824 13.761337 58.273242 18.028513 23.536716 4.364991 50.77206 6.737003 79.713051 6.737003 44.132872-0.091701 84.084155-5.691606 113.501994-14.990137 14.708919-4.73791 26.85631-10.252227 35.677994-16.891415 4.371104-3.325707 7.97803-6.932633 10.637373-10.912477a24.331463 24.331463 0 0 0 4.169361-13.48012c0-4.73791-1.613946-9.298531-4.169361-13.474006-4.560621-7.116036-12.153504-12.807642-21.934997-17.936812-14.696693-7.690699-34.626484-13.761337-58.267129-18.028513-23.536716-4.364991-50.77206-6.743116-79.71305-6.743117-34.351379 0-69.564752 3.698627-97.552048 9.683678 1.418316-1.42443 2.842746-2.940561 4.169361-4.371104 26.104358-5.691606 60.743069-9.964896 93.382687-9.964896 48.491749 0 92.428991 7.305552 123.656406 18.890507 15.570913 5.783307 27.999522 12.618125 36.154841 19.734162 4.083773 3.515224 7.128263 7.219964 9.029541 10.729074 1.901278 3.319594 2.744931 6.541373 2.842746 9.775379v1.705648c-0.19563 2.940561-1.149325 5.978937-2.842746 9.109015z m-321.432072-11.768358a445.351355 445.351355 0 0 0 26.568979-18.884394c3.136191-2.372012 6.076752-4.73791 8.919499-7.213851 27.810006-9.017313 73.55071-15.179654 117.017218-15.179654 43.093588 0 82.091176 5.593791 109.901182 14.421588 13.853039 4.364991 24.869445 9.677564 32.071068 14.990138 3.521337 2.659343 6.076752 5.312573 7.690699 7.7824 1.613946 2.463713 2.28031 4.652322 2.28031 6.737003 0 2.182496-0.666364 4.267176-2.28031 6.743116-2.757158 4.364991-8.632167 9.298531-17.362149 13.761337-13.003272 6.743116-31.985481 12.71594-54.758018 16.891415-22.686949 4.083773-49.255928 6.547487-77.542782 6.547487-43.081361 0-82.091176-5.593791-109.901183-14.421588-13.853039-4.364991-24.857218-9.677564-32.071068-14.996251-3.515224-2.659343-6.168454-5.312573-7.7824-7.776286-1.613946-2.469827-2.182496-4.652322-2.182496-6.743117a6.082866 6.082866 0 0 0-0.568549-2.659343z m-408.933636 37.585385l-2.659343-8.448764a30.982878 30.982878 0 0 1-0.281218-4.181588c-0.097815-10.06271 4.841839-22.491319 14.898436-36.063141 14.904549-20.30271 40.715463-42.696215 74.308776-64.14825 33.593313-21.543737 75.066842-42.139893 121.284394-59.312526 69.277421-25.908728 135.705982-38.905887 185.438758-38.905886 23.059869 0 42.610627 2.842746 56.848812 8.155319 7.116036 2.659343 12.899343 5.985051 17.368263 9.683678 4.364991 3.698627 7.403367 7.874101 9.109015 12.624239v-0.103929 0.103929l0.287331 0.654137 0.097815 0.189516 0.183403 0.56855v0.195629c0.758066 2.659343 1.234913 5.410388 1.234913 8.442651 0.097815 10.06271-4.841839 22.497433-14.904549 36.057027-14.806734 20.308824-40.709349 42.708442-74.308776 64.154364-33.593313 21.543737-75.066842 42.139893-121.284394 59.41034-69.277421 25.817027-135.705982 38.820299-185.438758 38.820299-23.157684 0-42.702328-2.84886-56.940514-8.167546-7.116036-2.659343-12.905457-5.978937-17.362149-9.677564a33.379343 33.379343 0 0 1-7.880215-10.050484z m296.758257 6.737003c-6.828704 2.744931-13.853039 5.50209-20.877373 8.161433-69.375236 25.817027-135.705982 38.814185-185.438758 38.814185-23.157684 0-42.610627-2.842746-56.842699-8.15532-7.122149-2.665457-12.905457-5.985051-17.368263-9.689791-3.888143-3.313481-6.737003-7.012107-8.534352-11.09588 7.397254 4.456693 16.225051 7.874101 26.287761 10.337815 13.853039 3.325707 29.986388 5.037469 48.210532 5.037468 51.817457-0.103928 119.199713-13.382304 189.705934-39.584477 62.540418-23.341087 116.638185-52.765039 155.25674-82.843129 19.452943-15.002364 34.926042-30.182018 45.844633-44.89705 5.495976-7.495069 9.769266-14.898436 12.813755-22.203988l0.189517 0.189516a25.065075 25.065075 0 0 1 0.372919 4.73791c0 10.06271-4.835725 22.497433-14.892322 36.063141-14.904549 20.217122-40.715463 42.702328-74.31489 64.154364-24.105266 15.460872-52.386006 30.554937-83.509492 44.126758a6.296836 6.296836 0 0 0-1.143212 0.476848c-4.744024 2.084681-9.677564 4.175475-14.519403 6.168454-0.482961-0.17729-0.861994 0.012227-1.241027 0.201743z m80.47723-25.150663l-0.189517 15.185767a118.875701 118.875701 0 0 1-11.578841-8.736095c3.888143-2.078567 7.874101-4.267176 11.768358-6.449672z m431.229325 65.866126c-4.462806 14.036442-13.94474 26.281648-28.384668 38.899773-21.635439 18.982209-53.614806 35.305075-91.952144 46.6944-38.435152 11.481027-83.142687 18.028513-130.301707 18.028513-63.011152 0-120.899248-13.003272-165.411152-32.829134-22.203988-9.964896-41.186197-21.641552-55.7056-34.070161-14.519403-12.434722-24.765516-25.719212-29.796872-38.722484l-1.045397-29.417839c2.659343-1.143212 5.318687-2.182496 7.880215-3.325707 20.596155 21.824955 53.333588 39.767881 94.049051 52.667224 42.800143 13.577934 94.428084 21.452036 150.035868 21.452036 72.786531-0.097815 138.652657-13.480119 186.961003-35.494592 24.105266-11.010293 43.84554-24.196967 57.790281-39.291032 2.934448-3.136191 5.599904-6.364084 7.965803-9.677565l-2.084681 45.086568z m3.70474-80.196012c-1.418316 12.618125-7.690699 24.863331-18.505361 36.539988-18.603176 20.211009-50.863761 38.147821-91.774853 50.772059-40.892752 12.618125-90.533827 20.119307-143.96523 20.119308-54.470687 0-104.955415-7.7824-146.337242-20.779558-37.298054-11.768358-67.19274-27.999522-85.795917-46.315367a582.573469 582.573469 0 0 0 28.091224-13.474006c17.368263 16.701899 44.603606 30.182018 78.294735 39.957397 35.873624 10.43563 79.150615 16.512382 125.741086 16.512382 60.83477 0 115.965707-10.252227 156.393839-27.137529 20.217122-8.540466 36.821206-18.603176 48.693493-30.273719 11.762245-11.584955 18.890507-25.150663 18.890507-39.767881 0-14.611104-7.128263-28.182925-18.890507-39.761767-17.741182-17.459964-46.223666-31.606448-81.626556-41.663045-35.390663-10.056597-77.817887-15.846018-123.460776-15.846018-20.69397 0-40.623761 1.234913-59.593743 3.423523 0.097815-1.42443 0.189516-2.757158 0.189516-4.181588 0-1.234913-0.097815-2.561528-0.189516-3.796442a547.757469 547.757469 0 0 1 59.593743-3.130078c71.2704 0 135.712096 13.28449 181.82572 34.345266 23.065982 10.539558 41.479642 23.065982 53.90825 36.546102 12.141278 13.094973 18.505361 26.948012 18.890508 41.088382l-0.37292 6.822591z" fill="#2c2c2c" p-id="1543"></path><path d="M170.595343 687.443296c-0.189516 0.293445-0.061134 1.522245 0 0zM170.595343 687.443296c0.012227-0.01834 0.01834-0.048907 0.036681-0.055021v-1.803463c0 0.898675-0.01834 1.46111-0.036681 1.858484z" fill="#2c2c2c" p-id="1544"></path><path d="M122.427606 496.001146l-1.320502-0.226197S187.040478 557.056 271.210221 571.532609c7.323893 1.259367 14.721146 2.048 22.252895 2.549301 16.964776 1.075964 34.436967 0.140609 52.208717-3.857576a178.469445 178.469445 0 0 0 44.970412-16.799713c10.41729-5.581564 33.416024-25.107869 44.6464-41.944263l-48.54677-68.708871c-0.152836-0.030567-113.801552 79.107821-264.314269 53.229659z m256.275104 35.084991c-31.172394 16.683558-65.896693 21.934997-103.121385 15.540347-23.053755-3.961504-44.762555-11.951761-63.799785-21.073003 77.267678-5.477636 137.399403-32.57237 167.801505-49.066412l23.927976 33.856191c-9.249624 9.469707-20.039833 18.193576-24.808311 20.742877z m520.063618-427.316728s-181.562842 135.125206-217.937767 160.771057c-36.319904 25.664191-136.372346 83.411678-205.01397 114.816382-68.708872 31.313003-72.719284 51.389516-72.719284 51.389516l24.300896 34.400287 24.300896 34.400286s20.186555 2.903881 72.725397-51.389516c52.477707-54.311737 140.29717-129.231857 176.708776-154.877708 36.319904-25.651964 224.326304-151.72929 224.326304-151.729289l-13.345624-18.890508-13.345624-18.890507z m58.658388 3.833122l-8.130865-11.419892-8.051391-11.481027-11.487141 8.124752-5.801647-8.289815-11.474914 8.045278 13.920287 19.783069 13.987534 19.728047 11.43212-8.143092-5.89335-8.228681 11.499367-8.118639z" p-id="1545" fill="#2c2c2c"></path></svg></button>
+                        <button id="settings-btn"><svg t="1743225764873" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1961" width="26" height="26"><path d="M803.4816 515.84c-1.9968 159.2576-131.712 287.744-291.456 287.744S222.5664 675.0976 220.5696 515.84c-0.0256-1.2544-0.0512-2.5088-0.0512-3.7632 0-80.4864 65.2544-145.7664 145.7408-145.7664s145.7664 65.28 145.7664 145.7664 65.2544 145.7664 145.7664 145.7664 143.6928-63.2576 145.6896-142.0032z" p-id="1962"></path><path d="M366.2592 512.1024m-43.8016 0a43.8016 43.8016 0 1 0 87.6032 0 43.8016 43.8016 0 1 0-87.6032 0Z" fill="#FFFFFF" p-id="1963"></path><path d="M220.5184 508.16c1.9968-159.2576 131.712-287.744 291.456-287.744s289.4592 128.4864 291.456 287.744c0.0256 1.2544 0.0512 2.5088 0.0512 3.7632 0 80.4864-65.2544 145.7664-145.7408 145.7664s-145.7664-65.28-145.7664-145.7664-65.2544-145.7664-145.7664-145.7664-143.6928 63.2576-145.6896 142.0032z" fill="#FFFFFF" p-id="1964"></path><path d="M657.7408 511.8976m-43.8016 0a43.8016 43.8016 0 1 0 87.6032 0 43.8016 43.8016 0 1 0-87.6032 0Z" p-id="1965"></path><path d="M431.616 53.3248h163.4048v24.832H431.616zM431.616 96.4608h163.4048v24.832H431.616zM431.616 139.5968h163.4048v24.832H431.616zM161.27232 275.05408L276.8128 159.5136l17.5616 17.55904-115.5456 115.54304zM191.7696 305.56928l115.5456-115.54304 17.55904 17.55904-115.5456 115.54304zM196.67456 178.61632L246.272 129.01632l17.55648 17.5616L214.2336 196.1728zM130.75968 244.57472L179.90656 195.4304l17.55904 17.55648-49.14688 49.14688zM53.248 592.512v-163.4048h24.832v163.4048zM139.52 592.512v-163.4048h24.832v163.4048zM96.4096 429.1072h24.832v70.144h-24.832zM96.4096 523.008h24.832v69.504h-24.832z" p-id="1966"></path><path d="M305.50016 832.32512l-115.54304-115.54304 17.55648-17.5616 115.5456 115.5456zM195.34336 844.1856l17.5616-17.5616 49.14432 49.14944-17.55904 17.55648zM128.95744 777.8176l17.5616-17.5616 49.59744 49.6-17.5616 17.5616z" p-id="1967"></path><path d="M159.44704 747.28192l17.5616-17.55904 49.59744 49.6-17.5616 17.55904zM225.85856 813.71136l17.5616-17.55904 49.14432 49.14688-17.55904 17.5616z" p-id="1968"></path><path d="M429.0304 946.0224h70.144v24.832h-70.144zM522.9568 946.0224h69.504v24.832h-69.504zM429.0304 902.8864h70.144v24.832h-70.144zM522.9568 902.8864h69.504v24.832h-69.504z" p-id="1969"></path><path d="M429.0304 859.7504h70.144v24.832h-70.144zM522.9568 859.7504h69.504v24.832h-69.504z" p-id="1970"></path><path d="M893.2864 779.6224l-115.54304 115.54304-17.55904-17.55904 115.5456-115.54304zM796.07552 780.68992l49.14688-49.14688 17.55904 17.55904-49.14688 49.14688zM729.68192 847.104l49.6-49.60256 17.55904 17.5616-49.6 49.59744z" p-id="1971"></path><path d="M699.1744 816.5888l49.6-49.60256 17.55648 17.5616-49.59744 49.59744zM765.57824 750.20032l49.14688-49.14688 17.55904 17.55904-49.14688 49.14688z" p-id="1972"></path><path d="M927.6672 431.6672v163.4048h-24.832v-163.4048zM945.9456 431.6672h24.832v69.504h-24.832zM945.9456 524.928h24.832v70.144h-24.832z" p-id="1973"></path><path d="M859.6736 431.6672h24.832v69.504h-24.832zM859.6736 524.928h24.832v70.144h-24.832z" p-id="1974"></path><path d="M779.55328 130.8416l115.54304 115.54304-17.55648 17.5616-115.5456-115.5456zM749.0432 161.3312l115.5456 115.54304-17.55904 17.5616-115.54304-115.5456zM700.99456 209.40288l17.55904-17.5616 49.14688 49.14944-17.5616 17.55904zM766.92736 275.34336l17.5616-17.5616 49.59744 49.6-17.55904 17.5616z" p-id="1975"></path></svg></button>
+                    </div>
+                </div>
+                <div id="chat-messages"></div>
+                <div id="chat-input">
+                    <textarea id="user-input" placeholder="敢问其道，可得闻乎……" rows="1"></textarea>
+                    <button id="send-btn">发送</button>
+                </div>
+            </div>
+        </main>
+        <!-- 道家名句轮播 -->
+        <div class="tao-quotes">
+            <div class="quote-container active">
+                <div class="quote-text">道可道，非常道；名可名，非常名。</div>
+                <div class="quote-author">— 老子《道德经》</div>
+            </div>
+        </div>
+        <footer>
+           生成内容仅供参考和学习交流，不代表任何哲学或历史观点。<br> 问道 © 2025 <a href="https://other.azad.asia" target="_blank" style="color: inherit; text-decoration: none;">Azad -实验室</a>  | <a href="https://qhgpt.aihub.ren" target="_blank" style="color: inherit; text-decoration: none;">问禅·却惑几菩提</a>
+        </footer>
+    </div>
+    <!-- 静心冥想计时器 -->
+    <div id="meditation-timer">
+        <h4 style="margin: 0; color: var(--text-color);">坐忘心斋</h4>
+        <div id="timer-display">05:00</div>
+        <div class="timer-buttons">
+            <button class="timer-btn" id="timer-30">小周天</button>
+            <button class="timer-btn" id="timer-15">一炷香</button>
+            <button class="timer-btn" id="timer-10">一盏茶</button>
+            <button class="timer-btn" id="timer-3">三十息</button>
+        </div>
+        <div style="margin-top: 10px;">
+            <button class="timer-btn" id="timer-start">开始</button>
+            <button class="timer-btn" id="timer-stop">停止</button>
+        </div>
+        <div style="margin-top: 10px;">
+            <button class="timer-btn" id="toggle-breath-guide">吐纳引导</button>
+        </div>
+    </div>
+    <!-- 呼吸引导动画 -->
+    <div id="breath-guide">
+        <div class="breath-circle"></div>
+        <div id="breath-text">吸气...</div>
+    </div>
+    <!-- 音乐播放器 -->
+    <div id="music-player">
+        <button class="music-control" id="prev-track">⏮</button>
+        <button class="music-control" id="play-pause">▶</button>
+        <button class="music-control" id="next-track">⏭</button>
+        <div id="music-title">古乐 - 高山流水</div>
+    </div>
+    <!-- 经典查询模态框 -->
+    <div id="classics-modal">
+        <div class="classics-content">
+            <div class="classics-header">
+                <h3 class="classics-title">道家经典查阅</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="classics-tabs">
+                <div class="classics-tab active" data-tab="daodejing">道德经</div>
+                <div class="classics-tab" data-tab="zhuangzi">庄子 · 内篇</div>
+                <div class="classics-tab" data-tab="liezi">列子</div>
+                <div class="classics-tab" data-tab="wenzi">文子</div>
+            </div>
+            <div class="classics-content-area active" id="daodejing-content">
+                <div class="chapter-list" id="daodejing-chapters">
+                    <!-- 章节列表由JS动态生成 -->
+                </div>
+                <div class="chapter-content" id="daodejing-chapter-content">
+                    <div class="back-to-chapters"><svg t="1743220202621" class="icon" viewBox="0 0 1609 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1680" width="32" height="32"><path d="M248.685714 374.953383s7.699248 77.762406 92.390978 93.160903 134.736842-34.646617 134.736842-34.646617S525.088722 461.954887 585.142857 451.17594c60.054135-10.009023 75.452632-51.584962 75.452632-51.584963s36.956391 6.929323 104.709774-5.389473 122.418045-55.434586 124.72782-87.001504c1.53985-30.796992-6.929323-55.434586-69.293233-83.921805-62.36391-27.717293-147.055639-2.309774-147.055639-2.309774-16.938346-19.24812-72.372932-30.796992-138.586467-38.496241S361.864662 234.827068 361.864662 234.827068c-43.115789-20.78797-265.62406-6.929323-261.004512 58.514285 5.389474 66.213534 184.01203 40.03609 184.01203 40.036091-1.53985 22.32782 20.018045 56.974436 69.293234 77.762406 50.045113 20.018045 109.329323-26.947368 109.329323-26.947369 2.309774 11.548872 70.833083 31.566917 109.329323 23.097745 39.266165-8.469173 50.815038-54.664662 50.815038-54.664662 2.309774 7.699248 67.753383 10.009023 103.939849 10.009022 36.186466-0.769925 88.541353-24.637594 91.621053-56.974436 2.309774-32.336842-24.637594-39.266165-64.673684-47.735338-40.03609-8.469173-100.86015 15.398496-100.860151 15.398496-21.557895-27.717293-47.735338-34.646617-130.117293-43.885714-82.381955-10.009023-140.126316 40.03609-145.515789 73.142857-5.389474 32.336842 67.753383 51.584962 120.878195 46.195489 53.124812-4.619549 85.461654-35.416541 70.063158-60.054135s-67.753383-24.637594-107.789474-16.168422c-40.03609 7.699248-38.496241 37.726316-2.309774 43.885715 36.186466 6.159398 60.82406-13.858647 60.82406-13.858647-5.389474 38.496241-91.621053 25.407519-100.86015 1.53985-9.239098-23.097744 22.32782-43.885714 50.815037-49.275188 28.487218-5.389474 113.178947-1.53985 115.488722 36.956391 3.079699 38.496241-24.637594 68.523308-100.090225 72.372932-74.682707 3.849624-117.798496-24.637594-122.418046-53.894737-5.389474-29.257143 38.496241-86.231579 134.736843-97.010526 96.240602-10.778947 159.374436 42.345865 159.374436 42.345865 85.461654-28.487218 169.383459-2.309774 173.233082 21.557894 3.079699 23.097744 6.929323 60.054135-49.275188 83.15188-56.974436 23.097744-145.515789 6.159398-145.515789 6.159399-3.849624 18.478195-19.24812 46.195489-64.673684 56.974436-46.195489 10.009023-103.169925-19.24812-103.169925-19.248121C446.556391 435.777444 372.643609 445.016541 331.067669 431.157895c-40.806015-13.858647-57.744361-78.532331-57.744361-78.532331-145.515789 10.778947-177.082707-22.32782-180.932331-36.186466-4.619549-13.858647-16.938346-47.735338 75.452632-86.231579 91.621053-37.726316 192.481203-8.469173 192.481203-8.469173 18.478195-42.345865 68.523308-68.523308 110.869173-76.992481 42.345865-8.469173 164.76391-3.849624 229.437594-0.769925 65.443609 2.309774 142.43609-0.769925 138.586466-45.425564-3.849624-45.425564-75.452632-49.275188-75.452631-49.275188 13.858647 10.009023 33.876692 69.293233-17.708271 67.753383-51.584962-1.53985-157.064662 1.53985-256.384963 2.309775-100.090226 0.769925-129.347368 71.603008-129.347368 71.603007-69.293233-18.478195-314.129323 1.53985-314.129323 107.789474-0.769925 103.93985 202.490226 76.222556 202.490225 76.222556zM846.917293 140.126316c-66.213534 56.204511-371.873684-42.345865-461.954887 63.133834 0 0 85.461654-41.57594 154.754887-33.106767 70.063158 7.699248 112.409023 20.018045 138.586466 42.345865 0 0 80.07218-30.796992 159.374436-0.769925 78.532331 30.027068 95.470677 107.789474 35.416542 147.055639-60.054135 39.266165-111.639098 56.974436-200.950376 50.815038 0 0-22.32782 30.796992-43.11579 35.416541l137.816542-5.389473s36.186466-52.354887 117.028571-43.885715c0 0 9.239098-66.983459 75.452632-87.771428 0 0 70.833083-89.311278-69.293233-124.72782 0 0 87.001504-13.088722 87.001503-99.3203-0.769925-86.231579-130.887218-94.700752-165.533834-70.063158-0.769925 0 101.630075 69.293233 35.416541 126.267669z m70.833083 308.739849c40.03609 45.425564 106.249624 53.894737 161.68421 26.177444 54.664662-27.717293 23.867669-104.709774-16.938345-107.019549-30.027068-1.53985-59.284211 22.32782-51.584963 32.336842 7.699248 10.009023 31.566917-20.018045 50.815038-6.159398 18.478195 13.088722 9.239098 76.222556-52.354887 69.293233-61.593985-6.929323-85.461654-52.354887-49.275188-108.559399 34.646617-55.434586 150.905263-20.018045 150.905263-20.018045s77.762406-52.354887 130.117293-27.717293c53.124812 24.637594 26.177444 74.682707 9.239098 79.302256-16.938346 4.619549-50.815038 6.929323-48.505263-10.778948 2.309774-17.708271-13.088722-34.646617-26.947369-14.628571-13.088722 20.018045 6.159398 65.443609 63.133835 54.664661 56.974436-10.778947 90.851128-100.090226 16.168421-130.887218-74.682707-30.027068-150.135338 28.487218-150.135339 28.487218s-93.930827-22.32782-145.515789 2.309775c-50.045113 26.177444-80.07218 87.001504-40.806015 133.196992z m133.196992-93.160902c38.496241-2.309774 67.753383 22.32782 67.753384 55.434587 0 33.106767-3.849624 71.603008-64.673684 85.461654-60.82406 13.088722-120.878195-5.389474-153.984963-57.744361 0 0-79.302256 7.699248-70.833082 54.664662 8.469173 46.965414 90.851128 27.717293 99.3203 18.478195 0 0 42.345865 39.266165 98.550376 33.106767 56.204511-5.389474 98.550376-53.894737 98.550376-53.894737s69.293233 63.133835 179.392481 36.186466c64.673684-16.168421 58.514286-66.213534 33.876692-83.921804-16.938346-12.318797-47.735338 0.769925-51.584962 13.088722-10.009023 30.027068 26.947368-3.849624 22.327819 33.876691-4.619549 36.956391-117.798496 15.398496-89.311278-45.425564 0 0-76.222556-17.708271-61.593985-66.213533 14.628571-48.505263 53.894737-45.425564 56.204511-24.637594 1.53985 20.018045 16.168421 41.57594 39.266166 10.778947 23.867669-30.796992-67.753383-90.851128-133.966917-13.088722 0 0-42.345865-20.018045-87.001504-13.088722-35.416541 6.159398-72.372932 37.726316-67.753384 66.983459 10.778947 66.213534 96.240602 42.345865 89.311278 8.469173-1.53985-9.239098-18.478195-3.849624-34.646616-3.079699-43.115789 0.769925-8.469173-52.354887 30.796992-55.434587z m247.145865-39.266165c3.849624-0.769925 113.948872-24.637594 112.409023 69.293233 0 0-19.24812-66.983459-100.860151-58.514286 0 0 19.24812 49.275188-6.159398 68.523308 0 0 82.381955-8.469173 114.718797 54.664662 0 0 46.965414-38.496241 34.646616-91.621053-12.318797-52.354887-98.550376-83.15188-170.153383-68.523308 8.469173 2.309774 17.708271 16.168421 15.398496 26.177444z m-401.130827 243.29624s107.789474 94.700752 244.83609-3.849624c0 0 250.995489 70.833083 268.70376-93.160902 4.619549-45.425564-83.921805-63.903759-129.347369-51.584962-71.603008 20.018045-62.36391 93.160902 13.858647 83.151879 0 0-30.027068-19.24812-19.24812-40.806015 10.009023-21.557895 51.584962-36.186466 79.302255-10.778947 27.717293 24.637594 10.009023 84.691729-79.302255 99.320301-90.081203 14.628571-148.595489-36.956391-148.595489-36.956391s-107.019549 111.639098-205.569925 18.478195c-90.081203 50.045113-187.861654-68.523308-25.407519-93.930827l-6.159398-26.947368s-142.43609 15.398496-130.117294 99.3203c13.088722 83.15188 137.046617 57.744361 137.046617 57.744361z m-515.849624-26.177443c1.53985 26.177444 393.431579 13.858647 393.431579 13.858646-39.266165-37.726316-25.407519-63.903759-25.407519-63.903759-154.754887 6.929323-370.333835 23.867669-368.02406 50.045113z m455.795489 107.789473c-1.53985-33.106767-20.78797-63.133835-104.709775-79.302255-83.921805-16.938346-402.670677 23.097744-369.56391-27.717293 33.106767-51.584962 391.891729-59.284211 391.89173-59.284211l5.389473-19.24812c-331.067669-6.929323-496.601504 40.806015-499.681203 96.240601-2.309774 55.434586 301.040602 40.03609 408.830076 38.496241 107.789474-1.53985 169.383459 95.470677-3.849624 110.099248-174.003008 15.398496-535.867669-24.637594-621.329324 43.115789-85.461654 66.983459-13.858647 121.64812-13.858646 121.648121s-23.867669-76.222556 51.584962-104.709775c74.682707-28.487218 261.004511-16.168421 505.070677-22.327819 242.526316-5.389474 250.995489-63.903759 250.225564-97.010527z m562.045112 238.676692c-197.100752-6.929323-894.652632 1.53985-956.246616 1.53985S107.019549 908.511278 92.390977 829.209023c-45.425564 96.240602 268.703759 77.762406 330.297745 77.762406s759.915789-8.469173 956.246616-1.53985c197.100752 6.929323 227.12782 116.258647 227.12782 116.258647 13.858647-43.115789-10.778947-134.736842-207.109775-141.666166z" p-id="1681" fill="#bfbfbf"></path></svg></div>
+                    <div id="daodejing-text"></div>
+                </div>
+            </div>
+            <div class="classics-content-area" id="zhuangzi-content">
+                <div class="chapter-list" id="zhuangzi-chapters">
+                    <!-- 章节列表由JS动态生成 -->
+                </div>
+                <div class="chapter-content" id="zhuangzi-chapter-content">
+                    <div class="back-to-chapters"><svg t="1743220202621" class="icon" viewBox="0 0 1609 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1680" width="32" height="32"><path d="M248.685714 374.953383s7.699248 77.762406 92.390978 93.160903 134.736842-34.646617 134.736842-34.646617S525.088722 461.954887 585.142857 451.17594c60.054135-10.009023 75.452632-51.584962 75.452632-51.584963s36.956391 6.929323 104.709774-5.389473 122.418045-55.434586 124.72782-87.001504c1.53985-30.796992-6.929323-55.434586-69.293233-83.921805-62.36391-27.717293-147.055639-2.309774-147.055639-2.309774-16.938346-19.24812-72.372932-30.796992-138.586467-38.496241S361.864662 234.827068 361.864662 234.827068c-43.115789-20.78797-265.62406-6.929323-261.004512 58.514285 5.389474 66.213534 184.01203 40.03609 184.01203 40.036091-1.53985 22.32782 20.018045 56.974436 69.293234 77.762406 50.045113 20.018045 109.329323-26.947368 109.329323-26.947369 2.309774 11.548872 70.833083 31.566917 109.329323 23.097745 39.266165-8.469173 50.815038-54.664662 50.815038-54.664662 2.309774 7.699248 67.753383 10.009023 103.939849 10.009022 36.186466-0.769925 88.541353-24.637594 91.621053-56.974436 2.309774-32.336842-24.637594-39.266165-64.673684-47.735338-40.03609-8.469173-100.86015 15.398496-100.860151 15.398496-21.557895-27.717293-47.735338-34.646617-130.117293-43.885714-82.381955-10.009023-140.126316 40.03609-145.515789 73.142857-5.389474 32.336842 67.753383 51.584962 120.878195 46.195489 53.124812-4.619549 85.461654-35.416541 70.063158-60.054135s-67.753383-24.637594-107.789474-16.168422c-40.03609 7.699248-38.496241 37.726316-2.309774 43.885715 36.186466 6.159398 60.82406-13.858647 60.82406-13.858647-5.389474 38.496241-91.621053 25.407519-100.86015 1.53985-9.239098-23.097744 22.32782-43.885714 50.815037-49.275188 28.487218-5.389474 113.178947-1.53985 115.488722 36.956391 3.079699 38.496241-24.637594 68.523308-100.090225 72.372932-74.682707 3.849624-117.798496-24.637594-122.418046-53.894737-5.389474-29.257143 38.496241-86.231579 134.736843-97.010526 96.240602-10.778947 159.374436 42.345865 159.374436 42.345865 85.461654-28.487218 169.383459-2.309774 173.233082 21.557894 3.079699 23.097744 6.929323 60.054135-49.275188 83.15188-56.974436 23.097744-145.515789 6.159398-145.515789 6.159399-3.849624 18.478195-19.24812 46.195489-64.673684 56.974436-46.195489 10.009023-103.169925-19.24812-103.169925-19.248121C446.556391 435.777444 372.643609 445.016541 331.067669 431.157895c-40.806015-13.858647-57.744361-78.532331-57.744361-78.532331-145.515789 10.778947-177.082707-22.32782-180.932331-36.186466-4.619549-13.858647-16.938346-47.735338 75.452632-86.231579 91.621053-37.726316 192.481203-8.469173 192.481203-8.469173 18.478195-42.345865 68.523308-68.523308 110.869173-76.992481 42.345865-8.469173 164.76391-3.849624 229.437594-0.769925 65.443609 2.309774 142.43609-0.769925 138.586466-45.425564-3.849624-45.425564-75.452632-49.275188-75.452631-49.275188 13.858647 10.009023 33.876692 69.293233-17.708271 67.753383-51.584962-1.53985-157.064662 1.53985-256.384963 2.309775-100.090226 0.769925-129.347368 71.603008-129.347368 71.603007-69.293233-18.478195-314.129323 1.53985-314.129323 107.789474-0.769925 103.93985 202.490226 76.222556 202.490225 76.222556zM846.917293 140.126316c-66.213534 56.204511-371.873684-42.345865-461.954887 63.133834 0 0 85.461654-41.57594 154.754887-33.106767 70.063158 7.699248 112.409023 20.018045 138.586466 42.345865 0 0 80.07218-30.796992 159.374436-0.769925 78.532331 30.027068 95.470677 107.789474 35.416542 147.055639-60.054135 39.266165-111.639098 56.974436-200.950376 50.815038 0 0-22.32782 30.796992-43.11579 35.416541l137.816542-5.389473s36.186466-52.354887 117.028571-43.885715c0 0 9.239098-66.983459 75.452632-87.771428 0 0 70.833083-89.311278-69.293233-124.72782 0 0 87.001504-13.088722 87.001503-99.3203-0.769925-86.231579-130.887218-94.700752-165.533834-70.063158-0.769925 0 101.630075 69.293233 35.416541 126.267669z m70.833083 308.739849c40.03609 45.425564 106.249624 53.894737 161.68421 26.177444 54.664662-27.717293 23.867669-104.709774-16.938345-107.019549-30.027068-1.53985-59.284211 22.32782-51.584963 32.336842 7.699248 10.009023 31.566917-20.018045 50.815038-6.159398 18.478195 13.088722 9.239098 76.222556-52.354887 69.293233-61.593985-6.929323-85.461654-52.354887-49.275188-108.559399 34.646617-55.434586 150.905263-20.018045 150.905263-20.018045s77.762406-52.354887 130.117293-27.717293c53.124812 24.637594 26.177444 74.682707 9.239098 79.302256-16.938346 4.619549-50.815038 6.929323-48.505263-10.778948 2.309774-17.708271-13.088722-34.646617-26.947369-14.628571-13.088722 20.018045 6.159398 65.443609 63.133835 54.664661 56.974436-10.778947 90.851128-100.090226 16.168421-130.887218-74.682707-30.027068-150.135338 28.487218-150.135339 28.487218s-93.930827-22.32782-145.515789 2.309775c-50.045113 26.177444-80.07218 87.001504-40.806015 133.196992z m133.196992-93.160902c38.496241-2.309774 67.753383 22.32782 67.753384 55.434587 0 33.106767-3.849624 71.603008-64.673684 85.461654-60.82406 13.088722-120.878195-5.389474-153.984963-57.744361 0 0-79.302256 7.699248-70.833082 54.664662 8.469173 46.965414 90.851128 27.717293 99.3203 18.478195 0 0 42.345865 39.266165 98.550376 33.106767 56.204511-5.389474 98.550376-53.894737 98.550376-53.894737s69.293233 63.133835 179.392481 36.186466c64.673684-16.168421 58.514286-66.213534 33.876692-83.921804-16.938346-12.318797-47.735338 0.769925-51.584962 13.088722-10.009023 30.027068 26.947368-3.849624 22.327819 33.876691-4.619549 36.956391-117.798496 15.398496-89.311278-45.425564 0 0-76.222556-17.708271-61.593985-66.213533 14.628571-48.505263 53.894737-45.425564 56.204511-24.637594 1.53985 20.018045 16.168421 41.57594 39.266166 10.778947 23.867669-30.796992-67.753383-90.851128-133.966917-13.088722 0 0-42.345865-20.018045-87.001504-13.088722-35.416541 6.159398-72.372932 37.726316-67.753384 66.983459 10.778947 66.213534 96.240602 42.345865 89.311278 8.469173-1.53985-9.239098-18.478195-3.849624-34.646616-3.079699-43.115789 0.769925-8.469173-52.354887 30.796992-55.434587z m247.145865-39.266165c3.849624-0.769925 113.948872-24.637594 112.409023 69.293233 0 0-19.24812-66.983459-100.860151-58.514286 0 0 19.24812 49.275188-6.159398 68.523308 0 0 82.381955-8.469173 114.718797 54.664662 0 0 46.965414-38.496241 34.646616-91.621053-12.318797-52.354887-98.550376-83.15188-170.153383-68.523308 8.469173 2.309774 17.708271 16.168421 15.398496 26.177444z m-401.130827 243.29624s107.789474 94.700752 244.83609-3.849624c0 0 250.995489 70.833083 268.70376-93.160902 4.619549-45.425564-83.921805-63.903759-129.347369-51.584962-71.603008 20.018045-62.36391 93.160902 13.858647 83.151879 0 0-30.027068-19.24812-19.24812-40.806015 10.009023-21.557895 51.584962-36.186466 79.302255-10.778947 27.717293 24.637594 10.009023 84.691729-79.302255 99.320301-90.081203 14.628571-148.595489-36.956391-148.595489-36.956391s-107.019549 111.639098-205.569925 18.478195c-90.081203 50.045113-187.861654-68.523308-25.407519-93.930827l-6.159398-26.947368s-142.43609 15.398496-130.117294 99.3203c13.088722 83.15188 137.046617 57.744361 137.046617 57.744361z m-515.849624-26.177443c1.53985 26.177444 393.431579 13.858647 393.431579 13.858646-39.266165-37.726316-25.407519-63.903759-25.407519-63.903759-154.754887 6.929323-370.333835 23.867669-368.02406 50.045113z m455.795489 107.789473c-1.53985-33.106767-20.78797-63.133835-104.709775-79.302255-83.921805-16.938346-402.670677 23.097744-369.56391-27.717293 33.106767-51.584962 391.891729-59.284211 391.89173-59.284211l5.389473-19.24812c-331.067669-6.929323-496.601504 40.806015-499.681203 96.240601-2.309774 55.434586 301.040602 40.03609 408.830076 38.496241 107.789474-1.53985 169.383459 95.470677-3.849624 110.099248-174.003008 15.398496-535.867669-24.637594-621.329324 43.115789-85.461654 66.983459-13.858647 121.64812-13.858646 121.648121s-23.867669-76.222556 51.584962-104.709775c74.682707-28.487218 261.004511-16.168421 505.070677-22.327819 242.526316-5.389474 250.995489-63.903759 250.225564-97.010527z m562.045112 238.676692c-197.100752-6.929323-894.652632 1.53985-956.246616 1.53985S107.019549 908.511278 92.390977 829.209023c-45.425564 96.240602 268.703759 77.762406 330.297745 77.762406s759.915789-8.469173 956.246616-1.53985c197.100752 6.929323 227.12782 116.258647 227.12782 116.258647 13.858647-43.115789-10.778947-134.736842-207.109775-141.666166z" p-id="1681" fill="#bfbfbf"></path></svg></div>
+                    <div id="zhuangzi-text"></div>
+                </div>
+            </div>
+            <div class="classics-content-area" id="liezi-content">
+                <div class="chapter-list" id="liezi-chapters">
+                    <!-- 章节列表由JS动态生成 -->
+                </div>
+                <div class="chapter-content" id="liezi-chapter-content">
+                    <div class="back-to-chapters"><svg t="1743220202621" class="icon" viewBox="0 0 1609 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1680" width="32" height="32"><path d="M248.685714 374.953383s7.699248 77.762406 92.390978 93.160903 134.736842-34.646617 134.736842-34.646617S525.088722 461.954887 585.142857 451.17594c60.054135-10.009023 75.452632-51.584962 75.452632-51.584963s36.956391 6.929323 104.709774-5.389473 122.418045-55.434586 124.72782-87.001504c1.53985-30.796992-6.929323-55.434586-69.293233-83.921805-62.36391-27.717293-147.055639-2.309774-147.055639-2.309774-16.938346-19.24812-72.372932-30.796992-138.586467-38.496241S361.864662 234.827068 361.864662 234.827068c-43.115789-20.78797-265.62406-6.929323-261.004512 58.514285 5.389474 66.213534 184.01203 40.03609 184.01203 40.036091-1.53985 22.32782 20.018045 56.974436 69.293234 77.762406 50.045113 20.018045 109.329323-26.947368 109.329323-26.947369 2.309774 11.548872 70.833083 31.566917 109.329323 23.097745 39.266165-8.469173 50.815038-54.664662 50.815038-54.664662 2.309774 7.699248 67.753383 10.009023 103.939849 10.009022 36.186466-0.769925 88.541353-24.637594 91.621053-56.974436 2.309774-32.336842-24.637594-39.266165-64.673684-47.735338-40.03609-8.469173-100.86015 15.398496-100.860151 15.398496-21.557895-27.717293-47.735338-34.646617-130.117293-43.885714-82.381955-10.009023-140.126316 40.03609-145.515789 73.142857-5.389474 32.336842 67.753383 51.584962 120.878195 46.195489 53.124812-4.619549 85.461654-35.416541 70.063158-60.054135s-67.753383-24.637594-107.789474-16.168422c-40.03609 7.699248-38.496241 37.726316-2.309774 43.885715 36.186466 6.159398 60.82406-13.858647 60.82406-13.858647-5.389474 38.496241-91.621053 25.407519-100.86015 1.53985-9.239098-23.097744 22.32782-43.885714 50.815037-49.275188 28.487218-5.389474 113.178947-1.53985 115.488722 36.956391 3.079699 38.496241-24.637594 68.523308-100.090225 72.372932-74.682707 3.849624-117.798496-24.637594-122.418046-53.894737-5.389474-29.257143 38.496241-86.231579 134.736843-97.010526 96.240602-10.778947 159.374436 42.345865 159.374436 42.345865 85.461654-28.487218 169.383459-2.309774 173.233082 21.557894 3.079699 23.097744 6.929323 60.054135-49.275188 83.15188-56.974436 23.097744-145.515789 6.159398-145.515789 6.159399-3.849624 18.478195-19.24812 46.195489-64.673684 56.974436-46.195489 10.009023-103.169925-19.24812-103.169925-19.248121C446.556391 435.777444 372.643609 445.016541 331.067669 431.157895c-40.806015-13.858647-57.744361-78.532331-57.744361-78.532331-145.515789 10.778947-177.082707-22.32782-180.932331-36.186466-4.619549-13.858647-16.938346-47.735338 75.452632-86.231579 91.621053-37.726316 192.481203-8.469173 192.481203-8.469173 18.478195-42.345865 68.523308-68.523308 110.869173-76.992481 42.345865-8.469173 164.76391-3.849624 229.437594-0.769925 65.443609 2.309774 142.43609-0.769925 138.586466-45.425564-3.849624-45.425564-75.452632-49.275188-75.452631-49.275188 13.858647 10.009023 33.876692 69.293233-17.708271 67.753383-51.584962-1.53985-157.064662 1.53985-256.384963 2.309775-100.090226 0.769925-129.347368 71.603008-129.347368 71.603007-69.293233-18.478195-314.129323 1.53985-314.129323 107.789474-0.769925 103.93985 202.490226 76.222556 202.490225 76.222556zM846.917293 140.126316c-66.213534 56.204511-371.873684-42.345865-461.954887 63.133834 0 0 85.461654-41.57594 154.754887-33.106767 70.063158 7.699248 112.409023 20.018045 138.586466 42.345865 0 0 80.07218-30.796992 159.374436-0.769925 78.532331 30.027068 95.470677 107.789474 35.416542 147.055639-60.054135 39.266165-111.639098 56.974436-200.950376 50.815038 0 0-22.32782 30.796992-43.11579 35.416541l137.816542-5.389473s36.186466-52.354887 117.028571-43.885715c0 0 9.239098-66.983459 75.452632-87.771428 0 0 70.833083-89.311278-69.293233-124.72782 0 0 87.001504-13.088722 87.001503-99.3203-0.769925-86.231579-130.887218-94.700752-165.533834-70.063158-0.769925 0 101.630075 69.293233 35.416541 126.267669z m70.833083 308.739849c40.03609 45.425564 106.249624 53.894737 161.68421 26.177444 54.664662-27.717293 23.867669-104.709774-16.938345-107.019549-30.027068-1.53985-59.284211 22.32782-51.584963 32.336842 7.699248 10.009023 31.566917-20.018045 50.815038-6.159398 18.478195 13.088722 9.239098 76.222556-52.354887 69.293233-61.593985-6.929323-85.461654-52.354887-49.275188-108.559399 34.646617-55.434586 150.905263-20.018045 150.905263-20.018045s77.762406-52.354887 130.117293-27.717293c53.124812 24.637594 26.177444 74.682707 9.239098 79.302256-16.938346 4.619549-50.815038 6.929323-48.505263-10.778948 2.309774-17.708271-13.088722-34.646617-26.947369-14.628571-13.088722 20.018045 6.159398 65.443609 63.133835 54.664661 56.974436-10.778947 90.851128-100.090226 16.168421-130.887218-74.682707-30.027068-150.135338 28.487218-150.135339 28.487218s-93.930827-22.32782-145.515789 2.309775c-50.045113 26.177444-80.07218 87.001504-40.806015 133.196992z m133.196992-93.160902c38.496241-2.309774 67.753383 22.32782 67.753384 55.434587 0 33.106767-3.849624 71.603008-64.673684 85.461654-60.82406 13.088722-120.878195-5.389474-153.984963-57.744361 0 0-79.302256 7.699248-70.833082 54.664662 8.469173 46.965414 90.851128 27.717293 99.3203 18.478195 0 0 42.345865 39.266165 98.550376 33.106767 56.204511-5.389474 98.550376-53.894737 98.550376-53.894737s69.293233 63.133835 179.392481 36.186466c64.673684-16.168421 58.514286-66.213534 33.876692-83.921804-16.938346-12.318797-47.735338 0.769925-51.584962 13.088722-10.009023 30.027068 26.947368-3.849624 22.327819 33.876691-4.619549 36.956391-117.798496 15.398496-89.311278-45.425564 0 0-76.222556-17.708271-61.593985-66.213533 14.628571-48.505263 53.894737-45.425564 56.204511-24.637594 1.53985 20.018045 16.168421 41.57594 39.266166 10.778947 23.867669-30.796992-67.753383-90.851128-133.966917-13.088722 0 0-42.345865-20.018045-87.001504-13.088722-35.416541 6.159398-72.372932 37.726316-67.753384 66.983459 10.778947 66.213534 96.240602 42.345865 89.311278 8.469173-1.53985-9.239098-18.478195-3.849624-34.646616-3.079699-43.115789 0.769925-8.469173-52.354887 30.796992-55.434587z m247.145865-39.266165c3.849624-0.769925 113.948872-24.637594 112.409023 69.293233 0 0-19.24812-66.983459-100.860151-58.514286 0 0 19.24812 49.275188-6.159398 68.523308 0 0 82.381955-8.469173 114.718797 54.664662 0 0 46.965414-38.496241 34.646616-91.621053-12.318797-52.354887-98.550376-83.15188-170.153383-68.523308 8.469173 2.309774 17.708271 16.168421 15.398496 26.177444z m-401.130827 243.29624s107.789474 94.700752 244.83609-3.849624c0 0 250.995489 70.833083 268.70376-93.160902 4.619549-45.425564-83.921805-63.903759-129.347369-51.584962-71.603008 20.018045-62.36391 93.160902 13.858647 83.151879 0 0-30.027068-19.24812-19.24812-40.806015 10.009023-21.557895 51.584962-36.186466 79.302255-10.778947 27.717293 24.637594 10.009023 84.691729-79.302255 99.320301-90.081203 14.628571-148.595489-36.956391-148.595489-36.956391s-107.019549 111.639098-205.569925 18.478195c-90.081203 50.045113-187.861654-68.523308-25.407519-93.930827l-6.159398-26.947368s-142.43609 15.398496-130.117294 99.3203c13.088722 83.15188 137.046617 57.744361 137.046617 57.744361z m-515.849624-26.177443c1.53985 26.177444 393.431579 13.858647 393.431579 13.858646-39.266165-37.726316-25.407519-63.903759-25.407519-63.903759-154.754887 6.929323-370.333835 23.867669-368.02406 50.045113z m455.795489 107.789473c-1.53985-33.106767-20.78797-63.133835-104.709775-79.302255-83.921805-16.938346-402.670677 23.097744-369.56391-27.717293 33.106767-51.584962 391.891729-59.284211 391.89173-59.284211l5.389473-19.24812c-331.067669-6.929323-496.601504 40.806015-499.681203 96.240601-2.309774 55.434586 301.040602 40.03609 408.830076 38.496241 107.789474-1.53985 169.383459 95.470677-3.849624 110.099248-174.003008 15.398496-535.867669-24.637594-621.329324 43.115789-85.461654 66.983459-13.858647 121.64812-13.858646 121.648121s-23.867669-76.222556 51.584962-104.709775c74.682707-28.487218 261.004511-16.168421 505.070677-22.327819 242.526316-5.389474 250.995489-63.903759 250.225564-97.010527z m562.045112 238.676692c-197.100752-6.929323-894.652632 1.53985-956.246616 1.53985S107.019549 908.511278 92.390977 829.209023c-45.425564 96.240602 268.703759 77.762406 330.297745 77.762406s759.915789-8.469173 956.246616-1.53985c197.100752 6.929323 227.12782 116.258647 227.12782 116.258647 13.858647-43.115789-10.778947-134.736842-207.109775-141.666166z" p-id="1681" fill="#bfbfbf"></path></svg></div>
+                    <div id="liezi-text"></div>
+                </div>
+            </div>
+            <div class="classics-content-area" id="wenzi-content">
+                <div class="chapter-list" id="wenzi-chapters">
+                    <!-- 章节列表由JS动态生成 -->
+                </div>
+                <div class="chapter-content" id="wenzi-chapter-content">
+                    <div class="back-to-chapters"><svg t="1743220202621" class="icon" viewBox="0 0 1609 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1680" width="32" height="32"><path d="M248.685714 374.953383s7.699248 77.762406 92.390978 93.160903 134.736842-34.646617 134.736842-34.646617S525.088722 461.954887 585.142857 451.17594c60.054135-10.009023 75.452632-51.584962 75.452632-51.584963s36.956391 6.929323 104.709774-5.389473 122.418045-55.434586 124.72782-87.001504c1.53985-30.796992-6.929323-55.434586-69.293233-83.921805-62.36391-27.717293-147.055639-2.309774-147.055639-2.309774-16.938346-19.24812-72.372932-30.796992-138.586467-38.496241S361.864662 234.827068 361.864662 234.827068c-43.115789-20.78797-265.62406-6.929323-261.004512 58.514285 5.389474 66.213534 184.01203 40.03609 184.01203 40.036091-1.53985 22.32782 20.018045 56.974436 69.293234 77.762406 50.045113 20.018045 109.329323-26.947368 109.329323-26.947369 2.309774 11.548872 70.833083 31.566917 109.329323 23.097745 39.266165-8.469173 50.815038-54.664662 50.815038-54.664662 2.309774 7.699248 67.753383 10.009023 103.939849 10.009022 36.186466-0.769925 88.541353-24.637594 91.621053-56.974436 2.309774-32.336842-24.637594-39.266165-64.673684-47.735338-40.03609-8.469173-100.86015 15.398496-100.860151 15.398496-21.557895-27.717293-47.735338-34.646617-130.117293-43.885714-82.381955-10.009023-140.126316 40.03609-145.515789 73.142857-5.389474 32.336842 67.753383 51.584962 120.878195 46.195489 53.124812-4.619549 85.461654-35.416541 70.063158-60.054135s-67.753383-24.637594-107.789474-16.168422c-40.03609 7.699248-38.496241 37.726316-2.309774 43.885715 36.186466 6.159398 60.82406-13.858647 60.82406-13.858647-5.389474 38.496241-91.621053 25.407519-100.86015 1.53985-9.239098-23.097744 22.32782-43.885714 50.815037-49.275188 28.487218-5.389474 113.178947-1.53985 115.488722 36.956391 3.079699 38.496241-24.637594 68.523308-100.090225 72.372932-74.682707 3.849624-117.798496-24.637594-122.418046-53.894737-5.389474-29.257143 38.496241-86.231579 134.736843-97.010526 96.240602-10.778947 159.374436 42.345865 159.374436 42.345865 85.461654-28.487218 169.383459-2.309774 173.233082 21.557894 3.079699 23.097744 6.929323 60.054135-49.275188 83.15188-56.974436 23.097744-145.515789 6.159398-145.515789 6.159399-3.849624 18.478195-19.24812 46.195489-64.673684 56.974436-46.195489 10.009023-103.169925-19.24812-103.169925-19.248121C446.556391 435.777444 372.643609 445.016541 331.067669 431.157895c-40.806015-13.858647-57.744361-78.532331-57.744361-78.532331-145.515789 10.778947-177.082707-22.32782-180.932331-36.186466-4.619549-13.858647-16.938346-47.735338 75.452632-86.231579 91.621053-37.726316 192.481203-8.469173 192.481203-8.469173 18.478195-42.345865 68.523308-68.523308 110.869173-76.992481 42.345865-8.469173 164.76391-3.849624 229.437594-0.769925 65.443609 2.309774 142.43609-0.769925 138.586466-45.425564-3.849624-45.425564-75.452632-49.275188-75.452631-49.275188 13.858647 10.009023 33.876692 69.293233-17.708271 67.753383-51.584962-1.53985-157.064662 1.53985-256.384963 2.309775-100.090226 0.769925-129.347368 71.603008-129.347368 71.603007-69.293233-18.478195-314.129323 1.53985-314.129323 107.789474-0.769925 103.93985 202.490226 76.222556 202.490225 76.222556zM846.917293 140.126316c-66.213534 56.204511-371.873684-42.345865-461.954887 63.133834 0 0 85.461654-41.57594 154.754887-33.106767 70.063158 7.699248 112.409023 20.018045 138.586466 42.345865 0 0 80.07218-30.796992 159.374436-0.769925 78.532331 30.027068 95.470677 107.789474 35.416542 147.055639-60.054135 39.266165-111.639098 56.974436-200.950376 50.815038 0 0-22.32782 30.796992-43.11579 35.416541l137.816542-5.389473s36.186466-52.354887 117.028571-43.885715c0 0 9.239098-66.983459 75.452632-87.771428 0 0 70.833083-89.311278-69.293233-124.72782 0 0 87.001504-13.088722 87.001503-99.3203-0.769925-86.231579-130.887218-94.700752-165.533834-70.063158-0.769925 0 101.630075 69.293233 35.416541 126.267669z m70.833083 308.739849c40.03609 45.425564 106.249624 53.894737 161.68421 26.177444 54.664662-27.717293 23.867669-104.709774-16.938345-107.019549-30.027068-1.53985-59.284211 22.32782-51.584963 32.336842 7.699248 10.009023 31.566917-20.018045 50.815038-6.159398 18.478195 13.088722 9.239098 76.222556-52.354887 69.293233-61.593985-6.929323-85.461654-52.354887-49.275188-108.559399 34.646617-55.434586 150.905263-20.018045 150.905263-20.018045s77.762406-52.354887 130.117293-27.717293c53.124812 24.637594 26.177444 74.682707 9.239098 79.302256-16.938346 4.619549-50.815038 6.929323-48.505263-10.778948 2.309774-17.708271-13.088722-34.646617-26.947369-14.628571-13.088722 20.018045 6.159398 65.443609 63.133835 54.664661 56.974436-10.778947 90.851128-100.090226 16.168421-130.887218-74.682707-30.027068-150.135338 28.487218-150.135339 28.487218s-93.930827-22.32782-145.515789 2.309775c-50.045113 26.177444-80.07218 87.001504-40.806015 133.196992z m133.196992-93.160902c38.496241-2.309774 67.753383 22.32782 67.753384 55.434587 0 33.106767-3.849624 71.603008-64.673684 85.461654-60.82406 13.088722-120.878195-5.389474-153.984963-57.744361 0 0-79.302256 7.699248-70.833082 54.664662 8.469173 46.965414 90.851128 27.717293 99.3203 18.478195 0 0 42.345865 39.266165 98.550376 33.106767 56.204511-5.389474 98.550376-53.894737 98.550376-53.894737s69.293233 63.133835 179.392481 36.186466c64.673684-16.168421 58.514286-66.213534 33.876692-83.921804-16.938346-12.318797-47.735338 0.769925-51.584962 13.088722-10.009023 30.027068 26.947368-3.849624 22.327819 33.876691-4.619549 36.956391-117.798496 15.398496-89.311278-45.425564 0 0-76.222556-17.708271-61.593985-66.213533 14.628571-48.505263 53.894737-45.425564 56.204511-24.637594 1.53985 20.018045 16.168421 41.57594 39.266166 10.778947 23.867669-30.796992-67.753383-90.851128-133.966917-13.088722 0 0-42.345865-20.018045-87.001504-13.088722-35.416541 6.159398-72.372932 37.726316-67.753384 66.983459 10.778947 66.213534 96.240602 42.345865 89.311278 8.469173-1.53985-9.239098-18.478195-3.849624-34.646616-3.079699-43.115789 0.769925-8.469173-52.354887 30.796992-55.434587z m247.145865-39.266165c3.849624-0.769925 113.948872-24.637594 112.409023 69.293233 0 0-19.24812-66.983459-100.860151-58.514286 0 0 19.24812 49.275188-6.159398 68.523308 0 0 82.381955-8.469173 114.718797 54.664662 0 0 46.965414-38.496241 34.646616-91.621053-12.318797-52.354887-98.550376-83.15188-170.153383-68.523308 8.469173 2.309774 17.708271 16.168421 15.398496 26.177444z m-401.130827 243.29624s107.789474 94.700752 244.83609-3.849624c0 0 250.995489 70.833083 268.70376-93.160902 4.619549-45.425564-83.921805-63.903759-129.347369-51.584962-71.603008 20.018045-62.36391 93.160902 13.858647 83.151879 0 0-30.027068-19.24812-19.24812-40.806015 10.009023-21.557895 51.584962-36.186466 79.302255-10.778947 27.717293 24.637594 10.009023 84.691729-79.302255 99.320301-90.081203 14.628571-148.595489-36.956391-148.595489-36.956391s-107.019549 111.639098-205.569925 18.478195c-90.081203 50.045113-187.861654-68.523308-25.407519-93.930827l-6.159398-26.947368s-142.43609 15.398496-130.117294 99.3203c13.088722 83.15188 137.046617 57.744361 137.046617 57.744361z m-515.849624-26.177443c1.53985 26.177444 393.431579 13.858647 393.431579 13.858646-39.266165-37.726316-25.407519-63.903759-25.407519-63.903759-154.754887 6.929323-370.333835 23.867669-368.02406 50.045113z m455.795489 107.789473c-1.53985-33.106767-20.78797-63.133835-104.709775-79.302255-83.921805-16.938346-402.670677 23.097744-369.56391-27.717293 33.106767-51.584962 391.891729-59.284211 391.89173-59.284211l5.389473-19.24812c-331.067669-6.929323-496.601504 40.806015-499.681203 96.240601-2.309774 55.434586 301.040602 40.03609 408.830076 38.496241 107.789474-1.53985 169.383459 95.470677-3.849624 110.099248-174.003008 15.398496-535.867669-24.637594-621.329324 43.115789-85.461654 66.983459-13.858647 121.64812-13.858646 121.648121s-23.867669-76.222556 51.584962-104.709775c74.682707-28.487218 261.004511-16.168421 505.070677-22.327819 242.526316-5.389474 250.995489-63.903759 250.225564-97.010527z m562.045112 238.676692c-197.100752-6.929323-894.652632 1.53985-956.246616 1.53985S107.019549 908.511278 92.390977 829.209023c-45.425564 96.240602 268.703759 77.762406 330.297745 77.762406s759.915789-8.469173 956.246616-1.53985c197.100752 6.929323 227.12782 116.258647 227.12782 116.258647 13.858647-43.115789-10.778947-134.736842-207.109775-141.666166z" p-id="1681" fill="#bfbfbf"></path></svg></div>
+                    <div id="wenzi-text"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 道家智慧抽签 -->
+    <div id="fortune-modal">
+        <div class="fortune-content">
+            <button class="close-btn">&times;</button>
+            <h3 style="margin-bottom: 20px; color: var(--text-color);">叩籤启钥</h3>
+            <div class="fortune-instructions">点击籤筒，静心求籤</div>
+            <div id="fortune-sticks"></div>
+            <div class="fortune-result">
+                <div class="fortune-text"></div>
+                <div class="fortune-meaning"></div>
+            </div>
+            <button id="draw-again">再抽一籤</button>
+        </div>
+    </div>
+    <!-- 设置模态框 -->
+    <div id="settings-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">设置</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="form-group">
+                <label for="api-key">API Key</label>
+                <input type="password" id="api-key" class="settings-input" placeholder="输入您的API Key...">
+                <div class="show-api-key">
+                    <input type="checkbox" id="show-key"> <label for="show-key" style="display: inline;">显示密钥</label>
+                </div>
+                <p style="margin-top: 5px; font-size: 0.9em; opacity: 0.8;">若不设置，将使用内置密钥（使用人数多时，可能会有速率限制）。<br>若设置，将优先使用您的密钥。<br>可自行于<a href="https://cloud.siliconflow.cn/account/ak" target="_blank" style="color: inherit;">硅基流动</a>后台获取。</p>
+            </div>
+            <div class="form-group">
+                <label for="api-endpoint">API 地址</label>
+                <input type="text" id="api-endpoint" class="settings-input" value="https://api.siliconflow.cn/v1/chat/completions">
+            </div>
+            <div class="form-group">
+                <label for="model-name">模型名称</label>
+                <input type="text" id="model-name" class="settings-input" value="deepseek-ai/DeepSeek-V3">
+            </div>
+            <div class="form-group">
+                <label for="temperature">温度 (创造性)</label>
+                <input type="range" id="temperature" class="settings-input" min="0" max="1" step="0.1" value="0.7">
+                <span id="temperature-value">0.7</span>
+            </div>
+            <button class="save-btn">保存设置</button>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 在页面加载后显示过渡动画
+            setTimeout(() => {
+                document.querySelector('.page-loader').style.opacity = '0';
+                setTimeout(() => {
+                    document.querySelector('.page-loader').style.display = 'none';
+                }, 500);
+                document.getElementById('page-transition').style.opacity = '0';
+            }, 1000);
+        });
+        // 道家名句数组
+        const taoQuotes = [
+            { text: "道可道，非常道；名可名，非常名。", author: "老子《道德经》" },
+            { text: "上善若水，水善利万物而不争。", author: "老子《道德经》" },
+            { text: "天下万物生于有，有生于无。", author: "老子《道德经》" },
+            { text: "知人者智，自知者明。胜人者有力，自胜者强。", author: "老子《道德经》" },
+            { text: "大方无隅，大器晚成，大音希声，大象无形。", author: "老子《道德经》" },
+            { text: "为学日益，为道日损。损之又损，以至于无为。", author: "老子《道德经》" },
+            { text: "天地不仁，以万物为刍狗；圣人不仁，以百姓为刍狗。", author: "老子《道德经》" },
+            { text: "知足者富，强行者有志，不失其所者久，死而不亡者寿。", author: "老子《道德经》" },
+            { text: "朴素而天下莫能与之争美。", author: "老子《道德经》" },
+            { text: "胜人者有力，自胜者强。", author: "老子《道德经》" },
+            { text: "天下大事必作于细，天下难事必作于易。", author: "老子《道德经》" },
+            { text: "天下皆知美之为美，斯恶已；皆知善之为善，斯不善已。", author: "老子《道德经》" },
+            { text: "民不畏死，奈何以死惧之？", author: "老子《道德经》" },
+            { text: "轻诺必寡信，多易必多难。", author: "老子《道德经》" },
+            { text: "将欲歙之，必固张之；将欲弱之，必固强之。", author: "老子《道德经》" },
+            { text: "至人无己，神人无功，圣人无名。", author: "庄子《逍遥游》" },
+            { text: "小知不及大知，小年不及大年。", author: "庄子《逍遥游》" },
+            { text: "昔者庄周梦为胡蝶，栩栩然胡蝶也，自喻适志与！不知周也。", author: "庄子《齐物论》" },
+            { text: "井蛙不可以语于海者，拘于虚也；夏虫不可以语于冰者，笃于时也。", author: "庄子《秋水》" },
+            { text: "人生天地之间，若白驹过隙，忽然而已。", author: "庄子《知北游》" },
+            { text: "水之积也不厚，则其负大舟也无力。", author: "庄子《秋水》" },
+            { text: "且夫水之于物也，无求而往，无息而流。", author: "列子《汤问》" },
+            { text: "贵出贱入，贱出贵返，理不常也；有余而往，不足而来。", author: "列子《天瑞》" },
+            { text: "静漠恬淡，澹无所思虑，寂无所感动，纯全至和。", author: "文子《上德》" },
+            { text: "道者，无始无终，无盈无虚。", author: "文子《道原》" }
+        ];
+        // 道家智慧签
+        const fortuneSticks = [
+            { text: "道生一，一生二，二生三，三生万物。", meaning: "万物源于道，由简入繁，循环往复。此签表示从简单开始，自然发展，顺应变化。" },
+            { text: "上善若水，水善利万物而不争。", meaning: "像水一样柔和谦逊，滋养万物而不争名利。此签提醒保持谦卑，待人利他，不争不执。" },
+            { text: "知人者智，自知者明。胜人者有力，自胜者强。", meaning: "了解别人是智慧，了解自己是明智。战胜别人需要力量，战胜自己更需要强大。此签指引向内修行，克制私欲。" },
+            { text: "为学日益，为道日损。损之又损，以至于无为。", meaning: "学习知识是不断增加，修道则是不断减少欲望和执着。此签暗示应简化生活，减少欲望，回归本真。" },
+            { text: "天下难事必作于易，天下大事必作于细。", meaning: "世间困难的事都从容易处着手，伟大的事都从细微处开始。此签提醒从小事做起，循序渐进。" },
+            { text: "不出户，知天下；不窥牖，见天道。", meaning: "不必远行也能明白世界真理，不必刻意观察也能领悟自然规律。此签启示内心清静，自然明悟，不必攀附外求。" },
+            { text: "大方无隅，大器晚成，大音希声，大象无形。", meaning: "最完美的东西往往超越形状，最有才能的人往往成熟较晚，最美的声音往往很轻，最伟大的形象往往无形。此签提示耐心等待，静观其变。" },
+            { text: "天长地久，天地所以能长且久者，以其不自生，故能长生。", meaning: "天地长存的秘密在于不为自己而生存。此签教导无私奉献，不以自我为中心，方能持久。" },
+            { text: "善建者不拔，善抱者不脱，子孙以祭祀不辍。", meaning: "善于建立的不会倒塌，善于拥抱的不会松脱。此签暗示基础稳固，持之以恒，积累福德。" },
+            { text: "万物并作，吾以观复。", meaning: "观察万物的生长变化，了解事物的发展规律。此签提醒顺应自然规律，观察事物循环，不要强求。" },
+            { text: "挫其锐，解其纷，和其光，同其尘。", meaning: "减弱锐气，解开纷争，调和光芒，同于尘世。此签教导平和处世，不锋芒毕露，融入环境。" },
+            { text: "人法地，地法天，天法道，道法自然。", meaning: "人应当效法大地，大地效法天空，天空效法道，道则效法自然。此签指引顺应自然，不要违背自然规律。" },
+            { text: "物壮则老，是谓不道，不道早已。", meaning: "事物达到强盛就会衰老，这是不符合道的，不符合道的会早早结束。此签提醒避免极端，保持中庸平和。" },
+            { text: "大音希声，大象无形。", meaning: "最美妙的声音往往是无声的，最伟大的形象往往是无形的。此签启示追求内在实质，不要执着于表面形式。" },
+            { text: "水善利万物而不争，处众人之所恶，故几于道。", meaning: "水能滋养万物而不与之争，居于人们不喜欢的低洼之处，所以接近于道。此签教导谦逊退让，不与人争。" },
+            { text: "金玉满堂，莫之能守；富贵而骄，自遗其咎。", meaning: "财富再多也难以长久保有，富贵而骄傲自满，就会给自己带来祸患。此签提醒戒骄戒躁，知足常乐。" },
+            { text: "功成身退，天之道也。", meaning: "事情做成功后就退隐，是自然的规律。此签暗示适时放手，不要过分执着，功成不居。" },
+            { text: "飘风不终朝，骤雨不终日。", meaning: "狂风刮不了一整天，暴雨下不了一整日。此签提示困难和挫折都是暂时的，坚持即可度过。" },
+            { text: "知足不辱，知止不殆，可以长久。", meaning: "知道满足就不会受辱，知道适可而止就不会遇险，这样就能长久平安。此签教导知足常乐，适时止步。" },
+            { text: "大成若缺，其用不弊；大盈若冲，其用不穷。", meaning: "大的成就看起来似乎有所欠缺，但实际上用之不竭；大的充盈看起来似乎空虚，但实际上用之不尽。此签启示谦虚低调，留有余地。" },
+            { text: "塞翁失马，安知非福。", meaning: "老人丢失了马，谁知道不是一件好事呢？此签暗示祸福相依，转念看待，逆境也可能是福。" },
+            { text: "夫唯不争，故天下莫能与之争。", meaning: "正因为不争，所以天下没有人能与之争。此签提示以无争的态度处世，反而能得到更多。" },
+            { text: "见素抱朴，少私寡欲。", meaning: "保持纯朴，减少私欲。此签教导简朴生活，减少欲望，回归纯真本性。" },
+	 { text: "柔弱胜刚强，鱼不可脱于渊。", meaning: "柔弱能战胜刚强，就像鱼不能离开水。此签提醒保持柔韧本性，不要脱离根本。" },
+    { text: "致虚极，守静笃。万物并作，吾以观复。", meaning: "达到极致的虚空，保持深度的宁静。观察万物循环往复。此签指引通过虚静状态领悟自然规律。" },
+    { text: "圣人不积，既以为人己愈有，既以与人己愈多。", meaning: "智者不囤积财富，越是帮助别人自己越充实，越是给予别人自己越富足。此签阐释利他即利己的哲理。" },
+    { text: "重为轻根，静为躁君。", meaning: "厚重是轻率的根本，宁静是躁动的主宰。此签教导处事应稳重沉着，以静制动。" },
+    { text: "合抱之木，生于毫末；九层之台，起于累土。", meaning: "参天大树从细芽长成，九层高台从一筐筐泥土筑起。此签强调积累的重要性，勿以善小而不为。" },
+    { text: "信言不美，美言不信。善者不辩，辩者不善。", meaning: "真实的话不华丽，华丽的话不真实。善良的人不巧辩，巧辩的人不善良。此签提醒警惕花言巧语，追求朴实真诚。" },
+    { text: "天网恢恢，疏而不失。", meaning: "天道如广阔的大网，看似稀疏却不会漏失。此签暗示因果循环，善恶终有报应。" },
+    { text: "宠辱若惊，贵大患若身。", meaning: "得宠和受辱都感到惊慌，重视大患如同重视自身。此签教导超然看待荣辱得失。" },
+    { text: "大道废，有仁义；智慧出，有大伪。", meaning: "当大道被废弃，才需要强调仁义；当智巧出现，就会产生严重虚伪。此签反思过度人为造成的弊端。" },
+    { text: "无为而无不为。", meaning: "通过不妄为，反而能够无所不为。此签揭示顺应自然规律做事，比强行干预更有效。" },
+    { text: "知者不言，言者不知。", meaning: "真正明白的人不妄言，妄言的人并不真正明白。此签提醒谨言慎行，避免浅薄议论。" },
+{ text: "井蛙不可以语于海，夏虫不可以语于冰。", meaning: "不可与井底之蛙谈论大海，不可与夏生之虫谈论冰雪。此签提醒认知受限于经历，当保持开放心态。" }, 
+    { text: "相濡以沫，不如相忘于江湖。", meaning: "与其在干涸处用唾沫互相滋润，不如在江湖中彼此遗忘。此签暗示强行维系不如自然放手，各得自在。" }, { text: "人生天地之间，若白驹过隙，忽然而已。", meaning: "人生于天地之间，如同白马掠过缝隙，转瞬即逝。此签提醒珍惜当下，勿为琐事耗费光阴。" }, 
+    { text: "凫胫虽短，续之则忧；鹤胫虽长，断之则悲。", meaning: "野鸭的腿虽短，接长反会忧愁；鹤的腿虽长，截断必然悲伤。此签告诫勿强行改变自然本性。" }, 
+    { text: "嗜欲深者天机浅。", meaning: "欲望越深的人，领悟天道的灵性就越浅。此签指出贪欲是阻碍悟道的屏障。" }, 
+{ text: "道者直己而待命，时之至不可迎而返也。", meaning: "修道者端正自己以待时机，时运到来时不可强求也不可推辞。此签阐明待时而动。" }, 
+    { text: "得其环中，以应无穷。", meaning: "把握道的核心枢纽，就能应对无穷变化。此签揭示以不变应万变。" },
+{ text: "勿轻小事，小隙沉舟；勿轻小物，小虫毒身。", meaning: "不要轻视小事，小缝隙能让船沉没；不要小看微物，小虫能使人中毒。此签提醒须防微杜渐。" }, 
+    { text: "善游者溺，善骑者堕，各以所好反自为祸。", meaning: "善于游泳的人容易溺水，善于骑马的人容易摔落，各自的特长反而成为祸患。此签告诫勿恃能逞强。" }, 
+            { text: "吉祥止止，利贞。勿用有攸往。", meaning: "吉祥的事物就在此处停止，有利于坚守正道。不要有所前往。此签提醒安于现状，不要贪求变动。" }
+        ];
+        // 音乐曲目
+        const musicTracks = [
+            { title: "古乐 - 高山流水", url: "https://music.163.com/song/media/outer/url?id=1895386045.mp3" },
+            { title: "古乐 - 梅花三弄", url: "https://music.163.com/song/media/outer/url?id=396366.mp3" },
+            { title: "古乐 - 广陵散", url: "https://music.163.com/song/media/outer/url?id=396334.mp3" },
+            { title: "古乐 - 平沙落雁", url: "https://music.163.com/song/media/outer/url?id=88137.mp3" },
+{ title: "古乐 - 渔樵问答", url: "https://music.163.com/song/media/outer/url?id=88481.mp3" },
+{ title: "古乐 - 阳春白雪", url: "https://music.163.com/song/media/outer/url?id=1914674029.mp3" },
+{ title: "古乐 - 胡笳十八拍", url: "https://music.163.com/song/media/outer/url?id=1915265297.mp3" },
+{ title: "古乐 - 鸥鹭忘机", url: "https://music.163.com/song/media/outer/url?id=88150.mp3" },
+            { title: "古乐 - 阳关三叠", url: "https://music.163.com/song/media/outer/url?id=88153.mp3" }
+        ];
+        // 经典章节数据
+        const classicsData = {
+            daodejing: {
+    "title": "道德经",
+    "chapters": [
+        {
+            "id": 1,
+            "title": "第1章",
+            "content": "道可道，非常道；名可名，非常名。无名天地之始，有名万物之母。故常无欲，以观其妙；常有欲，以观其徼。此两者同出而异名，同谓之玄，玄之又玄，众妙之门。"
+        },
+        {
+            "id": 2,
+            "title": "第2章",
+            "content": "天下皆知美之为美，斯恶已；皆知善之为善，斯不善已。故有无相生，难易相成，长短相形，高下相倾，音声相和，前后相随。是以圣人处无为之事，行不言之教，万物作焉而不辞，生而不有，为而不恃，功成而弗居。夫唯弗居，是以不去。"
+        },
+        {
+            "id": 3,
+            "title": "第3章",
+            "content": "不尚贤，使民不争；不贵难得之货，使民不为盗；不见可欲，使民心不乱。是以圣人之治，虚其心，实其腹，弱其志，强其骨。常使民无知无欲，使夫智者不敢为也。为无为，则无不治。"
+        },
+        {
+            "id": 4,
+            "title": "第4章",
+            "content": "道冲而用之或不盈，渊兮似万物之宗。挫其锐，解其纷，和其光，同其尘。湛兮似或存，吾不知谁之子，象帝之先。"
+        },
+        {
+            "id": 5,
+            "title": "第5章",
+            "content": "天地不仁，以万物为刍狗；圣人不仁，以百姓为刍狗。天地之间，其犹橐籥乎？虚而不屈，动而愈出。多言数穷，不如守中。"
+        },
+        {
+            "id": 6,
+            "title": "第6章",
+            "content": "谷神不死，是谓玄牝。玄牝之门，是谓天地根。绵绵若存，用之不勤。"
+        },
+        {
+            "id": 7,
+            "title": "第7章",
+            "content": "天长地久。天地所以能长且久者，以其不自生，故能长生。是以圣人后其身而身先，外其身而身存。非以其无私邪？故能成其私。"
+        },
+        {
+            "id": 8,
+            "title": "第8章",
+            "content": "上善若水。水善利万物而不争，处众人之所恶，故几于道。居善地，心善渊，与善仁，言善信，正善治，事善能，动善时。夫唯不争，故无尤。"
+        },
+        {
+            "id": 9,
+            "title": "第9章",
+            "content": "持而盈之，不如其已；揣而锐之，不可长保；金玉满堂，莫之能守；富贵而骄，自遗其咎。功成身退，天之道。"
+        },
+        {
+            "id": 10,
+            "title": "第10章",
+            "content": "载营魄抱一，能无离乎？专气致柔，能婴儿乎？涤除玄览，能无疵乎？爱民治国，能无知乎？天门开阖，能为雌乎？明白四达，能无为乎？生之畜之，生而不有，为而不恃，长而不宰，是谓玄德。"
+        },
+        {
+            "id": 11,
+            "title": "第11章",
+            "content": "三十辐共一毂，当其无，有车之用。埏埴以为器，当其无，有器之用。凿户牖以为室，当其无，有室之用。故有之以为利，无之以为用。"
+        },
+        {
+            "id": 12,
+            "title": "第12章",
+            "content": "五色令人目盲，五音令人耳聋，五味令人口爽，驰骋畋猎令人心发狂，难得之货令人行妨。是以圣人为腹不为目，故去彼取此。"
+        },
+        {
+            "id": 13,
+            "title": "第13章",
+            "content": "宠辱若惊，贵大患若身。何谓宠辱若惊？宠为下，得之若惊，失之若惊，是谓宠辱若惊。何谓贵大患若身？吾所以有大患者，为吾有身，及吾无身，吾有何患？故贵以身为天下，若可寄天下；爱以身为天下，若可托天下。"
+        },
+        {
+            "id": 14,
+            "title": "第14章",
+            "content": "视之不见名曰夷，听之不闻名曰希，搏之不得名曰微。此三者不可致诘，故混而为一。其上不皦，其下不昧，绳绳不可名，复归于无物。是谓无状之状，无物之象，是谓惚恍。迎之不见其首，随之不见其后。执古之道，以御今之有，能知古始，是谓道纪。"
+        },
+        {
+            "id": 15,
+            "title": "第15章",
+            "content": "古之善为士者，微妙玄通，深不可识。夫唯不可识，故强为之容：豫兮若冬涉川，犹兮若畏四邻，俨兮其若客，涣兮若冰之将释，敦兮其若朴，旷兮其若谷，混兮其若浊。孰能浊以止？静之徐清。孰能安以久？动之徐生。保此道者不欲盈，夫唯不盈，故能蔽不新成。"
+        },
+        {
+            "id": 16,
+            "title": "第16章",
+            "content": "致虚极，守静笃，万物并作，吾以观复。夫物芸芸，各复归其根。归根曰静，静曰复命。复命曰常，知常曰明。不知常，妄作凶。知常容，容乃公，公乃王，王乃天，天乃道，道乃久，没身不殆。"
+        },
+        {
+            "id": 17,
+            "title": "第17章",
+            "content": "太上，下知有之；其次，亲而誉之；其次，畏之；其次，侮之。信不足焉，有不信焉。悠兮其贵言。功成事遂，百姓皆谓我自然。"
+        },
+        {
+            "id": 18,
+            "title": "第18章",
+            "content": "大道废，有仁义；智慧出，有大伪；六亲不和，有孝慈；国家昏乱，有忠臣。"
+        },
+        {
+            "id": 19,
+            "title": "第19章",
+            "content": "绝圣弃智，民利百倍；绝仁弃义，民复孝慈；绝巧弃利，盗贼无有。此三者以为文不足，故令有所属：见素抱朴，少私寡欲。"
+        },
+        {
+            "id": 20,
+            "title": "第20章",
+            "content": "绝学无忧。唯之与阿，相去几何？善之与恶，相去若何？人之所畏，不可不畏。荒兮其未央哉！众人熙熙，如享太牢，如春登台。我独泊兮其未兆，如婴儿之未孩。傫傫兮若无所归。众人皆有余，而我独若遗。我愚人之心也哉！沌沌兮！俗人昭昭，我独昏昏；俗人察察，我独闷闷。澹兮其若海，飂兮若无止。众人皆有以，而我独顽似鄙。我独异于人，而贵食母。"
+        },
+        {
+            "id": 21,
+            "title": "第21章",
+            "content": "孔德之容，惟道是从。道之为物，惟恍惟惚。惚兮恍兮，其中有象；恍兮惚兮，其中有物。窈兮冥兮，其中有精；其精甚真，其中有信。自古及今，其名不去，以阅众甫。吾何以知众甫之状哉？以此。"
+        },
+        {
+            "id": 22,
+            "title": "第22章",
+            "content": "曲则全，枉则直，洼则盈，敝则新，少则得，多则惑。是以圣人抱一为天下式。不自见故明，不自是故彰，不自伐故有功，不自矜故长。夫唯不争，故天下莫能与之争。古之所谓曲则全者，岂虚言哉！诚全而归之。"
+        },
+        {
+            "id": 23,
+            "title": "第23章",
+            "content": "希言自然。故飘风不终朝，骤雨不终日。孰为此者？天地。天地尚不能久，而况于人乎？故从事于道者，道者同于道，德者同于德，失者同于失。同于道者，道亦乐得之；同于德者，德亦乐得之；同于失者，失亦乐得之。信不足焉，有不信焉。"
+        },
+        {
+            "id": 24,
+            "title": "第24章",
+            "content": "企者不立，跨者不行，自见者不明，自是者不彰，自伐者无功，自矜者不长。其在道也，曰余食赘行。物或恶之，故有道者不处。"
+        },
+        {
+            "id": 25,
+            "title": "第25章",
+            "content": "有物混成，先天地生。寂兮寥兮，独立不改，周行而不殆，可以为天下母。吾不知其名，字之曰道，强为之名曰大。大曰逝，逝曰远，远曰反。故道大，天大，地大，王亦大。域中有四大，而王居其一焉。人法地，地法天，天法道，道法自然。"
+        },
+        {
+            "id": 26,
+            "title": "第26章",
+            "content": "重为轻根，静为躁君。是以圣人终日行不离辎重。虽有荣观，燕处超然。奈何万乘之主，而以身轻天下？轻则失本，躁则失君。"
+        },
+        {
+            "id": 27,
+            "title": "第27章",
+            "content": "善行无辙迹，善言无瑕谪，善数不用筹策，善闭无关楗而不可开，善结无绳约而不可解。是以圣人常善救人，故无弃人；常善救物，故无弃物，是谓袭明。故善人者，不善人之师；不善人者，善人之资。不贵其师，不爱其资，虽智大迷，是谓要妙。"
+        },
+        {
+            "id": 28,
+            "title": "第28章",
+            "content": "知其雄，守其雌，为天下溪。为天下溪，常德不离，复归于婴儿。知其白，守其黑，为天下式。为天下式，常德不忒，复归于无极。知其荣，守其辱，为天下谷。为天下谷，常德乃足，复归于朴。朴散则为器，圣人用之则为官长，故大制不割。"
+        },
+        {
+            "id": 29,
+            "title": "第29章",
+            "content": "将欲取天下而为之，吾见其不得已。天下神器，不可为也。为者败之，执者失之。故物或行或随，或歔或吹，或强或羸，或挫或隳。是以圣人去甚，去奢，去泰。"
+        },
+        {
+            "id": 30,
+            "title": "第30章",
+            "content": "以道佐人主者，不以兵强天下，其事好还。师之所处，荆棘生焉；大军之后，必有凶年。善有果而已，不敢以取强。果而勿矜，果而勿伐，果而勿骄，果而不得已，果而勿强。物壮则老，是谓不道，不道早已。"
+        },
+        {
+            "id": 31,
+            "title": "第31章",
+            "content": "夫兵者，不祥之器，物或恶之，故有道者不处。君子居则贵左，用兵则贵右。兵者不祥之器，非君子之器，不得已而用之，恬淡为上。胜而不美，而美之者，是乐杀人。夫乐杀人者，则不可以得志于天下矣。吉事尚左，凶事尚右。偏将军居左，上将军居右，言以丧礼处之。杀人之众，以哀悲莅之，战胜以丧礼处之。"
+        },
+        {
+            "id": 32,
+            "title": "第32章",
+            "content": "道常无名，朴虽小，天下莫能臣也。侯王若能守之，万物将自宾。天地相合，以降甘露，民莫之令而自均。始制有名，名亦既有，夫亦将知止，知止可以不殆。譬道之在天下，犹川谷之于江海。"
+        },
+        {
+            "id": 33,
+            "title": "第33章",
+            "content": "知人者智，自知者明。胜人者有力，自胜者强。知足者富，强行者有志。不失其所者久，死而不亡者寿。"
+        },
+        {
+            "id": 34,
+            "title": "第34章",
+            "content": "大道泛兮，其可左右。万物恃之而生而不辞，功成不名有，衣养万物而不为主。常无欲，可名于小；万物归焉而不为主，可名为大。以其终不自为大，故能成其大。"
+        },
+        {
+            "id": 35,
+            "title": "第35章",
+            "content": "执大象，天下往。往而不害，安平太。乐与饵，过客止。道之出口，淡乎其无味，视之不足见，听之不足闻，用之不足既。"
+        },
+        {
+            "id": 36,
+            "title": "第36章",
+            "content": "将欲歙之，必固张之；将欲弱之，必固强之；将欲废之，必固兴之；将欲夺之，必固与之。是谓微明。柔弱胜刚强。鱼不可脱于渊，国之利器不可以示人。"
+        },
+        {
+            "id": 37,
+            "title": "第37章",
+            "content": "道常无为而无不为。侯王若能守之，万物将自化。化而欲作，吾将镇之以无名之朴。无名之朴，夫亦将无欲。不欲以静，天下将自定。"
+        },
+        {
+            "id": 38,
+            "title": "第38章",
+            "content": "上德不德，是以有德；下德不失德，是以无德。上德无为而无以为，下德为之而有以为。上仁为之而无以为，上义为之而有以为，上礼为之而莫之应，则攘臂而扔之。故失道而后德，失德而后仁，失仁而后义，失义而后礼。夫礼者，忠信之薄而乱之首。前识者，道之华而愚之始。是以大丈夫处其厚，不居其薄；处其实，不居其华。故去彼取此。"
+        },
+        {
+            "id": 39,
+            "title": "第39章",
+            "content": "昔之得一者：天得一以清，地得一以宁，神得一以灵，谷得一以盈，万物得一以生，侯王得一以为天下正。其致之。天无以清将恐裂，地无以宁将恐废，神无以灵将恐歇，谷无以盈将恐竭，万物无以生将恐灭，侯王无以贵高将恐蹶。故贵以贱为本，高以下为基。是以侯王自谓孤、寡、不谷。此非以贱为本邪？非乎？故致数舆无舆。不欲琭琭如玉，珞珞如石。"
+        },
+        {
+            "id": 40,
+            "title": "第40章",
+            "content": "反者道之动，弱者道之用。天下万物生于有，有生于无。"
+        },
+        {
+            "id": 41,
+            "title": "第41章",
+            "content": "上士闻道，勤而行之；中士闻道，若存若亡；下士闻道，大笑之。不笑不足以为道。故建言有之：明道若昧，进道若退，夷道若颣，上德若谷，大白若辱，广德若不足，建德若偷，质真若渝，大方无隅，大器晚成，大音希声，大象无形。道隐无名，夫唯道，善贷且成。"
+        },
+        {
+            "id": 42,
+            "title": "第42章",
+            "content": "道生一，一生二，二生三，三生万物。万物负阴而抱阳，冲气以为和。人之所恶，唯孤、寡、不谷，而王公以为称。故物或损之而益，或益之而损。人之所教，我亦教之。强梁者不得其死，吾将以为教父。"
+        },
+        {
+            "id": 43,
+            "title": "第43章",
+            "content": "天下之至柔，驰骋天下之至坚。无有入无间，吾是以知无为之有益。不言之教，无为之益，天下希及之。"
+        },
+        {
+            "id": 44,
+            "title": "第44章",
+            "content": "名与身孰亲？身与货孰多？得与亡孰病？是故甚爱必大费，多藏必厚亡。知足不辱，知止不殆，可以长久。"
+        },
+        {
+            "id": 45,
+            "title": "第45章",
+            "content": "大成若缺，其用不弊；大盈若冲，其用不穷。大直若屈，大巧若拙，大辩若讷。躁胜寒，静胜热，清静为天下正。"
+        },
+        {
+            "id": 46,
+            "title": "第46章",
+            "content": "天下有道，却走马以粪；天下无道，戎马生于郊。祸莫大于不知足，咎莫大于欲得。故知足之足，常足矣。"
+        },
+        {
+            "id": 47,
+            "title": "第47章",
+            "content": "不出户，知天下；不窥牖，见天道。其出弥远，其知弥少。是以圣人不行而知，不见而名，不为而成。"
+        },
+        {
+            "id": 48,
+            "title": "第48章",
+            "content": "为学日益，为道日损。损之又损，以至于无为。无为而无不为。取天下常以无事，及其有事，不足以取天下。"
+        },
+        {
+            "id": 49,
+            "title": "第49章",
+            "content": "圣人无常心，以百姓心为心。善者吾善之，不善者吾亦善之，德善；信者吾信之，不信者吾亦信之，德信。圣人在天下，歙歙焉为天下浑其心，百姓皆注其耳目，圣人皆孩之。"
+        },
+        {
+            "id": 50,
+            "title": "第50章",
+            "content": "出生入死。生之徒十有三，死之徒十有三，人之生动之死地亦十有三。夫何故？以其生生之厚。盖闻善摄生者，陆行不遇兕虎，入军不被甲兵。兕无所投其角，虎无所措其爪，兵无所容其刃。夫何故？以其无死地。"
+        },
+        {
+            "id": 51,
+            "title": "第51章",
+            "content": "道生之，德畜之，物形之，势成之。是以万物莫不尊道而贵德。道之尊，德之贵，夫莫之命而常自然。故道生之，德畜之，长之育之，亭之毒之，养之覆之。生而不有，为而不恃，长而不宰，是谓玄德。"
+        },
+        {
+            "id": 52,
+            "title": "第52章",
+            "content": "天下有始，以为天下母。既得其母，以知其子；既知其子，复守其母，没身不殆。塞其兑，闭其门，终身不勤；开其兑，济其事，终身不救。见小曰明，守柔曰强。用其光，复归其明，无遗身殃，是为习常。"
+        },
+        {
+            "id": 53,
+            "title": "第53章",
+            "content": "使我介然有知，行于大道，唯施是畏。大道甚夷，而人好径。朝甚除，田甚芜，仓甚虚；服文彩，带利剑，厌饮食，财货有余，是谓盗夸。非道也哉！"
+        },
+        {
+            "id": 54,
+            "title": "第54章",
+            "content": "善建者不拔，善抱者不脱，子孙以祭祀不辍。修之于身，其德乃真；修之于家，其德乃余；修之于乡，其德乃长；修之于国，其德乃丰；修之于天下，其德乃普。故以身观身，以家观家，以乡观乡，以国观国，以天下观天下。吾何以知天下然哉？以此。"
+        },
+        {
+            "id": 55,
+            "title": "第55章",
+            "content": "含德之厚，比于赤子。蜂虿虺蛇不螫，猛兽不据，攫鸟不搏。骨弱筋柔而握固，未知牝牡之合而全作，精之至也。终日号而不嗄，和之至也。知和曰常，知常曰明，益生曰祥，心使气曰强。物壮则老，谓之不道，不道早已。"
+        },
+        {
+            "id": 56,
+            "title": "第56章",
+            "content": "知者不言，言者不知。塞其兑，闭其门，挫其锐，解其纷，和其光，同其尘，是谓玄同。故不可得而亲，不可得而疏；不可得而利，不可得而害；不可得而贵，不可得而贱。故为天下贵。"
+        },
+        {
+            "id": 57,
+            "title": "第57章",
+            "content": "以正治国，以奇用兵，以无事取天下。吾何以知其然哉？以此：天下多忌讳，而民弥贫；民多利器，国家滋昏；人多伎巧，奇物滋起；法令滋彰，盗贼多有。故圣人云：我无为而民自化，我好静而民自正，我无事而民自富，我无欲而民自朴。"
+        },
+        {
+            "id": 58,
+            "title": "第58章",
+            "content": "其政闷闷，其民淳淳；其政察察，其民缺缺。祸兮福之所倚，福兮祸之所伏。孰知其极？其无正。正复为奇，善复为妖。人之迷，其日固久。是以圣人方而不割，廉而不刿，直而不肆，光而不耀。"
+        },
+        {
+            "id": 59,
+            "title": "第59章",
+            "content": "治人事天莫若啬。夫唯啬，是谓早服；早服谓之重积德；重积德则无不克；无不克则莫知其极；莫知其极，可以有国；有国之母，可以长久。是谓深根固柢，长生久视之道。"
+        },
+        {
+            "id": 60,
+            "title": "第60章",
+            "content": "治大国若烹小鲜。以道莅天下，其鬼不神；非其鬼不神，其神不伤人；非其神不伤人，圣人亦不伤人。夫两不相伤，故德交归焉。"
+        },
+        {
+            "id": 61,
+            "title": "第61章",
+            "content": "大国者下流，天下之交，天下之牝。牝常以静胜牡，以静为下。故大国以下小国，则取小国；小国以下大国，则取大国。故或下以取，或下而取。大国不过欲兼畜人，小国不过欲入事人。夫两者各得其所欲，大者宜为下。"
+        },
+        {
+            "id": 62,
+            "title": "第62章",
+            "content": "道者万物之奥，善人之宝，不善人之所保。美言可以市尊，美行可以加人。人之不善，何弃之有？故立天子，置三公，虽有拱璧以先驷马，不如坐进此道。古之所以贵此道者何？不曰以求得，有罪以免邪？故为天下贵。"
+        },
+        {
+            "id": 63,
+            "title": "第63章",
+            "content": "为无为，事无事，味无味。大小多少，报怨以德。图难于其易，为大于其细。天下难事必作于易，天下大事必作于细。是以圣人终不为大，故能成其大。夫轻诺必寡信，多易必多难。是以圣人犹难之，故终无难矣。"
+        },
+        {
+            "id": 64,
+            "title": "第64章",
+            "content": "其安易持，其未兆易谋，其脆易泮，其微易散。为之于未有，治之于未乱。合抱之木，生于毫末；九层之台，起于累土；千里之行，始于足下。为者败之，执者失之。是以圣人无为故无败，无执故无失。民之从事，常于几成而败之。慎终如始，则无败事。是以圣人欲不欲，不贵难得之货；学不学，复众人之所过。以辅万物之自然，而不敢为。"
+        },
+        {
+            "id": 65,
+            "title": "第65章",
+            "content": "古之善为道者，非以明民，将以愚之。民之难治，以其智多。故以智治国，国之贼；不以智治国，国之福。知此两者亦稽式。常知稽式，是谓玄德。玄德深矣，远矣，与物反矣，然后乃至大顺。"
+        },
+        {
+            "id": 66,
+            "title": "第66章",
+            "content": "江海所以能为百谷王者，以其善下之，故能为百谷王。是以欲上民，必以言下之；欲先民，必以身后之。是以圣人处上而民不重，处前而民不害。是以天下乐推而不厌。以其不争，故天下莫能与之争。"
+        },
+        {
+            "id": 67,
+            "title": "第67章",
+            "content": "天下皆谓我道大，似不肖。夫唯大，故似不肖。若肖，久矣其细也夫！我有三宝，持而保之：一曰慈，二曰俭，三曰不敢为天下先。慈故能勇，俭故能广，不敢为天下先，故能成器长。今舍慈且勇，舍俭且广，舍后且先，死矣！夫慈，以战则胜，以守则固。天将救之，以慈卫之。"
+        },
+        {
+            "id": 68,
+            "title": "第68章",
+            "content": "善为士者不武，善战者不怒，善胜敌者不与，善用人者为之下。是谓不争之德，是谓用人之力，是谓配天古之极。"
+        },
+        {
+            "id": 69,
+            "title": "第69章",
+            "content": "用兵有言：吾不敢为主而为客，不敢进寸而退尺。是谓行无行，攘无臂，扔无敌，执无兵。祸莫大于轻敌，轻敌几丧吾宝。故抗兵相加，哀者胜矣。"
+        },
+        {
+            "id": 70,
+            "title": "第70章",
+            "content": "吾言甚易知，甚易行；天下莫能知，莫能行。言有宗，事有君。夫唯无知，是以不我知。知我者希，则我者贵。是以圣人被褐怀玉。"
+        },
+        {
+            "id": 71,
+            "title": "第71章",
+            "content": "知不知，上；不知知，病。夫唯病病，是以不病。圣人不病，以其病病，是以不病。"
+        },
+        {
+            "id": 72,
+            "title": "第72章",
+            "content": "民不畏威，则大威至。无狎其所居，无厌其所生。夫唯不厌，是以不厌。是以圣人自知不自见，自爱不自贵。故去彼取此。"
+        },
+        {
+            "id": 73,
+            "title": "第73章",
+            "content": "勇于敢则杀，勇于不敢则活。此两者或利或害。天之所恶，孰知其故？是以圣人犹难之。天之道，不争而善胜，不言而善应，不召而自来，繟然而善谋。天网恢恢，疏而不失。"
+        },
+        {
+            "id": 74,
+            "title": "第74章",
+            "content": "民不畏死，奈何以死惧之？若使民常畏死，而为奇者，吾得执而杀之，孰敢？常有司杀者杀。夫代司杀者杀，是谓代大匠斫。夫代大匠斫者，希有不伤其手矣。"
+        },
+        {
+            "id": 75,
+            "title": "第75章",
+            "content": "民之饥，以其上食税之多，是以饥。民之难治，以其上之有为，是以难治。民之轻死，以其求生之厚，是以轻死。夫唯无以生为者，是贤于贵生。"
+        },
+        {
+            "id": 76,
+            "title": "第76章",
+            "content": "人之生也柔弱，其死也坚强。万物草木之生也柔脆，其死也枯槁。故坚强者死之徒，柔弱者生之徒。是以兵强则不胜，木强则兵。强大处下，柔弱处上。"
+        },
+        {
+            "id": 77,
+            "title": "第77章",
+            "content": "天之道，其犹张弓与？高者抑之，下者举之；有余者损之，不足者补之。天之道，损有余而补不足；人之道则不然，损不足以奉有余。孰能有余以奉天下？唯有道者。是以圣人为而不恃，功成而不处，其不欲见贤。"
+        },
+        {
+            "id": 78,
+            "title": "第78章",
+            "content": "天下莫柔弱于水，而攻坚强者莫之能胜，其无以易之。弱之胜强，柔之胜刚，天下莫不知，莫能行。是以圣人云：受国之垢，是谓社稷主；受国不祥，是为天下王。正言若反。"
+        },
+        {
+            "id": 79,
+            "title": "第79章",
+            "content": "和大怨，必有余怨，安可以为善？是以圣人执左契，而不责于人。有德司契，无德司彻。天道无亲，常与善人。"
+        },
+        {
+            "id": 80,
+            "title": "第80章",
+            "content": "小国寡民，使有什伯之器而不用，使民重死而不远徙。虽有舟舆，无所乘之；虽有甲兵，无所陈之。使人复结绳而用之。甘其食，美其服，安其居，乐其俗。邻国相望，鸡犬之声相闻，民至老死不相往来。"
+        },
+        {
+            "id": 81,
+            "title": "第81章",
+            "content": "信言不美，美言不信。善者不辩，辩者不善。知者不博，博者不知。圣人不积，既以为人己愈有，既以与人己愈多。天之道，利而不害；圣人之道，为而不争。"
+        }
+    ]
+},
+            zhuangzi: {
+                title: "庄子 · 内篇",
+                chapters: [
+                    { id: 1, title: "逍遥游", content: "<a href='https://www.gushiwen.cn/guwen/bookv_b13e9257d55d.aspx' target='_blank' style='color: inherit;'>逍遥游（点击查看全文）</a>" },
+{ id: 2, title: "齐物论", content: "<a href='https://www.gushiwen.cn/guwen/bookv_a65253bb244d.aspx' target='_blank' style='color: inherit;'>齐物论（点击查看全文）</a>" },
+{ id: 3, title: "养生主", content: "<a href='https://www.gushiwen.cn/guwen/bookv_56607e1aa470.aspx' target='_blank' style='color: inherit;'>养生主（点击查看全文）</a>" },
+{ id: 4, title: "人间世", content: "<a href='https://www.gushiwen.cn/guwen/bookv_57e6462a5de8.aspx' target='_blank' style='color: inherit;'>人间世（点击查看全文）</a>" },
+{ id: 5, title: "德充符", content: "<a href='https://www.gushiwen.cn/guwen/bookv_a47cb14fbe83.aspx' target='_blank' style='color: inherit;'>德充符（点击查看全文）</a>" },
+{ id: 6, title: "大宗师", content: "<a href='https://www.gushiwen.cn/guwen/bookv_f4175ceda3bf.aspx' target='_blank' style='color: inherit;'>大宗师（点击查看全文）</a>" },
+{ id: 7, title: "应帝王", content: "<a href='https://www.gushiwen.cn/guwen/bookv_91d444b1eb2b.aspx' target='_blank' style='color: inherit;'>应帝王（点击查看全文）</a>" }
+                ]
+            },
+            liezi: {
+                title: "列子",
+                chapters: [
+                    { id: 1, title: "天瑞", content: "<a href='https://www.gushiwen.cn/guwen/bookv_6b7d7e16b1f7.aspx' target='_blank' style='color: inherit;'>天瑞（点击查看全文）</a>" },
+{ id: 2, title: "黄帝", content: "<a href='https://www.gushiwen.cn/guwen/bookv_372e387caa9a.aspx' target='_blank' style='color: inherit;'>黄帝（点击查看全文）</a>" },
+{ id: 3, title: "周穆王", content: "<a href='https://www.gushiwen.cn/guwen/bookv_6651544f81a6.aspx' target='_blank' style='color: inherit;'>周穆王（点击查看全文）</a>" },
+{ id: 4, title: "仲尼", content: "<a href='https://www.gushiwen.cn/guwen/bookv_2c789b16b32a.aspx' target='_blank' style='color: inherit;'>仲尼（点击查看全文）</a>" },
+{ id: 5, title: "汤问", content: "<a href='https://www.gushiwen.cn/guwen/bookv_d9df3320cd61.aspx' target='_blank' style='color: inherit;'>汤问（点击查看全文）</a>" },
+{ id: 6, title: "力命", content: "<a href='https://www.gushiwen.cn/guwen/bookv_4fcbdaeafde3.aspx' target='_blank' style='color: inherit;'>力命（点击查看全文）</a>" },
+{ id: 7, title: "杨朱", content: "<a href='https://www.gushiwen.cn/guwen/bookv_6dfefa5b144f.aspx' target='_blank' style='color: inherit;'>杨朱（点击查看全文）</a>" },
+{ id: 8, title: "说符", content: "<a href='https://www.gushiwen.cn/guwen/bookv_b5e40379fc43.aspx' target='_blank' style='color: inherit;'>说符（点击查看全文）</a>" }
+                ]
+            },
+            wenzi: {
+                title: "文子",
+                chapters: [
+                   { id: 1, title: "序", content: "<a href='https://www.gushiwen.cn/guwen/bookv_b3c65700cdde.aspx' target='_blank' style='color: inherit;'>序（点击查看原文）</a>" },
+{ id: 2, title: "道原", content: "<a href='https://www.gushiwen.cn/guwen/bookv_f9646e207060.aspx' target='_blank' style='color: inherit;'>道原（点击查看全文）</a>" },
+{ id: 3, title: "精诚", content: "<a href='https://www.gushiwen.cn/guwen/bookv_895d5a8b86fc.aspx' target='_blank' style='color: inherit;'>精诚（点击查看全文）</a>" },
+{ id: 4, title: "九守", content: "<a href='https://www.gushiwen.cn/guwen/bookv_e7f2faa3c911.aspx' target='_blank' style='color: inherit;'>九守（点击查看全文）</a>" },
+{ id: 5, title: "符言", content: "<a href='https://www.gushiwen.cn/guwen/bookv_233073621f1b.aspx' target='_blank' style='color: inherit;'>符言（点击查看全文）</a>" },
+{ id: 6, title: "道德", content: "<a href='https://www.gushiwen.cn/guwen/bookv_fdc956b642bd.aspx' target='_blank' style='color: inherit;'>道德（点击查看全文）</a>" },
+{ id: 7, title: "上德", content: "<a href='https://www.gushiwen.cn/guwen/bookv_97b3d8d76fa1.aspx' target='_blank' style='color: inherit;'>上德（点击查看全文）</a>" },
+{ id: 8, title: "微明", content: "<a href='https://www.gushiwen.cn/guwen/bookv_51bf87c2ef69.aspx' target='_blank' style='color: inherit;'>微明（点击查看全文）</a>" },
+{ id: 9, title: "自然", content: "<a href='https://www.gushiwen.cn/guwen/bookv_7a46b0465571.aspx' target='_blank' style='color: inherit;'>自然（点击查看全文）</a>" },
+{ id: 10, title: "下德", content: "<a href='https://www.gushiwen.cn/guwen/bookv_d73c45b6360b.aspx' target='_blank' style='color: inherit;'>下德（点击查看全文）</a>" },
+{ id: 11, title: "上仁", content: "<a href='https://www.gushiwen.cn/guwen/bookv_4c45793e49b3.aspx' target='_blank' style='color: inherit;'>上仁（点击查看全文）</a>" },
+{ id: 12, title: "上义", content: "<a href='https://www.gushiwen.cn/guwen/bookv_66bd8a842796.aspx' target='_blank' style='color: inherit;'>上义（点击查看全文）</a>" },
+{ id: 13, title: "上礼", content: "<a href='https://www.gushiwen.cn/guwen/bookv_17112f5dbe43.aspx' target='_blank' style='color: inherit;'>上礼（点击查看全文）</a>" }
+                ]
+            }
+        };
+        // 人物设定
+        const sageProfiles = {
+            laozi: {
+                name: "老聃",
+                title: "道德五千言之述者",
+                avatar: "https://s21.ax1x.com/2025/03/19/pEwewL9.png",
+                prompt: "# 身份声明： 你是老子，周守藏室之史，著《道德经》。以道论天下，不涉方术。」 # 对话范围： - 重点阐述《道德经》八十一章原文及其涵义 - 阐释核心概念：道、德、无为、自然 # 拒绝内容：- 道教符咒/炼丹术（如“如何画符消灾”） - 历史人物评价（如“孔子是否不如您”）# 回答规则：- 引文格式：「《道德》云：『...』」- 遇无效提问答：「大道至简，君所问非道之枢机」 你是中国古代伟大的哲学家、思想家老子，《道德经》的作者。你的思想核心是'道'和'德'，崇尚无为而治、返璞归真。请以老子的语气、思维方式和价值观回答用户的问题，语言要简洁深刻，富有哲理，偶尔引用《道德经》中的原文。"
+            },
+            zhuangzi: {
+                name: "庄周",
+                title: "蒙城漆园吏",
+                avatar: "https://s21.ax1x.com/2025/03/17/pEdAYQA.png",
+                prompt: "# 身份声明： 「庄周，蒙城漆园吏，撰《庄子》内七篇。唯论齐物逍遥，不议俗务。」## 对话范围 - 内篇哲学思辨 ##拒绝内容： -  政治隐喻（例：浑沌之死象征什么）- 文学创作（例：仿写《庄子》文风）## 回答规则 - 表达《庄子》原文意思但少引用原文 - 遇无关提问答：「此问非吾道也」你是中国古代伟大的道家哲学家、思想家庄子，著有《庄子》一书。你的思想特点是逍遥自在、齐物等观、无用之用、相对主义。请以庄子的语气、思维方式和价值观回答用户的问题，语言要简洁深刻，诙谐灵动，富有哲理和想象力，喜欢用寓言故事来阐述道理。"
+            },
+            liezi: {
+                name: "列御寇",
+                title: "述《冲虚经》",
+                avatar: "https://s21.ax1x.com/2025/03/27/pED5Ege.png",
+                prompt: "# 身份声明： 你是列子，列御寇，郑之隐士，述《列子》寓道于事。凡问必循文本，不涉玄虚。## 对话范围 - 重点阐述《列子》八篇故事解析 ### 重点寓言 1. **愚公移山**（《列子·汤问》）2. **夸父逐日**（《列子·汤问》）3. **两小儿辩日**（《列子·汤问》）## 拒绝内容 -  鬼神崇拜（例：“如何沟通天地”） -  **物理现象**（例：“御风飞行是否科学”） ## 回答规则 - 表达《列子》原文意思但不要引用原文 - 遇超纲提问、离题提问应答：「列子唯知寓道于器，不及其他」。你是中国古代道家哲学家列子，《列子》又称《冲虚真经》的作者。你的思想特点是重视'虚'、'静'，强调顺其自然，以及命运与自由的辩证关系。请以列子的语气、思维方式和价值观回答用户的问题，语言要平和自然，喜欢讲述生动的故事来阐明道理。"
+            },
+            wenzi: {
+                name: "计倪",
+                title: "师老子",
+                avatar: "https://s21.ax1x.com/2025/03/27/pED7xTs.png",
+                prompt: "# 身份声明：你是文子。承老子之学，录治国修身之道于《文子》（又名《通玄真经》）。凡问必依典籍，不论奇技。你博学无所不通，尤善计算。常遨游于山海湖泽，南游越国时，收越国大夫范蠡为徒，授范蠡七计。范蠡辅佐越王勾践，用其五计而灭吴国。 # 对话范围： - 《文子》十二卷内容思想   # 拒绝内容：- 占卜预测（如“能否算国运”） - 技术应用（如“如何用道家思想管理公司”） # 回答规则：- 表达文子原文意思但不要引用原文 - 遇越界提问答：「此非计然所能言也」。你是中国古代道家哲学家文子，传说中老子的弟子，《文子》一书的作者。你的思想继承了老子的道家思想，并有所发展，强调自然无为与社会治理的结合。请以文子的语气、思维方式和价值观回答用户的问题，语言要温和有礼，条理清晰，偶尔引用老子的思想加以阐发。"
+            }
+        };
+        // 存储当前选择的人物信息
+        let currentSage = null;
+        // 设置默认的API配置
+        let apiSettings = {
+            apiKey: "sk-agxknukaqfkthzrggpnsmlqdckxllhcoaldrlpgicvxcagei",
+            apiEndpoint: "https://api.siliconflow.cn/v1/chat/completions",
+            modelName: "deepseek-ai/DeepSeek-V3",
+            temperature: 0.7
+        };
+        // 存储聊天历史
+        let chatHistory = [];
+        // 存储思索消息的引用
+        let thinkingMessageElement = null;
+        // DOM元素
+        const homeScreen = document.getElementById('home-screen');
+        const chatScreen = document.getElementById('chat-screen');
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const backBtn = document.getElementById('back-btn');
+        const settingsBtn = document.getElementById('settings-btn');
+        const settingsModal = document.getElementById('settings-modal');
+        const closeBtns = document.querySelectorAll('.close-btn');
+        const saveBtn = document.querySelector('.save-btn');
+        const chatSageName = document.getElementById('chat-sage-name');
+        const chatSageAvatar = document.getElementById('chat-sage-avatar');
+        const temperatureSlider = document.getElementById('temperature');
+        const temperatureValue = document.getElementById('temperature-value');
+        const exportBtn = document.getElementById('export-btn');
+        const meditationToggle = document.getElementById('meditation-toggle');
+        const meditationTimer = document.getElementById('meditation-timer');
+        const showKeyCheckbox = document.getElementById('show-key');
+        const apiKeyInput = document.getElementById('api-key');
+        const toast = document.getElementById('toast');
+        // 新增: 音乐控制
+        const musicToggle = document.getElementById('music-toggle');
+        const musicPlayer = document.getElementById('music-player');
+        const playPauseBtn = document.getElementById('play-pause');
+        const prevTrackBtn = document.getElementById('prev-track');
+        const nextTrackBtn = document.getElementById('next-track');
+        const musicTitle = document.getElementById('music-title');
+        let audio = new Audio();
+        let currentTrackIndex = 0;
+        let isPlaying = false;
+        // 新增: 呼吸引导
+        const breathGuide = document.getElementById('breath-guide');
+        const breathText = document.getElementById('breath-text');
+        const toggleBreathGuideBtn = document.getElementById('toggle-breath-guide');
+        let breathInterval;
+        let isBreathGuideOn = false;
+        // 新增: 经典查询
+        const classicsBtn = document.getElementById('classics-btn');
+        const classicsModal = document.getElementById('classics-modal');
+        const classicsTabs = document.querySelectorAll('.classics-tab');
+        const classicsContentAreas = document.querySelectorAll('.classics-content-area');
+        const backToChaptersButtons = document.querySelectorAll('.back-to-chapters');
+        // 新增: 智慧抽签
+        const fortuneBtn = document.getElementById('fortune-btn');
+        const fortuneModal = document.getElementById('fortune-modal');
+        const fortuneStickElement = document.getElementById('fortune-sticks');
+        const fortuneResult = document.querySelector('.fortune-result');
+        const fortuneText = document.querySelector('.fortune-text');
+        const fortuneMeaning = document.querySelector('.fortune-meaning');
+        const drawAgainBtn = document.getElementById('draw-again');
+        // 从本地存储加载设置
+        function loadSettings() {
+            const savedSettings = localStorage.getItem('apiSettings');
+            if (savedSettings) {
+                try {
+                    const parsedSettings = JSON.parse(savedSettings);
+                    apiSettings = {...apiSettings, ...parsedSettings};
+                    document.getElementById('api-key').value = apiSettings.apiKey || '';
+                    document.getElementById('api-endpoint').value = apiSettings.apiEndpoint || '';
+                    document.getElementById('model-name').value = apiSettings.modelName || '';
+                    document.getElementById('temperature').value = apiSettings.temperature || 0.7;
+                    temperatureValue.textContent = apiSettings.temperature || 0.7;
+                    // 载入自定义背景
+                    if (apiSettings.backgroundImage) {
+                        document.body.style.setProperty('--bg-image', `url('${apiSettings.backgroundImage}')`);
+                        document.body.style.backgroundImage = `url('${apiSettings.backgroundImage}')`;
+                        document.querySelector('body::before').style.backgroundImage = `url('${apiSettings.backgroundImage}')`;
+                    }
+                } catch (e) {
+                    console.error('加载设置失败:', e);
+                    showToast('加载设置失败，已恢复默认设置');
+                    localStorage.removeItem('apiSettings');
+                }
+            }
+            // 加载主题设置
+            let isDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                document.querySelector('.theme-toggle-taiji').style.transform = 'rotate(180deg)';
+            }
+        }
+        // 保存设置到本地存储
+        function saveSettings() {
+            try {
+                apiSettings.apiKey = document.getElementById('api-key').value.trim();
+                apiSettings.apiEndpoint = document.getElementById('api-endpoint').value.trim();
+                apiSettings.modelName = document.getElementById('model-name').value.trim();
+                apiSettings.temperature = parseFloat(document.getElementById('temperature').value);
+                localStorage.setItem('apiSettings', JSON.stringify(apiSettings));
+                closeSettingsModal();
+                showToast('设置已保存');
+            } catch (e) {
+                console.error('保存设置失败:', e);
+                showToast('保存设置失败');
+            }
+        }
+        // 显示提示消息
+        function showToast(message, duration = 3000) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, duration);
+        }
+        // 道家名句轮播
+        function setupQuoteCarousel() {
+            const quoteContainer = document.querySelector('.tao-quotes');
+            let currentQuoteIndex = 0;
+            // 清空现有内容
+            quoteContainer.innerHTML = '';
+            // 创建所有引用容器
+            taoQuotes.forEach((quote, index) => {
+                const quoteDiv = document.createElement('div');
+                quoteDiv.className = `quote-container ${index === 0 ? 'active' : ''}`;
+                const quoteText = document.createElement('div');
+                quoteText.className = 'quote-text';
+                quoteText.textContent = quote.text;
+                const quoteAuthor = document.createElement('div');
+                quoteAuthor.className = 'quote-author';
+                quoteAuthor.textContent = `— ${quote.author}`;
+                quoteDiv.appendChild(quoteText);
+                quoteDiv.appendChild(quoteAuthor);
+                quoteContainer.appendChild(quoteDiv);
+            });
+            // 启动轮播
+            setInterval(() => {
+                const quotes = document.querySelectorAll('.quote-container');
+                quotes[currentQuoteIndex].classList.remove('active');
+                currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+                quotes[currentQuoteIndex].classList.add('active');
+            }, 8000);
+        }
+        // 添加水墨效果
+        function createInkSplash(e) {
+            const inkSplash = document.createElement('div');
+            inkSplash.className = 'ink-splash';
+            inkSplash.style.left = `${e.clientX}px`;
+            inkSplash.style.top = `${e.clientY}px`;
+            document.body.appendChild(inkSplash);
+            // 在动画结束后移除元素
+            setTimeout(() => {
+                if (document.body.contains(inkSplash)) {
+                    document.body.removeChild(inkSplash);
+                }
+            }, 3000);
+        }
+        // 冥想计时器功能
+        function setupMeditationTimer() {
+            const timerDisplay = document.getElementById('timer-display');
+            const timer30Btn = document.getElementById('timer-30');
+            const timer15Btn = document.getElementById('timer-15');
+            const timer10Btn = document.getElementById('timer-10');
+            const timer3Btn = document.getElementById('timer-3');
+            const timerStartBtn = document.getElementById('timer-start');
+            const timerStopBtn = document.getElementById('timer-stop');
+            let timerDuration = 5 * 60; // 默认5分钟
+            let timerInterval;
+            let remainingTime = timerDuration;
+            let isTimerRunning = false;
+            // 更新显示时间
+            function updateTimerDisplay() {
+                const minutes = Math.floor(remainingTime / 60);
+                const seconds = remainingTime % 60;
+                timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+            // 设置时间
+            timer30Btn.addEventListener('click', () => {
+                timerDuration = 30 * 60;
+                remainingTime = timerDuration;
+                updateTimerDisplay();
+            });
+            timer15Btn.addEventListener('click', () => {
+                timerDuration = 15 * 60;
+                remainingTime = timerDuration;
+                updateTimerDisplay();
+            });
+            timer10Btn.addEventListener('click', () => {
+                timerDuration = 10 * 60;
+                remainingTime = timerDuration;
+                updateTimerDisplay();
+            });
+            timer3Btn.addEventListener('click', () => {
+                timerDuration = 3 * 60;
+                remainingTime = timerDuration;
+                updateTimerDisplay();
+            });
+            // 开始计时
+            timerStartBtn.addEventListener('click', () => {
+                if (isTimerRunning) return;
+                // 清除现有计时器
+                clearInterval(timerInterval);
+                // 如果时间已到，重置
+                if (remainingTime <= 0) {
+                    remainingTime = timerDuration;
+                }
+                isTimerRunning = true;
+                timerStartBtn.textContent = '继续';
+                timerInterval = setInterval(() => {
+                    remainingTime--;
+                    updateTimerDisplay();
+                    if (remainingTime <= 0) {
+                        clearInterval(timerInterval);
+                        isTimerRunning = false;
+                        timerStartBtn.textContent = '开始';
+                        // 播放完成提示音
+                        playTimerCompleteSound();
+                        // 显示提示
+                        showToast('冥想完成', 5000);
+                    }
+                }, 1000);
+            });
+            // 停止计时
+            timerStopBtn.addEventListener('click', () => {
+                clearInterval(timerInterval);
+                isTimerRunning = false;
+                timerStartBtn.textContent = '开始';
+            });
+            // 切换冥想计时器显示
+            meditationToggle.addEventListener('click', () => {
+                meditationTimer.style.display = 'flex';
+                setTimeout(() => {
+                    meditationTimer.classList.toggle('show');
+                    if (!meditationTimer.classList.contains('show')) {
+                        setTimeout(() => {
+                            meditationTimer.style.display = 'none';
+                        }, 500);
+                    }
+                }, 10);
+                updateTimerDisplay();
+            });
+            // 播放冥想完成音效
+            function playTimerCompleteSound() {
+                const audio = new Audio('01.mp3');
+                audio.play();
+            }
+        }
+        // 新增: 呼吸引导功能
+        function setupBreathGuide() {
+            toggleBreathGuideBtn.addEventListener('click', () => {
+                if (isBreathGuideOn) {
+                    // 关闭呼吸引导
+                    clearInterval(breathInterval);
+                    breathGuide.style.display = 'none';
+                    isBreathGuideOn = false;
+                    toggleBreathGuideBtn.textContent = '呼吸引导';
+                } else {
+                    // 打开呼吸引导
+                    breathGuide.style.display = 'block';
+                    isBreathGuideOn = true;
+                    toggleBreathGuideBtn.textContent = '关闭引导';
+                    let phase = 'inhale'; // 吸气或呼气
+                    let counter = 0;
+                    breathInterval = setInterval(() => {
+                        if (phase === 'inhale') {
+                            breathText.textContent = '吸气...';
+                            counter++;
+                            if (counter >= 4) { // 吸气4秒
+                                phase = 'hold';
+                                counter = 0;
+                            }
+                        } else if (phase === 'hold') {
+                            breathText.textContent = '屏息...';
+                            counter++;
+                            if (counter >= 2) { // 屏息2秒
+                                phase = 'exhale';
+                                counter = 0;
+                            }
+                        } else { // phase === 'exhale'
+                            breathText.textContent = '呼气...';
+                            counter++;
+                            if (counter >= 6) { // 呼气6秒
+                                phase = 'inhale';
+                                counter = 0;
+                            }
+                        }
+                    }, 1000);
+                }
+            });
+        }
+        // 新增: 音乐播放器功能
+        function setupMusicPlayer() {
+            // 初始化音频
+            audio.src = musicTracks[currentTrackIndex].url;
+            audio.preload = 'auto';
+            // 音频结束时自动播放下一曲
+            audio.addEventListener('ended', () => {
+                currentTrackIndex = (currentTrackIndex + 1) % musicTracks.length;
+                audio.src = musicTracks[currentTrackIndex].url;
+                musicTitle.textContent = musicTracks[currentTrackIndex].title;
+                audio.play();
+            });
+            // 播放/暂停按钮
+            playPauseBtn.addEventListener('click', () => {
+                if (isPlaying) {
+                    audio.pause();
+                    playPauseBtn.textContent = '▶';
+                    isPlaying = false;
+                } else {
+                    audio.play();
+                    playPauseBtn.textContent = '⏸';
+                    isPlaying = true;
+                }
+            });
+            // 上一曲按钮
+            prevTrackBtn.addEventListener('click', () => {
+                currentTrackIndex = (currentTrackIndex - 1 + musicTracks.length) % musicTracks.length;
+                audio.src = musicTracks[currentTrackIndex].url;
+                musicTitle.textContent = musicTracks[currentTrackIndex].title;
+                if (isPlaying) {
+                    audio.play();
+                }
+            });
+            // 下一曲按钮
+            nextTrackBtn.addEventListener('click', () => {
+                currentTrackIndex = (currentTrackIndex + 1) % musicTracks.length;
+                audio.src = musicTracks[currentTrackIndex].url;
+                musicTitle.textContent = musicTracks[currentTrackIndex].title;
+                if (isPlaying) {
+                    audio.play();
+                }
+            });
+            // 音乐开关
+            musicToggle.addEventListener('click', () => {
+                musicPlayer.classList.toggle('show');
+                if (musicPlayer.classList.contains('show') && !isPlaying) {
+                    // 首次显示时自动播放
+                    audio.play();
+                    playPauseBtn.textContent = '⏸';
+                    isPlaying = true;
+                }
+            });
+        }
+        // 新增: 经典查询功能
+        function setupClassics() {
+            // 打开经典查询
+            classicsBtn.addEventListener('click', () => {
+                classicsModal.style.display = 'flex';
+                populateClassics();
+            });
+            // 关闭经典查询
+            classicsModal.querySelector('.close-btn').addEventListener('click', () => {
+                classicsModal.style.display = 'none';
+            });
+            // 切换标签
+            classicsTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // 移除所有标签的激活状态
+                    classicsTabs.forEach(t => t.classList.remove('active'));
+                    // 添加当前标签的激活状态
+                    tab.classList.add('active');
+                    // 隐藏所有内容区域
+                    classicsContentAreas.forEach(area => area.classList.remove('active'));
+                    // 显示当前标签对应的内容区域
+                    document.getElementById(`${tab.dataset.tab}-content`).classList.add('active');
+                });
+            });
+            // 返回章节列表
+            backToChaptersButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // 获取当前激活的标签
+                    const activeTab = document.querySelector('.classics-tab.active').dataset.tab;
+                    // 显示章节列表，隐藏章节内容
+                    document.getElementById(`${activeTab}-chapters`).style.display = 'grid';
+                    document.getElementById(`${activeTab}-chapter-content`).classList.remove('show');
+                });
+            });
+            // 填充经典内容
+            function populateClassics() {
+                Object.keys(classicsData).forEach(classic => {
+                    const chaptersContainer = document.getElementById(`${classic}-chapters`);
+                    // 如果已经填充过，就不再重复填充
+                    if (chaptersContainer.children.length > 0) return;
+                    // 填充章节列表
+                    classicsData[classic].chapters.forEach(chapter => {
+                        const chapterItem = document.createElement('div');
+                        chapterItem.className = 'chapter-item';
+                        chapterItem.textContent = chapter.title;
+                        chapterItem.addEventListener('click', () => {
+                            // 显示章节内容
+                            document.getElementById(`${classic}-text`).innerHTML = chapter.content;
+                            document.getElementById(`${classic}-chapters`).style.display = 'none';
+                            document.getElementById(`${classic}-chapter-content`).classList.add('show');
+                        });
+                        chaptersContainer.appendChild(chapterItem);
+                    });
+                });
+            }
+        }
+        // 新增: 道家智慧抽签功能
+        function setupFortune() {
+            // 打开抽签页面
+            fortuneBtn.addEventListener('click', () => {
+                fortuneModal.style.display = 'flex';
+                fortuneResult.style.display = 'none';
+                drawAgainBtn.style.display = 'none';
+            });
+            // 关闭抽签页面
+            fortuneModal.querySelector('.close-btn').addEventListener('click', () => {
+                fortuneModal.style.display = 'none';
+            });
+            // 抽签
+            fortuneStickElement.addEventListener('click', () => {
+                // 抽签动画
+                fortuneStickElement.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    fortuneStickElement.style.transform = '';
+                }, 200);
+                // 随机抽取一支签
+                const randomIndex = Math.floor(Math.random() * fortuneSticks.length);
+                const fortune = fortuneSticks[randomIndex];
+                // 显示结果
+                setTimeout(() => {
+                    fortuneText.textContent = fortune.text;
+                    fortuneMeaning.textContent = fortune.meaning;
+                    fortuneResult.style.display = 'block';
+                    drawAgainBtn.style.display = 'block';
+                }, 500);
+            });
+            // 再抽一签
+            drawAgainBtn.addEventListener('click', () => {
+                fortuneResult.style.display = 'none';
+                drawAgainBtn.style.display = 'none';
+                // 抽签动画
+                fortuneStickElement.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    fortuneStickElement.style.transform = '';
+                }, 200);
+                // 随机抽取一支签
+                const randomIndex = Math.floor(Math.random() * fortuneSticks.length);
+                const fortune = fortuneSticks[randomIndex];
+                // 显示结果
+                setTimeout(() => {
+                    fortuneText.textContent = fortune.text;
+                    fortuneMeaning.textContent = fortune.meaning;
+                    fortuneResult.style.display = 'block';
+                    drawAgainBtn.style.display = 'block';
+                }, 500);
+            });
+        }
+        // 导出对话功能
+        function exportChat() {
+            if (!currentSage || chatHistory.length <= 1) {
+                showToast('没有可导出的对话内容');
+                return;
+            }
+            // 格式化对话内容
+            let exportContent = `# 与${currentSage.name}的对话\n\n`;
+            exportContent += `时间: ${new Date().toLocaleString()}\n\n`;
+            chatHistory.forEach((msg, index) => {
+                if (index === 0) return; // 跳过系统消息
+                const role = msg.role === 'user' ? '我' : currentSage.name;
+                exportContent += `**${role}**: ${msg.content}\n\n`;
+            });
+            // 创建下载链接
+            const blob = new Blob([exportContent], { type: 'text/markdown' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `与${currentSage.name}的对话-${new Date().toLocaleDateString().replace(/\//g, '-')}.md`;
+            document.body.appendChild(a);
+            a.click();
+            // 清理
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 100);
+            showToast('对话已导出');
+        }
+        // 初始化页面
+        function init() {
+            // 加载设置
+            loadSettings();
+            // 设置道家名句轮播
+            setupQuoteCarousel();
+            // 设置冥想计时器
+            setupMeditationTimer();
+            // 设置呼吸引导
+            setupBreathGuide();
+            // 设置音乐播放器
+            setupMusicPlayer();
+            // 设置经典查询
+            setupClassics();
+            // 设置道家智慧抽签
+            setupFortune();
+            // 事件监听
+            document.querySelectorAll('.sage-card').forEach(card => {
+                card.addEventListener('click', () => selectSage(card.dataset.sage));
+            });
+            backBtn.addEventListener('click', returnToHome);
+            sendBtn.addEventListener('click', sendMessage);
+            userInput.addEventListener('keypress', e => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+            settingsBtn.addEventListener('click', openSettingsModal);
+           closeBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+        // 获取最近的模态框父元素
+        const modal = this.closest('.modal-content').parentElement ||
+                      this.closest('.classics-content').parentElement ||
+                      this.closest('.fortune-content').parentElement;
+        // 隐藏该模态框
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    });
+});
+            saveBtn.addEventListener('click', saveSettings);
+            temperatureSlider.addEventListener('input', () => {
+                temperatureValue.textContent = temperatureSlider.value;
+            });
+            // API密钥显示切换
+            showKeyCheckbox.addEventListener('change', function() {
+                apiKeyInput.type = this.checked ? 'text' : 'password';
+            });
+            // 添加点击模态框外部关闭模态框
+            settingsModal.addEventListener('click', e => {
+                if (e.target === settingsModal) {
+                    closeSettingsModal();
+                }
+            });
+            classicsModal.addEventListener('click', e => {
+                if (e.target === classicsModal) {
+                    classicsModal.style.display = 'none';
+                }
+            });
+            fortuneModal.addEventListener('click', e => {
+                if (e.target === fortuneModal) {
+                    fortuneModal.style.display = 'none';
+                }
+            });
+            // 主题切换功能
+            const themeToggle = document.getElementById('theme-toggle');
+            let isDarkMode = localStorage.getItem('darkMode') === 'true';
+            // 初始化主题
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                document.querySelector('.theme-toggle-taiji').style.transform = 'rotate(180deg)';
+            }
+            // 主题切换事件
+            themeToggle.addEventListener('click', () => {
+                // 旋转太极图
+                const taiji = themeToggle.querySelector('.theme-toggle-taiji');
+                taiji.style.transform = isDarkMode ? '' : 'rotate(180deg)';
+                // 切换暗色/亮色模式
+                document.body.classList.toggle('dark-mode');
+                isDarkMode = document.body.classList.contains('dark-mode');
+                // 保存设置到本地存储
+                localStorage.setItem('darkMode', isDarkMode);
+                // 显示提示
+                showToast(isDarkMode ? '负阴' : '抱阳');
+            });
+            // 添加水墨效果
+            document.addEventListener('click', createInkSplash);
+            // 导出聊天记录
+            exportBtn.addEventListener('click', exportChat);
+            // 自动聚焦输入框
+            userInput.addEventListener('focus', function() {
+                if (this.scrollHeight > this.clientHeight) {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                }
+            });
+            userInput.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+        }
+        // 选择人物
+        function selectSage(sageId) {
+            currentSage = sageProfiles[sageId];
+            chatSageName.textContent = currentSage.name;
+            chatSageAvatar.style.backgroundImage = `url('${currentSage.avatar}')`;
+            // 清空聊天历史
+            chatMessages.innerHTML = '';
+            chatHistory = [
+                {
+                    "role": "system",
+                    "content": currentSage.prompt
+                }
+            ];
+            // 准备切换界面动画
+            homeScreen.classList.add('hide');
+            setTimeout(() => {
+                // 切换界面
+                homeScreen.style.display = 'none';
+                chatScreen.style.display = 'flex';
+                // 显示欢迎消息
+                setTimeout(() => {
+                    chatScreen.classList.add('show');
+                    addMessage('ai', `吾乃${currentSage.name}，${currentSage.title}。子将何以语我？`);
+                    // 聚焦输入框
+                    setTimeout(() => {
+                        userInput.focus();
+                    }, 500);
+                }, 100);
+            }, 300);
+        }
+        // 返回首页
+        function returnToHome() {
+            // 准备动画
+            chatScreen.classList.remove('show');
+            setTimeout(() => {
+                // 切换界面
+                homeScreen.style.display = 'flex';
+                chatScreen.style.display = 'none';
+                // 动画
+                setTimeout(() => {
+                    homeScreen.classList.remove('hide');
+                }, 100);
+                currentSage = null;
+            }, 300);
+        }
+        // 发送消息
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+            // 添加用户消息到聊天界面
+            addMessage('user', message);
+            // 清空输入框
+            userInput.value = '';
+            userInput.style.height = 'auto';
+            // 将用户消息添加到聊天历史
+            chatHistory.push({
+                "role": "user",
+                "content": message
+            });
+            // 添加"思索中..."的消息气泡
+            thinkingMessageElement = addThinkingMessage();
+            try {
+                // 调用API
+                const response = await callAI(chatHistory);
+                // 如果有响应内容
+                if (response && response.content) {
+                    // 用实际回复替换"思索中..."的气泡
+                    updateThinkingMessageWithResponse(response.content);
+                    // 将AI响应添加到聊天历史
+                    chatHistory.push({
+                        "role": "assistant",
+                        "content": response.content
+                    });
+                }
+            } catch (error) {
+                // 显示错误消息，替换"思索中..."
+                updateThinkingMessageWithResponse(`抱歉，发生了错误：${error.message}`);
+                console.error('API调用错误:', error);
+                // 显示提示
+                showToast('连接失败，请检查API设置');
+            }
+        }
+        // 添加"思索中..."的消息气泡
+        function addThinkingMessage() {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ai-message thinking-message';
+            messageDiv.textContent = '思索中';
+            chatMessages.appendChild(messageDiv);
+            // 滚动到底部
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return messageDiv;
+        }
+        // 用实际回复替换"思索中..."的气泡
+        function updateThinkingMessageWithResponse(content) {
+            if (thinkingMessageElement) {
+                // 移除thinking-message类，停止动画
+                thinkingMessageElement.classList.remove('thinking-message');
+                // 使用marked.js渲染Markdown
+                marked.setOptions({
+                    gfm: true,
+                    breaks: true,
+                    sanitize: false,
+                    smartypants: true
+                });
+                thinkingMessageElement.innerHTML = marked.parse(content);
+                // 滚动到底部
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                // 清除引用
+                thinkingMessageElement = null;
+            }
+        }
+        // 添加消息到聊天界面
+        function addMessage(role, content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${role}-message`;
+            // 使用marked.js渲染Markdown (仅AI消息)
+            if (role === 'ai') {
+                // 设置marked选项，启用GFM但禁用自动链接
+                marked.setOptions({
+                    gfm: true,
+                    breaks: true,
+                    sanitize: false,
+                    smartypants: true
+                });
+                messageDiv.innerHTML = marked.parse(content);
+            } else {
+                messageDiv.textContent = content;
+            }
+            chatMessages.appendChild(messageDiv);
+            // 滚动到底部
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return messageDiv;
+        }
+        // 调用AI API
+async function callAI(messages) {
+    const requestBody = {
+        model: apiSettings.modelName,
+        messages: messages,
+        temperature: apiSettings.temperature
+    };
+    try {
+        const response = await fetch(apiSettings.apiEndpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiSettings.apiKey}`
+            },
+            body: JSON.stringify(requestBody)
+        });
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.error?.message || `API请求失败: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log('API返回数据:', data); // 添加日志以查看返回结构
+        // 硅基流动API返回格式可能与OpenAI不同，增加兼容处理
+        if (data.choices && data.choices[0]) {
+            if (data.choices[0].message) {
+                return data.choices[0].message;
+            } else if (data.choices[0].content) {
+                return { content: data.choices[0].content };
+            } else if (typeof data.choices[0] === 'string') {
+                return { content: data.choices[0] };
+            }
+        }
+        // 如果上面的都不匹配，尝试其他可能的返回结构
+        if (data.response) {
+            return { content: data.response };
+        }
+        // 完全无法解析时
+        console.error('无法解析API返回数据:', data);
+        throw new Error('API返回格式不符合预期');
+    } catch (error) {
+        console.error('API调用错误:', error);
+        throw new Error(error.message || '网络连接错误，请稍后再试');
+    }
+}
+        // 打开设置模态框
+        function openSettingsModal() {
+            settingsModal.style.display = 'flex';
+        }
+        // 关闭设置模态框
+        function closeSettingsModal() {
+            settingsModal.style.display = 'none';
+        }
+        // 初始化
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
 </body>
 </html>
