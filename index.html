@@ -959,7 +959,48 @@ margin-top: 5px; /* 添加小的上边距 */
         width: 25px;
         height: 25px;
     }
+     /* 修复太极图内部小圆点的比例问题 */
+    .theme-toggle-taiji::before,
+    .theme-toggle-taiji::after {
+        width: 12.5px;  /* 按比例缩小内部圆点 */
+        height: 12.5px;
+    }
     
+    .theme-toggle-taiji::before {
+        left: 6.25px;  /* 调整左侧圆点位置 */
+    }
+    
+    .theme-toggle-taiji::after {
+        right: 6.25px;  /* 调整右侧圆点位置 */
+    }
+    
+    /* 可选：调整阴影使其更精致 */
+    .theme-toggle-taiji {
+        box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    }
+}
+
+/* 对于特小屏幕，进一步微调 */
+@media (max-width: 375px) {
+    .theme-toggle {
+        width: 22px;
+        height: 22px;
+    }
+    
+    .theme-toggle-taiji::before,
+    .theme-toggle-taiji::after {
+        width: 11px;
+        height: 11px;
+    }
+    
+    .theme-toggle-taiji::before {
+        left: 5.5px;
+    }
+    
+    .theme-toggle-taiji::after {
+        right: 5.5px;
+    }
+}
     /* 修改冥想计时器 */
     #meditation-timer {
         padding: 10px;
