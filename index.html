@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>问道</title>
-	<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/marked/marked.min.css">
     <style>
@@ -208,7 +208,7 @@ font-family:"楷体", "KaiTi", "BiauKai", serif;
             transform: translateY(50px);
             opacity: 0;
             animation: card-appear 0.8s forwards;
- height: auto;           /* 高度自动调整 */
+height: auto;           /* 高度自动调整 */
     min-height: 100px;      /* 设置最小高度 */
         }
         @keyframes card-appear {
@@ -374,7 +374,7 @@ text-shadow:
                 2px 2px 4px rgba(0, 0, 0, 0.5),  /* 第一层阴影，模糊和扩展更多 */
                 -2px -2px 4px rgba(255, 255, 255, 0.8), /* 第二层白色阴影，模糊和扩展更多 */
                 2px -2px 4px rgba(0, 0, 0, 0.5),  /* 第三层阴影，模糊和扩展更多 */
-                -2px 2px 4px rgba(255, 255, 255, 0.8);  
+                -2px 2px 4px rgba(255, 255, 255, 0.8);
         }
         #settings-btn:hover, #back-btn:hover, #export-btn:hover, #meditation-toggle:hover,
         #music-toggle:hover, #classics-btn:hover, #fortune-btn:hover {
@@ -686,45 +686,6 @@ height: 40px; /* 设置初始高度更小 */
             transition: color var(--transition-speed) ease;
 margin-top: 5px; /* 添加小的上边距 */
         }
-        /* 道家名句轮播区域 */
-        .tao-quotes {
-            padding: 10px 0;
-            text-align: center;
-            font-style: italic;
-            color: var(--text-color);
-            opacity: 0.8;
-            position: relative;
-            margin: 0 auto;
-            max-width: 90%;
-            overflow: hidden;
-            height: 50px;
-            transition: color var(--transition-speed) ease;
-        }
-        .quote-container {
-            transition: opacity 1s ease-in-out;
-            position: absolute;
-            width: 100%;
-            left: 0;
-            right: 0;
-            opacity: 0;
-        }
-        .quote-text {
-            font-family: 'STKaiti', 'KaiTi', serif;
-            letter-spacing: 1px;
-            font-size: 1em;
-            line-height: 1.5;
-        }
-        .quote-author {
-            font-size: 0.8em;
-            margin-top: 5px;
-            color: var(--text-color);
-            opacity: 0.6;
-            transition: color var(--transition-speed) ease;
-        }
-        .quote-container.active {
-            opacity: 1;
-            z-index: 1;
-        }
         /* 主题切换开关 */
         .theme-toggle {
             position: fixed;
@@ -881,77 +842,56 @@ margin-top: 5px; /* 添加小的上边距 */
     .timer-buttons {
         flex-direction: column;
     }
-    
     /* 移动端添加以下优化 */
     .container {
         padding: 10px 20px;
     }
-    
     .buttons {
         gap: 20px;
     }
-    
     /* 修改底部导航栏和按钮布局 */
     #chat-header {
         padding: 5px 0;
     }
-    
     #chat-title {
         font-size: 1.2em;
     }
-    
     #chat-sage-avatar {
         width: 30px;
         height: 30px;
     }
-    
     #settings-btn, #back-btn, #export-btn, #meditation-toggle, #music-toggle, #classics-btn, #fortune-btn {
         margin-left: 5px;
         font-size: 1em;
     }
-    
     /* 改进聊天区域 */
     #chat-messages {
         max-height: calc(100vh - 180px);
     }
-    
     /* 改进输入区域 */
     #chat-input {
         padding: 8px;
     }
-    
     #user-input {
         height: 36px;
         padding: 8px;
     }
-    
     #send-btn {
         padding: 0 15px;
     }
-    
     /* 模态框调整 */
     .modal-content, .classics-content, .fortune-content {
         width: 95%;
         padding: 15px;
     }
-    
     .chapter-list {
         grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
         gap: 8px;
     }
-    
     /* 修改音乐播放器 */
     #music-title {
         max-width: 120px;
     }
-    
-    /* 修改引言区域 */
-    .tao-quotes {
-        height: 40px;
-        padding: 5px 0;
-        font-size: 0.9em;
-    }
-    
     /* 修改主题切换按钮位置 */
     .theme-toggle {
         top: 10px;
@@ -965,38 +905,31 @@ margin-top: 5px; /* 添加小的上边距 */
         width: 12.5px;  /* 按比例缩小内部圆点 */
         height: 12.5px;
     }
-    
     .theme-toggle-taiji::before {
         left: 6.25px;  /* 调整左侧圆点位置 */
     }
-    
     .theme-toggle-taiji::after {
         right: 6.25px;  /* 调整右侧圆点位置 */
     }
-    
     /* 可选：调整阴影使其更精致 */
     .theme-toggle-taiji {
         box-shadow: 0 0 5px rgba(0,0,0,0.2);
     }
 }
-
 /* 对于特小屏幕，进一步微调 */
 @media (max-width: 375px) {
     .theme-toggle {
         width: 22px;
         height: 22px;
     }
-    
     .theme-toggle-taiji::before,
     .theme-toggle-taiji::after {
         width: 11px;
         height: 11px;
     }
-    
     .theme-toggle-taiji::before {
         left: 5.5px;
     }
-    
     .theme-toggle-taiji::after {
         right: 5.5px;
     }
@@ -1007,53 +940,42 @@ margin-top: 5px; /* 添加小的上边距 */
         bottom: 10px;
         right: 10px;
     }
-    
     #timer-display {
         font-size: 1.5em;
         margin: 10px 0;
     }
-    
     /* 增加触摸面积 */
     .sage-card, .chapter-item, .timer-btn, .music-control, .close-btn {
         min-height: 44px;
     }
 }
-
 /* 添加小屏幕手机额外适配 */
 @media (max-width: 375px) {
     #home-screen {
         gap: 10px;
     }
-    
     .sage-card {
         width: 120px;
     }
-    
     .sage-avatar {
         width: 80px;
         height: 80px;
     }
-    
     .buttons {
         gap: 10px;
     }
-    
     /* 标题文字更紧凑 */
     h1 {
         font-size: calc(1.5rem + 1vw);
         letter-spacing: 3px;
     }
-    
     #chat-title {
         font-size: 1em;
     }
-    
     footer {
         font-size: 0.8em;
     }
 }
-
-	    
         /* 页面加载动画 */
         .page-loader {
             position: fixed;
@@ -1639,13 +1561,7 @@ opacity: 0.4;
                 </div>
             </div>
         </main>
-        <!-- 道家名句轮播 -->
-        <div class="tao-quotes">
-            <div class="quote-container active">
-                <div class="quote-text">道可道，非常道；名可名，非常名。</div>
-                <div class="quote-author">— 老子《道德经》</div>
-            </div>
-        </div>
+       
         <footer>
            生成内容仅供参考和学习交流，不代表任何哲学或历史观点。<br> 问道 © 2025 <a href="https://other.azad.asia" target="_blank" style="color: inherit; text-decoration: none;">Azad -实验室</a>  | <a href="https://qhgpt.aihub.ren" target="_blank" style="color: inherit; text-decoration: none;">问禅·却惑几菩提</a>
         </footer>
@@ -1789,34 +1705,7 @@ opacity: 0.4;
                 document.getElementById('page-transition').style.opacity = '0';
             }, 1000);
         });
-        // 道家名句数组
-        const taoQuotes = [
-            { text: "道可道，非常道；名可名，非常名。", author: "老子《道德经》" },
-            { text: "上善若水，水善利万物而不争。", author: "老子《道德经》" },
-            { text: "天下万物生于有，有生于无。", author: "老子《道德经》" },
-            { text: "知人者智，自知者明。胜人者有力，自胜者强。", author: "老子《道德经》" },
-            { text: "大方无隅，大器晚成，大音希声，大象无形。", author: "老子《道德经》" },
-            { text: "为学日益，为道日损。损之又损，以至于无为。", author: "老子《道德经》" },
-            { text: "天地不仁，以万物为刍狗；圣人不仁，以百姓为刍狗。", author: "老子《道德经》" },
-            { text: "知足者富，强行者有志，不失其所者久，死而不亡者寿。", author: "老子《道德经》" },
-            { text: "朴素而天下莫能与之争美。", author: "老子《道德经》" },
-            { text: "胜人者有力，自胜者强。", author: "老子《道德经》" },
-            { text: "天下大事必作于细，天下难事必作于易。", author: "老子《道德经》" },
-            { text: "天下皆知美之为美，斯恶已；皆知善之为善，斯不善已。", author: "老子《道德经》" },
-            { text: "民不畏死，奈何以死惧之？", author: "老子《道德经》" },
-            { text: "轻诺必寡信，多易必多难。", author: "老子《道德经》" },
-            { text: "将欲歙之，必固张之；将欲弱之，必固强之。", author: "老子《道德经》" },
-            { text: "至人无己，神人无功，圣人无名。", author: "庄子《逍遥游》" },
-            { text: "小知不及大知，小年不及大年。", author: "庄子《逍遥游》" },
-            { text: "昔者庄周梦为胡蝶，栩栩然胡蝶也，自喻适志与！不知周也。", author: "庄子《齐物论》" },
-            { text: "井蛙不可以语于海者，拘于虚也；夏虫不可以语于冰者，笃于时也。", author: "庄子《秋水》" },
-            { text: "人生天地之间，若白驹过隙，忽然而已。", author: "庄子《知北游》" },
-            { text: "水之积也不厚，则其负大舟也无力。", author: "庄子《秋水》" },
-            { text: "且夫水之于物也，无求而往，无息而流。", author: "列子《汤问》" },
-            { text: "贵出贱入，贱出贵返，理不常也；有余而往，不足而来。", author: "列子《天瑞》" },
-            { text: "静漠恬淡，澹无所思虑，寂无所感动，纯全至和。", author: "文子《上德》" },
-            { text: "道者，无始无终，无盈无虚。", author: "文子《道原》" }
-        ];
+        
         // 道家智慧签
         const fortuneSticks = [
             { text: "道生一，一生二，二生三，三生万物。", meaning: "万物源于道，由简入繁，循环往复。此签表示从简单开始，自然发展，顺应变化。" },
@@ -1842,7 +1731,7 @@ opacity: 0.4;
             { text: "塞翁失马，安知非福。", meaning: "老人丢失了马，谁知道不是一件好事呢？此签暗示祸福相依，转念看待，逆境也可能是福。" },
             { text: "夫唯不争，故天下莫能与之争。", meaning: "正因为不争，所以天下没有人能与之争。此签提示以无争的态度处世，反而能得到更多。" },
             { text: "见素抱朴，少私寡欲。", meaning: "保持纯朴，减少私欲。此签教导简朴生活，减少欲望，回归纯真本性。" },
-	 { text: "柔弱胜刚强，鱼不可脱于渊。", meaning: "柔弱能战胜刚强，就像鱼不能离开水。此签提醒保持柔韧本性，不要脱离根本。" },
+{ text: "柔弱胜刚强，鱼不可脱于渊。", meaning: "柔弱能战胜刚强，就像鱼不能离开水。此签提醒保持柔韧本性，不要脱离根本。" },
     { text: "致虚极，守静笃。万物并作，吾以观复。", meaning: "达到极致的虚空，保持深度的宁静。观察万物循环往复。此签指引通过虚静状态领悟自然规律。" },
     { text: "圣人不积，既以为人己愈有，既以与人己愈多。", meaning: "智者不囤积财富，越是帮助别人自己越充实，越是给予别人自己越富足。此签阐释利他即利己的哲理。" },
     { text: "重为轻根，静为躁君。", meaning: "厚重是轻率的根本，宁静是躁动的主宰。此签教导处事应稳重沉着，以静制动。" },
@@ -1853,14 +1742,14 @@ opacity: 0.4;
     { text: "大道废，有仁义；智慧出，有大伪。", meaning: "当大道被废弃，才需要强调仁义；当智巧出现，就会产生严重虚伪。此签反思过度人为造成的弊端。" },
     { text: "无为而无不为。", meaning: "通过不妄为，反而能够无所不为。此签揭示顺应自然规律做事，比强行干预更有效。" },
     { text: "知者不言，言者不知。", meaning: "真正明白的人不妄言，妄言的人并不真正明白。此签提醒谨言慎行，避免浅薄议论。" },
-{ text: "井蛙不可以语于海，夏虫不可以语于冰。", meaning: "不可与井底之蛙谈论大海，不可与夏生之虫谈论冰雪。此签提醒认知受限于经历，当保持开放心态。" }, 
-    { text: "相濡以沫，不如相忘于江湖。", meaning: "与其在干涸处用唾沫互相滋润，不如在江湖中彼此遗忘。此签暗示强行维系不如自然放手，各得自在。" }, { text: "人生天地之间，若白驹过隙，忽然而已。", meaning: "人生于天地之间，如同白马掠过缝隙，转瞬即逝。此签提醒珍惜当下，勿为琐事耗费光阴。" }, 
-    { text: "凫胫虽短，续之则忧；鹤胫虽长，断之则悲。", meaning: "野鸭的腿虽短，接长反会忧愁；鹤的腿虽长，截断必然悲伤。此签告诫勿强行改变自然本性。" }, 
-    { text: "嗜欲深者天机浅。", meaning: "欲望越深的人，领悟天道的灵性就越浅。此签指出贪欲是阻碍悟道的屏障。" }, 
-{ text: "道者直己而待命，时之至不可迎而返也。", meaning: "修道者端正自己以待时机，时运到来时不可强求也不可推辞。此签阐明待时而动。" }, 
+{ text: "井蛙不可以语于海，夏虫不可以语于冰。", meaning: "不可与井底之蛙谈论大海，不可与夏生之虫谈论冰雪。此签提醒认知受限于经历，当保持开放心态。" },
+    { text: "相濡以沫，不如相忘于江湖。", meaning: "与其在干涸处用唾沫互相滋润，不如在江湖中彼此遗忘。此签暗示强行维系不如自然放手，各得自在。" }, { text: "人生天地之间，若白驹过隙，忽然而已。", meaning: "人生于天地之间，如同白马掠过缝隙，转瞬即逝。此签提醒珍惜当下，勿为琐事耗费光阴。" },
+    { text: "凫胫虽短，续之则忧；鹤胫虽长，断之则悲。", meaning: "野鸭的腿虽短，接长反会忧愁；鹤的腿虽长，截断必然悲伤。此签告诫勿强行改变自然本性。" },
+    { text: "嗜欲深者天机浅。", meaning: "欲望越深的人，领悟天道的灵性就越浅。此签指出贪欲是阻碍悟道的屏障。" },
+{ text: "道者直己而待命，时之至不可迎而返也。", meaning: "修道者端正自己以待时机，时运到来时不可强求也不可推辞。此签阐明待时而动。" },
     { text: "得其环中，以应无穷。", meaning: "把握道的核心枢纽，就能应对无穷变化。此签揭示以不变应万变。" },
-{ text: "勿轻小事，小隙沉舟；勿轻小物，小虫毒身。", meaning: "不要轻视小事，小缝隙能让船沉没；不要小看微物，小虫能使人中毒。此签提醒须防微杜渐。" }, 
-    { text: "善游者溺，善骑者堕，各以所好反自为祸。", meaning: "善于游泳的人容易溺水，善于骑马的人容易摔落，各自的特长反而成为祸患。此签告诫勿恃能逞强。" }, 
+{ text: "勿轻小事，小隙沉舟；勿轻小物，小虫毒身。", meaning: "不要轻视小事，小缝隙能让船沉没；不要小看微物，小虫能使人中毒。此签提醒须防微杜渐。" },
+    { text: "善游者溺，善骑者堕，各以所好反自为祸。", meaning: "善于游泳的人容易溺水，善于骑马的人容易摔落，各自的特长反而成为祸患。此签告诫勿恃能逞强。" },
             { text: "吉祥止止，利贞。勿用有攸往。", meaning: "吉祥的事物就在此处停止，有利于坚守正道。不要有所前往。此签提醒安于现状，不要贪求变动。" }
         ];
         // 音乐曲目
@@ -2476,34 +2365,7 @@ opacity: 0.4;
                 toast.classList.remove('show');
             }, duration);
         }
-        // 道家名句轮播
-        function setupQuoteCarousel() {
-            const quoteContainer = document.querySelector('.tao-quotes');
-            let currentQuoteIndex = 0;
-            // 清空现有内容
-            quoteContainer.innerHTML = '';
-            // 创建所有引用容器
-            taoQuotes.forEach((quote, index) => {
-                const quoteDiv = document.createElement('div');
-                quoteDiv.className = `quote-container ${index === 0 ? 'active' : ''}`;
-                const quoteText = document.createElement('div');
-                quoteText.className = 'quote-text';
-                quoteText.textContent = quote.text;
-                const quoteAuthor = document.createElement('div');
-                quoteAuthor.className = 'quote-author';
-                quoteAuthor.textContent = `— ${quote.author}`;
-                quoteDiv.appendChild(quoteText);
-                quoteDiv.appendChild(quoteAuthor);
-                quoteContainer.appendChild(quoteDiv);
-            });
-            // 启动轮播
-            setInterval(() => {
-                const quotes = document.querySelectorAll('.quote-container');
-                quotes[currentQuoteIndex].classList.remove('active');
-                currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
-                quotes[currentQuoteIndex].classList.add('active');
-            }, 12000);
-        }
+        
         // 添加水墨效果
         function createInkSplash(e) {
             const inkSplash = document.createElement('div');
@@ -2844,8 +2706,6 @@ opacity: 0.4;
         function init() {
             // 加载设置
             loadSettings();
-            // 设置道家名句轮播
-            setupQuoteCarousel();
             // 设置冥想计时器
             setupMeditationTimer();
             // 设置呼吸引导
@@ -2942,12 +2802,10 @@ userInput.addEventListener('input', function() {
     const maxHeight = window.innerWidth < 768 ? 100 : 150; // 移动端限制更小高度
     this.style.height = Math.min(this.scrollHeight, maxHeight) + 'px';
 });
-
 // 移动端点击文本区域时自动聚焦
 userInput.addEventListener('touchstart', function() {
     setTimeout(() => this.focus(), 100);
 });
-
 // 为移动端添加双击返回首页
 let lastTapTime = 0;
 backBtn.addEventListener('touchend', function(e) {
