@@ -1776,7 +1776,7 @@ opacity: 0.4;
             <button class="save-btn">保存设置</button>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
     <script>
         // 页面加载完成后执行
         document.addEventListener('DOMContentLoaded', function() {
@@ -2502,7 +2502,7 @@ opacity: 0.4;
                 quotes[currentQuoteIndex].classList.remove('active');
                 currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
                 quotes[currentQuoteIndex].classList.add('active');
-            }, 8000);
+            }, 12000);
         }
         // 添加水墨效果
         function createInkSplash(e) {
